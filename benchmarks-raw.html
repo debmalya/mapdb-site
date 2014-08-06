@@ -8,7 +8,7 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title> | mapdb</title>
+		<title>In-memory results | mapdb</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta http-equiv="content-language" content="en" />
@@ -53,7 +53,7 @@
 		</script>
 		</head>
 
-	<body class="page-25-sql-replacement project-mapdb-site" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
+	<body class="page-benchmarks-raw project-mapdb-site" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -116,6 +116,7 @@
 			<div class="navbar-inner">
 				<div id="toc-scroll-target" class="container">
 					<ul id="toc" class="nav">
+						<li class="toplevel"><a href="#In-memory_results" title="In-memory results">In-memory results</a></li>
 					</ul>
 				</div>
 			</div>
@@ -126,7 +127,72 @@
 	<div class="row">
 		<div class="span12">
 			<div class="body-content">
+<div class="section"> 
+ <div class="page-header">
+  <h2 id="In-memory_results">In-memory results</h2>
+ </div> 
+ <div class="source"> 
+  <pre>                 BTreeMap #1 - reads  @  136805
+               BTreeMap #1 - updates  @  104049
+              BTreeMap #1 - combined  @  123603
+     
+     
+                 BTreeMap #2 - reads  @  230307
+               BTreeMap #2 - updates  @  158240
+              BTreeMap #2 - combined  @  207280
+     
+     
+                 BTreeMap #4 - reads  @  410435
+               BTreeMap #4 - updates  @  248606
+              BTreeMap #4 - combined  @  363566
+     
+     
+                 BTreeMap #8 - reads  @  701092
+               BTreeMap #8 - updates  @  143197
+              BTreeMap #8 - combined  @  562026
+     
+     
+                BTreeMap #16 - reads  @  1095658
+              BTreeMap #16 - updates  @  126021
+             BTreeMap #16 - combined  @  351523
+     
+     
+                BTreeMap #32 - reads  @  1328724
+              BTreeMap #32 - updates  @  102243
+             BTreeMap #32 - combined  @  264827
+     
+     
+              SkipListMap #1 - reads  @  93226
+            SkipListMap #1 - updates  @  79418
+           SkipListMap #1 - combined  @  88226
+     
+     
+              SkipListMap #2 - reads  @  185349
+            SkipListMap #2 - updates  @  150570
+           SkipListMap #2 - combined  @  166180
+     
+     
+              SkipListMap #4 - reads  @  360822
+            SkipListMap #4 - updates  @  220265
+           SkipListMap #4 - combined  @  300681
+     
+     
+              SkipListMap #8 - reads  @  687243
+            SkipListMap #8 - updates  @  401253
+           SkipListMap #8 - combined  @  541767
+     
+     
+             SkipListMap #16 - reads  @  1283465
+           SkipListMap #16 - updates  @  672442
+          SkipListMap #16 - combined  @  1056226
+          
+             SkipListMap #32 - reads  @  1803535
+           SkipListMap #32 - updates  @  964165
+          SkipListMap #32 - combined  @  1336466
 
+</pre> 
+ </div> 
+</div>
 			</div>
 		</div>
 	</div>
