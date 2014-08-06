@@ -140,7 +140,7 @@
 <div class="section"> 
  <h2 id="In_memory">In memory</h2> 
  <p>Graphs bellow compare off-heap in-memory <tt>BTreeMap</tt> from MapDB and <tt>ConcurrentSkipListMap</tt> from JDK. MapDB speed is comparable to Java collections, despite using serialization and its own memory management. </p> 
- <p>Test was performed on HP Proliant 550 G2 with 24 cores and 32GB memory. Y-Axis is thousands operations per second, higher is better. Data set size is 100 millions. Key size is 8 bytes, value size is 16 bytes (<tt>Map&lt;Long,UUID&gt;</tt>).</p> 
+ <p>Test was performed on HP Proliant 585 G2 with 24 physical cores and 32GB memory. Y-Axis is thousands operations per second, higher is better. Data set size is 100 millions. Key size is 8 bytes, value size is 16 bytes (<tt>Map&lt;Long,UUID&gt;</tt>).</p> 
  <p>Read-only lookups. MapDB is comparable to Java collections:</p> 
  <p><span id="memoryRead"></span></p> 
  <p>Random updates. MapDB scales upto 6 cores, than concurrency overhead increases and limits its performance:</p> 
@@ -149,8 +149,8 @@
  <p><span id="memoryCombined"></span></p> 
  <p>Raw benchmark results are available <a href="benchmarks-raw.html">here</a>. Benchmark source code is <a class="externalLink" href="https://github.com/jankotek/mapdb-benchmarks">here</a> and <a class="externalLink" href="https://github.com/jankotek/mapdb-benchmarks/blob/master/src/org/mapdb/benchmarks/InMemoryUUIDTest.java">here</a></p> 
  <p>There is no trick here. MapDB is greatly optimized. With large keys/vals the deserialization overhead would increase and MapDB would become slower compared to heap collections (we are working on partial deserialization to fix it).</p> 
- <p>On other side large data sets increase garbage collection overhead and slow-down on-heap Java collections. In this case JVM had enough memory and GC was bellow 1%. </p> 
- <p>In general MapDB is about 30% compared to on-heap. But it fits more data per GB and does not degrade its performance over large data sets. </p> 
+ <p>On other side larger data set would increase GV overhead and make on-heap Java collections slower. In this test JVM had enough memory and GC was bellow 1%. </p> 
+ <p>In general MapDB is about 30% slower compared to on-heap. But it fits more data into same memory and its performance does not degrade with data size. </p> 
 </div> 
 <div class="section"> 
  <h2 id="On_Disk">On Disk</h2> 
