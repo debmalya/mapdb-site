@@ -118,6 +118,7 @@
 					<ul id="toc" class="nav">
 						<li class="toplevel"><a href="#benchmarks" title="Benchmarks">Benchmarks</a></li>
 						<li class="toplevel"><a href="#In_memory" title="In memory">In memory</a></li>
+						<li class="toplevel"><a href="#On_Disk" title="On Disk">On Disk</a></li>
 					</ul>
 				</div>
 			</div>
@@ -150,7 +151,9 @@
  <p>There is no trick here. MapDB is greatly optimized. With large keys/vals the deserialization overhead would increase and MapDB would become slower compared to heap collections (we are working on partial deserialization to fix it).</p> 
  <p>On other side large data sets increase garbage collection overhead and slow-down on-heap Java collections. In this case JVM had enough memory and GC was bellow 1%. </p> 
  <p>In general MapDB is about 30% compared to on-heap. But it fits more data per GB and does not degrade its performance over large data sets. </p> 
- <p>On-disk ——–</p> 
+</div> 
+<div class="section"> 
+ <h2 id="On_Disk">On Disk</h2> 
  <p>Will be added soon…</p> 
 </div>
 			</div>
