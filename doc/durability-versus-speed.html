@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Durability and speed &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="Transactions" href="db-and-dbmaker.html" />
+    <link rel="prev" title="Getting started" href="getting-started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="db-and-dbmaker.html" title="Transactions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="durability-and-speed">
+<h1>Durability and speed<a class="headerlink" href="#durability-and-speed" title="Permalink to this headline">¶</a></h1>
+<p>There are several configuration options to make compromises between
+durability and speed. You may choose consistency, disk access patterns,
+commit type, flush type and so on.</p>
+<div class="section" id="transactions-disabled">
+<h2>Transactions disabled<a class="headerlink" href="#transactions-disabled" title="Permalink to this headline">¶</a></h2>
+<p>If process dies in middle of write, storage files might become
+inconsistent. For example pointer was updated with new location, where
+new data were not written yet. For this MapBD storage is protected by
+write-ahead-log (WAL) which replies commits in atomic fashion. WAL is
+reliable and simple, and is used by many databases such as Posgresql or
+Mysql.</p>
+<p>However WAL is slow, data has to be copied and synced multiple times.
+You may optionally disable WAL by disabling transactions:
+<tt class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></tt>. In this case you <strong>must</strong> correctly
+close store before JVM shutdown, or you loose all your data. You may
+also use shutdown hook to close database before JVM exits, however this
+does not protect your data if JVM crashes or is killed:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+  .transactionDisable()
+  .closeOnJvmShutdown()
+  .make()
+</pre></div>
+</div>
+<p>Transaction disable (also called direct mode) will apply all changes
+directly into storage file. Combine this with in-memory store or mmap
+files and you get very fast storage. Typical use is in scenario where
+data does not have to be persisted between JVM restarts or can be easily
+recreated: off-heap caches.</p>
+<p>Other important usage is for initial data import. Transactions and
+no-transactions share the same storage format (except WAL) so one can
+import data very fast with transactions disabled. Once import is
+finished, store gets reopened with transactions enabled.</p>
+<p>With transactions disabled you loose rollback capability,
+<tt class="docutils literal"><span class="pre">db.rollback()</span></tt> will throw an exception. <tt class="docutils literal"><span class="pre">db.commit()</span></tt> will have
+nothing to commit (all data are already stored), so it does next best
+thing: Commit tries to flush all write caches and synchronizes storage
+files. So if you call <tt class="docutils literal"><span class="pre">db.commit()</span></tt> and do not make any more writes,
+your store should be safe (no data loss) in case of JVM crash.</p>
+</div>
+<div class="section" id="memory-mapped-files-mmap">
+<h2>Memory mapped files (mmap)<a class="headerlink" href="#memory-mapped-files-mmap" title="Permalink to this headline">¶</a></h2>
+<p>MapDB was designed from ground to take advantage of mmap files. However
+mmap files are limited to 2GB by addressing limit 32bit JVM. Mmap have
+lot of nasty effects on 32bit JVM, so by default we use slower and safer
+disk access mode called Random-Access-File (RAF).</p>
+<p>Mmap files are much faster compared to RAF. Exact speed bonus depends on
+operating system and disk case management, but is typically between 10%
+and 300%.</p>
+<p>Memory mapped files are activated with <tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></tt>
+setting.</p>
+<p>One can also activate mmap files only if 64bit platform is detected:
+<tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></tt>.</p>
+<p>And finally you can take advantage of mmap files in 32bit platforms by
+using mmap file only for small but frequently used part of storage:
+<tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></tt></p>
+<p>Mmap files are highly dependent on operating system. For example on
+Windows you can not delete mmap file while it is locked by JVM. If
+Windows JVM dies without closing mmap file, you have to restart Windows
+to release file lock.</p>
+</div>
+<div class="section" id="crc32-checksums">
+<h2>CRC32 checksums<a class="headerlink" href="#crc32-checksums" title="Permalink to this headline">¶</a></h2>
+<p>You may want to protect your data from disk corruption. MapDB optionally
+supports CRC32 checksums. In this case each record stores extra 4 bytes
+which contains its CRC32 checksum. If data are somehow modified or
+corrupted (file system or storage error), next read will fail with an
+exception. This gives early warning and prevents db from returning wrong
+data.</p>
+<p>CRC32 checksum has to be calculated on each put/modify/get operation so
+this option has some performance overhead. Write-ahead-log uses CRC32
+checksum by default.</p>
+<p>Checksum is activated by this setting: <tt class="docutils literal"><span class="pre">DBMaker.checksumEnable()</span></tt>. It
+affect storage format, so once activate you always have to reopen store
+with this setting. Also checksum can not be latter activate once store
+was created without it.</p>
+<p>TODO: CRC32 serializer link</p>
+<p>TODO: WAL and CRC32 disable</p>
+<p>TODO: WAL flush on commit</p>
+<p>TODO async file sync, use futures?</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Durability and speed</a><ul>
+<li><a class="reference internal" href="#transactions-disabled">Transactions disabled</a></li>
+<li><a class="reference internal" href="#memory-mapped-files-mmap">Memory mapped files (mmap)</a></li>
+<li><a class="reference internal" href="#crc32-checksums">CRC32 checksums</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting-started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="db-and-dbmaker.html"
+                        title="next chapter">Transactions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/durability-versus-speed.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="db-and-dbmaker.html" title="Transactions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

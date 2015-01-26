@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Credits &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="credits">
+<h1>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h1>
+<p>Most of MapDB was written by Jan Kotek. He started this project and
+pretty much runs the show.</p>
+<p>There were many people who contributed ideas, bug fixes and
+improvements. I am sorry if I forgot someone, please send me a line if
+you should be here.</p>
+<div class="section" id="jdbm-1">
+<h2>JDBM 1<a class="headerlink" href="#jdbm-1" title="Permalink to this headline">¶</a></h2>
+<p>MapDB is loosely based on older project called JDBM. First version was
+started around 2001 and was released in 2005 at
+<a class="reference external" href="http://jdbm.sourceforge.net/">SourceForge</a>. MapDB is complete
+rewrite, there is no code left from original JDBM 1.0 in MapDB. But it
+heavily influenced our design and feature set. Most importantly it is:</p>
+<ul class="simple">
+<li>Idea of passing around <em>object instance with serializer</em> rather than
+<em>already serialized byte array</em>. This is the very basic idea which
+defines MapDB today. It allows instance cache, great performance and
+tight component integration.</li>
+<li>Engine (RecordManager) as abstract component</li>
+<li>Instance Cache as Engine (RecordManager) wrapper</li>
+<li>Index tree as separated class from Engine (RecordManager)</li>
+</ul>
+<p>Credit goes to Cees de Groot and Alex Boisvert.</p>
+</div>
+<div class="section" id="jdbm-2-and-3">
+<h2>JDBM 2 and 3<a class="headerlink" href="#jdbm-2-and-3" title="Permalink to this headline">¶</a></h2>
+<p>JDBM stagnated until it was reanimated by Jan Kotek in 2009. JDBM 2
+added Map interface and basic serialization (<tt class="docutils literal"><span class="pre">SerializerBase</span></tt> in
+MapDB). JDBM 3 brought NIO updates, POJO serialization and many
+performance improvements. MapDB does not contain any code from JDBM 2&amp;3
+except serialization.</p>
+<p>There were many people who improved JDBM 2 &amp; 3 (and indirectly MapDB)</p>
+<ul class="simple">
+<li>Kevin Day sent many ideas and patches, most importantly delta
+compression in BTree and packed longs.</li>
+<li>Bryan Thompson worked on concurrency branch of JDBM 1.0, and helped
+to shape JDBM</li>
+<li>Thomas Mueller (H2 DB) for code reading and advices.</li>
+</ul>
+</div>
+<div class="section" id="serialization">
+<h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
+<p>Serialization is the only code MapDB shares with JDBM 2 &amp; 3. This code
+is complex and initially had lot of bugs. There were MANY people who
+submitted bug-fixes and I am sorry for not listing them all. Most
+importantly:</p>
+<ul class="simple">
+<li>Nathan Sweet wrote Kryo serialization framework which inspired our
+POJO serializer. We also took Long Packer utils from Kryo framework.</li>
+<li>Roman Levenstein refactored original simple POJO serializer and
+greatly improved its performance.</li>
+</ul>
+</div>
+<div class="section" id="collections">
+<h2>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Theoretical design of BTreeMap is based on
+<a class="reference external" href="http://www.cs.cornell.edu/courses/cs4411/2009sp/blink.pdf">paper</a>
+from Philip L. Lehman and S. Bing Yao.</li>
+<li>More practical aspects of BTreeMap implementation are based on
+<a class="reference external" href="http://www.doc.ic.ac.uk/~td202/">notes</a> and <a class="reference external" href="http://www.doc.ic.ac.uk/~td202/btree/">demo
+application</a> from Thomas
+Dinsdale-Young.</li>
+<li>Java Collections are very complex to implement. We took unit tests
+from Google Collections which was great help. Credit goes to Jared
+Levy, George van den Driessche and other Google Collections
+developers.</li>
+<li>Long(Concurrent)HashMap and some other classes were taken from Apache
+Harmony and refactored for our needs.</li>
+<li>BTreeMap uses some code from <tt class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></tt> taken from
+Apache Harmony to implement all aspects of
+<tt class="docutils literal"><span class="pre">ConcurrentNavigableMap</span></tt>. Credit goes to Doug Lea and others.</li>
+<li>Luc Peuvrier wrote some unit tests for <tt class="docutils literal"><span class="pre">ConcurrerentNavigableMap</span></tt>
+interface.</li>
+</ul>
+</div>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Thanks to my wife Pinelopi for tolerating awful amount of time I
+spend on this project. Also for proof reading and general advices.</li>
+<li>XTea encryption was taken from H2 Database (Thomas Mueller)</li>
+<li>LZF compression was ported to Java by Thomas Mueller. Original C
+implementation was written by Marc Alexander Lehmann and Oren J.
+Maurice</li>
+<li>Stanimir Simeonoff from <a class="reference external" href="http://www.riflexo.com/">Riflexo</a>
+reviewed and fixed some concurrency issues.</li>
+</ul>
+</div>
+<div class="section" id="donations">
+<h2>Donations<a class="headerlink" href="#donations" title="Permalink to this headline">¶</a></h2>
+<p>MapDB development is generously sponsored by
+<a class="reference external" href="http://www.codefutures.com">CodeFutures</a>.</p>
+<p>Before CodeFutures we got those donations:</p>
+<ul class="simple">
+<li>Chronon Systems donated <a class="reference external" href="http://chrononsystems.com/">time traveling
+debugger</a>. It is great help for fixing
+complex and hard to reproduce concurrent issues.</li>
+<li>EJ-Technologies donated
+<a class="reference external" href="http://www.ej-technologies.com/products/jprofiler/overview.html">JProfiler</a>.
+It is excellent tool and MapDB would not be possible without it.</li>
+<li>JetBrains donated <a class="reference external" href="http://www.jetbrains.com/idea/">Intellij Idea
+Ultimate</a></li>
+<li>Michael Hunger donated 100 euro.</li>
+<li>Jan Venema from <a class="reference external" href="http://vertx.io">Vertx.io</a> donated 100 euro.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Credits</a><ul>
+<li><a class="reference internal" href="#jdbm-1">JDBM 1</a></li>
+<li><a class="reference internal" href="#jdbm-2-and-3">JDBM 2 and 3</a></li>
+<li><a class="reference internal" href="#serialization">Serialization</a></li>
+<li><a class="reference internal" href="#collections">Collections</a></li>
+<li><a class="reference internal" href="#other">Other</a></li>
+<li><a class="reference internal" href="#donations">Donations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/credits.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

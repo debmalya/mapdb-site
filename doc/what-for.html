@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What for? &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="Caches" href="caches.html" />
+    <link rel="prev" title="Transactions" href="db-and-dbmaker.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="caches.html" title="Caches"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="db-and-dbmaker.html" title="Transactions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="what-for">
+<h1>What for?<a class="headerlink" href="#what-for" title="Permalink to this headline">¶</a></h1>
+<p>MapDB works fairly well in several situation. However it has several features and it might be hard to tailor it to
+your needs. This chapter enumerates common usages and discusses best setting for each situation.
+It is TL;DR for this manual.</p>
+<p>TODO link to cheat sheet</p>
+<div class="section" id="huge-on-disk-collections">
+<h2>Huge on-disk collections<a class="headerlink" href="#huge-on-disk-collections" title="Permalink to this headline">¶</a></h2>
+<p>Use data-pump to create huge BTrees. Data pump imports data in streaming fashion and its performance does not degrade
+over time.</p>
+<ul class="simple">
+<li>use memory mapped files</li>
+</ul>
+<p>TODO HashMap versus TreeMap</p>
+<p>TODO discus how transactions prevent data corruption</p>
+<p>TODO BTreeMap node fragmentation</p>
+</div>
+<div class="section" id="in-memory-collections">
+<h2>In-memory collections<a class="headerlink" href="#in-memory-collections" title="Permalink to this headline">¶</a></h2>
+<p>MapDB can be great alternative to java.util collections (aka heap collections). It packs data more tightly so
+it fits more data into same memory. And MapDB performance is great, it often outperforms heap collections even
+when GC activity is low. Heap collections are usually limited by GC overhead to 1e7 entries, MapDB performance
+is predictable and is only by available memory.</p>
+<p>Recommendations:</p>
+<ul class="simple">
+<li>use correct serializers for entries, keys and values.</li>
+<li>disable transactions unless you need them. Uncommited data are kept on heap. Write-ahead-log means data are written twice.</li>
+<li>there is <tt class="docutils literal"><span class="pre">DBMaker.newMemoryDB()</span></tt> and <tt class="docutils literal"><span class="pre">DBMaker.newMemoryDirectDB()</span></tt>. It uses on-heap <tt class="docutils literal"><span class="pre">byte[]</span></tt> versus</li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">DirectByteBuffer</span></tt>. Both are not limited by GC, but there is difference in deployment and setting memory limits.
+TODO memory limits</p>
+<ul class="simple">
+<li>MapDB does not shrink storage after data are deleted. You should run <tt class="docutils literal"><span class="pre">DB.compact()</span></tt> sometimes.</li>
+<li>There is data-pump for moving data around very fast. TODO make chapter on this</li>
+</ul>
+<p>TODO discus on-heap mode</p>
+</div>
+<div class="section" id="key-value-cache-with-expiration">
+<h2>Key-value cache with expiration<a class="headerlink" href="#key-value-cache-with-expiration" title="Permalink to this headline">¶</a></h2>
+<p>HashMap has build in expiration based on time-to-live and maximal cache size.</p>
+</div>
+<div class="section" id="alternative-memory-model">
+<h2>Alternative memory model<a class="headerlink" href="#alternative-memory-model" title="Permalink to this headline">¶</a></h2>
+<p>If your data are limited by GC, to move completely into MapDB</p>
+<ul class="simple">
+<li>concurrency and locks are unchanged</li>
+<li>TODO reference locality and spliting</li>
+<li>TODO atomic variables and atomic vars.</li>
+</ul>
+<p>TODO subchapters about transactions and MVCC</p>
+<p>TODO chapter about append-only store</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">What for?</a><ul>
+<li><a class="reference internal" href="#huge-on-disk-collections">Huge on-disk collections</a></li>
+<li><a class="reference internal" href="#in-memory-collections">In-memory collections</a></li>
+<li><a class="reference internal" href="#key-value-cache-with-expiration">Key-value cache with expiration</a></li>
+<li><a class="reference internal" href="#alternative-memory-model">Alternative memory model</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="db-and-dbmaker.html"
+                        title="previous chapter">Transactions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="caches.html"
+                        title="next chapter">Caches</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/what-for.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="caches.html" title="Caches"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="db-and-dbmaker.html" title="Transactions"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

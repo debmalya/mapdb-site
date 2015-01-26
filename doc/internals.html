@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MapDB internals &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="Queues" href="queues.html" />
+    <link rel="prev" title="HTreeMap" href="htreemap.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="queues.html" title="Queues"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="htreemap.html" title="HTreeMap"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mapdb-internals">
+<h1>MapDB internals<a class="headerlink" href="#mapdb-internals" title="Permalink to this headline">¶</a></h1>
+<p>This chapter gives quick  introduction to MapDB internal
+architecture. Rest of this manual assume that you you are familiar with this
+chapter.</p>
+<p>MapDB originally evolved as store for astronomical desktop application.
+Over time it growth into full database engine with concurrent access, durability etc.
+But it evolved differently from most DBs, Pentium at 200MHz with 128 MB RAM does not give much space.
+Major goal was tight integration with Java and  to minimize overhead of any sort
+(garbage collection, memory, CPU, stack trace length...).</p>
+<p>What makes MapDB most different is serialization lifecycle is very different here.
+In most DB engines user has to serialize data himself and pass binary data into db. API
+than looks similar to this:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>engine.update(long recid, byte[] data);
+</pre></div>
+</div>
+<p>But MapDB serializes data itself by using user supplied serializer:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>engine.update(long recid, Person data, Serializer&lt;Person&gt; serializer);
+</pre></div>
+</div>
+<p>So serialization lifecycle is driven by MapDB rather than by user. This
+small detail is reason why MapDB is so flexible. For example <tt class="docutils literal"><span class="pre">update</span></tt>
+method could pass data-serializer pair to
+<a class="reference external" href="apidocs/org/mapdb/AsyncWriteEngine.html">background-writer</a> thread
+and return almost instantly. Or <tt class="docutils literal"><span class="pre">Person</span></tt> instance could be stored in
+<a class="reference external" href="apidocs/org/mapdb/Caches.html">instance cache</a>, to minimise
+deserilization overhead on multiple reads. <tt class="docutils literal"><span class="pre">Person</span></tt> does not even have
+to be serialized, but could be stored in <tt class="docutils literal"><span class="pre">Map&lt;Long,Person&gt;</span></tt> map <a class="reference external" href="apidocs/org/mapdb/StoreHeap.html">on
+heap</a>, in this case MapDB has speed
+comparable to Java Collections.</p>
+<p>Colons can be used to align columns.</p>
+<div class="section" id="dictionary">
+<h2>Dictionary<a class="headerlink" href="#dictionary" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Explanation</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Record</td>
+<td>Atomically stored value. Usually tree node or similar. Transaction conflicts and locking is usually per record.</td>
+</tr>
+<tr class="row-odd"><td>Index Table</td>
+<td>Table which translates recid into real offset and size in physical file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="apidocs/org/mapdb/Engine.html">Engine</a></td>
+<td>Primitive key-value store used by collections for storage. Most features are <a class="reference external" href="apidocs/org/mapdb/EngineWrapper.html">Engine Wrappers</a></td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="apidocs/org/mapdb/Store.html">Store</a></td>
+<td>Engine implementation which actually persist data. Is wrapped by other Engines.</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="apidocs/org/mapdb/Volume.html">Volume</a></td>
+<td>Abstraction over ByteBuffer or other raw data store. Used for files, memory, partition etc..</td>
+</tr>
+<tr class="row-odd"><td>Slice</td>
+<td>Non overlapping pages used in Volume. Slice size is 1MB. Older name was &#8216;chunk&#8217;</td>
+</tr>
+<tr class="row-even"><td>Direct mode</td>
+<td>With disabled transactions, data are written directly into file. It is fast, but store is not protected from corruption during crasches.</td>
+</tr>
+<tr class="row-odd"><td>WAL</td>
+<td>Write Ahead Log, way to protect store from corruption if db crashes during write.</td>
+</tr>
+<tr class="row-even"><td>RAF</td>
+<td>Random Access File, way to access data on disk. Safer but slower method.</td>
+</tr>
+<tr class="row-odd"><td>MMap file</td>
+<td>memory mapped file. On 32bit platform has size limit around 2GB. Faster than RAF.</td>
+</tr>
+<tr class="row-even"><td>index file</td>
+<td>contains mapping between recid (index file offset) and record size and offset in physical file (index value). Is organized as sequence of 8-byte longs</td>
+</tr>
+<tr class="row-odd"><td>index value</td>
+<td>single 8-byte number from index file. Usually contains record offset in physical file.</td>
+</tr>
+<tr class="row-even"><td>recid</td>
+<td>record identificator, an unique 8-byte long number which identifies record. Recid is offset in index file. After record is deleted, its recid may be reused for newly inserted record.</td>
+</tr>
+<tr class="row-odd"><td>record</td>
+<td>atomical value stored in storage (Engine) identified by record identifier (recid). In collections Record corresponds to tree nodes. In Maps record mey not correspond to Key-&gt;Value pair, as multiple keys may be stored inside single node.</td>
+</tr>
+<tr class="row-even"><td>physical file</td>
+<td>Contains record binary data</td>
+</tr>
+<tr class="row-odd"><td>cache (or instance cache)</td>
+<td>caches object instances (created with &#8216;new&#8217; keyword). MapDB does not have traditional fixes-size-buffer cache for binary pages (it relies on OS to do this). Instead deserialized objects are cached on heap to minimise deserialization overhead. Instance cache is main reason why your keys/values must be immutable.</td>
+</tr>
+<tr class="row-even"><td>BTreeMap</td>
+<td>tree implementation behind TreeMap and TreeSet provided by MapDB</td>
+</tr>
+<tr class="row-odd"><td>HTreeMap</td>
+<td>tree implementation behind HashMap and HashSet provided by MapDB</td>
+</tr>
+<tr class="row-even"><td>delta packing</td>
+<td>compression method to minimalise space used by keys in BTreeMap. Keys are sorted, so only difference between keys needs to be stored. You need to privide specialized serializer to enable delta packing.</td>
+</tr>
+<tr class="row-odd"><td>append file db</td>
+<td>alternative storage format. In this case no existing data are modified, but all changes are appended to end of file. This may improve write speed and durability, but introduces some tradeoffs.</td>
+</tr>
+<tr class="row-even"><td>temp map/set...</td>
+<td>collection backed by file in temporary directory. Is usually configured to delete file after close or on JVM exit. Data written into temp collection are not persisted between JVM restarts.</td>
+</tr>
+<tr class="row-odd"><td>async write</td>
+<td>writes may be queued and written into file on background thread. This does not affect commit durability (it blocks until queue is empty).</td>
+</tr>
+<tr class="row-even"><td>TX</td>
+<td>equals to Concurrent Transaction.</td>
+</tr>
+<tr class="row-odd"><td>LongMap</td>
+<td>specialized map which uses primitive long for keys. It minimises boxing overhead.</td>
+</tr>
+<tr class="row-even"><td>DB</td>
+<td>API class exposed by MapDB. It is an abstraction over Engine which manages MapDB collections and storage.</td>
+</tr>
+<tr class="row-odd"><td>DMaker</td>
+<td>Builder style factory class, which opens and configures DB instances.</td>
+</tr>
+<tr class="row-even"><td>Collection Binding</td>
+<td>MapDB mechanism to keep two collections synchronized. It provides secondary keys and values, aggregations etc.. known from SQL and other databases. All functions are provided as static methods in Bind class.</td>
+</tr>
+<tr class="row-odd"><td>Data Pump</td>
+<td>Tool to import and manipulate large collections and storages.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dbmaker-and-db">
+<h2>DBMaker and DB<a class="headerlink" href="#dbmaker-and-db" title="Permalink to this headline">¶</a></h2>
+<p>90% of users will only need two classes from MapDB.
+<a class="reference external" href="apidocs/org/mapdb/DBMaker.html">DBMaker</a> is builder style
+configurator which opens database. <a class="reference external" href="apidocs/org/mapdb/DB.html">DB</a>
+represents store, it creates and opens collections, commits or rollbacks
+data.</p>
+<p>MapDB collections use <tt class="docutils literal"><span class="pre">Engine</span></tt> (simple key-value store) to persist its
+data and state. Most of functionality comes from mixing <tt class="docutils literal"><span class="pre">Engine</span></tt>
+implementations and wrappers. For example off-heap store with
+asynchronous writes and instance cache could be instantiated by this
+pseudo-code:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>Engine engine = new Caches.HashTable(         //instance cache
+                    new AsyncWriteEngine(     //asynchronous writes
+                     new StoreWAL(            //actual store with WAL transactions
+                      new Volume.MemoryVol()  //raw buffer used for storage
+                )))
+</pre></div>
+</div>
+<p>Reality is even more complex since each wrapper takes extra parameters
+and there are more levels. So <tt class="docutils literal"><span class="pre">DBMaker</span></tt> is a factory which takes
+settings and wires all MapDB classes together.</p>
+<p><tt class="docutils literal"><span class="pre">DB</span></tt> has similar role. It is too hard to load and instantiate
+collections manually (for example <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> constructor takes 14
+parameters). So <tt class="docutils literal"><span class="pre">DB</span></tt> stores all settings in Named Catalog and handles
+collections. Named Catalog is <tt class="docutils literal"><span class="pre">Map&lt;String,Object&gt;</span></tt> which is persisted
+in store at fixed recid and contains parameters for all other named
+collections and named records. To rename collection one just has to
+rename relevant keys in Named Catalog.</p>
+</div>
+<div class="section" id="layers">
+<h2>Layers<a class="headerlink" href="#layers" title="Permalink to this headline">¶</a></h2>
+<p>MapDB stack is little bit different from most DBs. It integrates
+instance cache and serialization usually found in ORM frameworks. On
+other side MapDB eliminated fixed-size page and disk cache.</p>
+<p>From raw-files to <tt class="docutils literal"><span class="pre">Map</span></tt> interface it has following layers:</p>
+<ol class="arabic simple">
+<li><strong>Volume</strong> - an <tt class="docutils literal"><span class="pre">ByteBuffer</span></tt> like abstraction over raw store. There
+are implementations for in-memory buffers or files.</li>
+<li><strong>Store</strong> - primitive key-value store (implementation of <tt class="docutils literal"><span class="pre">Engine</span></tt>).
+Key is offset on index table, value is variable length data. It has
+single transaction. Implementations are Direct, WAL, append-only and
+Heap (which does not use serialization). It performs serialization,
+encryption and compression.</li>
+<li><strong>AsyncWriterEngine</strong> - is optional <tt class="docutils literal"><span class="pre">Store</span></tt> (or <tt class="docutils literal"><span class="pre">Engine</span></tt>) wrapper
+which performs all modifications on background thread.</li>
+<li><strong>Instance Cache</strong> - is <tt class="docutils literal"><span class="pre">Engine</span></tt> wrapper which caches object
+instances. This minimises deserilization overhead.</li>
+<li><strong>TxMaker</strong> - is <tt class="docutils literal"><span class="pre">Engine</span></tt> factory which creates fake <tt class="docutils literal"><span class="pre">Engine</span></tt> for
+each transaction or snapshot. Dirty data are stored on heap.</li>
+<li><strong>Collections</strong> - such as TreeMap use <tt class="docutils literal"><span class="pre">Engine</span></tt> to store their data
+and state.</li>
+</ol>
+</div>
+<div class="section" id="volume">
+<h2>Volume<a class="headerlink" href="#volume" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">ByteBuffer</span></tt> is best raw buffer abstraction Java has. However its size
+is limited by 31 bits addressing to 2GB. For that purpose MapDB uses
+<tt class="docutils literal"><span class="pre">Volume</span></tt> as raw buffer abstraction. It takes multiple
+<tt class="docutils literal"><span class="pre">ByteBuffer</span></tt>s and uses them together with 64bit addressing. Each
+<tt class="docutils literal"><span class="pre">ByteBuffer</span></tt> has 1GB size and represents <em>slice</em>. IO operations which
+cross slice boundaries are not supported (<tt class="docutils literal"><span class="pre">readLong(1GB-3)</span></tt> will throw
+an exception). It is responsibility of higher layer <tt class="docutils literal"><span class="pre">Store</span></tt> to ensure
+data do not overlap slice boundaries.</p>
+<p>MapDB provides some Volume implementations: heap buffers, direct
+(off-heap) buffers, memory mapped files and random access file. Each
+implementation fits different situation. For example memory mapped files
+have great performance, however 32bit desktop app will probably prefer
+random access files. All implementations share the same format, so it is
+possible to copy data (and entire store) between implementations.</p>
+<p>User can also supply their own <tt class="docutils literal"><span class="pre">Volume</span></tt> implementations. For example
+each 1Gb slice can be stored in separate file on multiple disks, to
+create software RAID. <tt class="docutils literal"><span class="pre">Volume</span></tt> could also handle duplication, binary
+snapshots (MapDB snapshots are at different layer) or raw disks.</p>
+</div>
+<div class="section" id="store">
+<h2>Store<a class="headerlink" href="#store" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="apidocs/org/mapdb/Engine.html">Engine</a> (and
+<a class="reference external" href="apidocs/org/mapdb/Store.html">Store</a>) is primitive key-value store
+which maps recid (8-byte long record id) to some data (record). It has 4
+methods for CRUD operations and 2 transaction methods:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>long put(A, Serializer&lt;A&gt;)
+A get(long, Serializer&lt;A&gt;)
+void update(long, A, Serializer&lt;A&gt;)
+void delete(long, Serializer&lt;A&gt;)
+
+void commit()
+void rollback()
+</pre></div>
+</div>
+<p>By default MapDB stack supports only single transaction. However there
+is wrapper <tt class="docutils literal"><span class="pre">TxMaker</span></tt> which stores un-commited data on heap and
+provides concurrent ACID transactions.</p>
+<p><a class="reference external" href="apidocs/org/mapdb/DB.html">DB</a> is low level implementation of
+<tt class="docutils literal"><span class="pre">Engine</span></tt> which stores data on raw <tt class="docutils literal"><span class="pre">Volume</span></tt>. It usually has two files
+(or Volumes): index table and physical file. Recid (record ID) is
+usually fixed offset in index table, which contains pointer to physical
+file.</p>
+<p>MapDB has multiple <tt class="docutils literal"><span class="pre">Store</span></tt> implementations, which differ in speed and
+durability guarantees. User can also supply their own implementation.</p>
+<p>First (and default) is <a class="reference external" href="apidocs/org/mapdb/StoreWAL.html">StoreWAL</a>.
+In this case Index Table contains record size and offset in physical
+file. Large records are stored as linked list. StoreWAL has free space
+management, so released space is reused. However over time it may
+require compaction. StoreWAL stores modifications in <em>Write Ahead Log</em>,
+which is sequence of simple instructions such as <em>write byte at this
+offset</em>. On commit (or reopen) WAL is replayed into main store, and
+discarded after successful file sync. On rollback the WAL is discarded.</p>
+<p><a class="reference external" href="apidocs/org/mapdb/StoreDirect.html">StoreDirect</a> shares the same
+file format with <tt class="docutils literal"><span class="pre">StoreWAL</span></tt>, however it does not use write ahead log.
+Instead it writes data directly data into files and performs file sync
+on commit and close. This implementation trades any sort of data
+protection for speed, so data are usually lost if <tt class="docutils literal"><span class="pre">StoreDirect</span></tt> is not
+closed correctly (or synced after last write). Because there is no WAL,
+this store does not support rollback. This store is used if transactions
+are disabled.</p>
+<p>Third implementation is <tt class="docutils literal"><span class="pre">StoreAppend</span></tt> which provides append-only file
+store. Because data are never overwritten, it is very solid and stable.
+However space usage skyrockets, since it stores all modifications ever
+made. TODO This store is not finished yet, so for example advanced
+compaction is missing. TODO Also all possibilities of this store are not
+explored (and documented yet). This store reads all data in sequence, in
+order to build Index Table which points to newest version of each
+record. The Index Table is stored on heap.</p>
+</div>
+<div class="section" id="engine-wrappers">
+<h2>Engine Wrappers<a class="headerlink" href="#engine-wrappers" title="Permalink to this headline">¶</a></h2>
+<p>Big part of features in MapDB is implemented as <tt class="docutils literal"><span class="pre">Engine</span></tt> wrappers. For
+example <tt class="docutils literal"><span class="pre">update</span></tt> method does not have modify file directly, but it can
+forward modification into
+<a class="reference external" href="apidocs/org/mapdb/AsyncWriteEngine.html">background-writer</a></p>
+<p>Also deserialized records can be stored in <a class="reference external" href="apidocs/org/mapdb/Caches.html">instance
+cache</a>, so it does not have to be
+deserialized on next read.</p>
+<p>TODO expand Engine Wrappers section</p>
+</div>
+<div class="section" id="txmaker">
+<h2>TxMaker<a class="headerlink" href="#txmaker" title="Permalink to this headline">¶</a></h2>
+<p>MapDB <tt class="docutils literal"><span class="pre">Store</span></tt>s support only single transaction. So concurrent
+transactions needs to be serialized and commited one by one. For this
+there is <a class="reference external" href="apidocs/org/mapdb/TxMaker.html">TxMaker</a>. It is factory
+which creates fake <tt class="docutils literal"><span class="pre">Engine</span></tt> for each transaction. Dirty (uncommited)
+data are stored on heap. Optimistic concurrency control is used to
+detect conflicts.
+<a class="reference external" href="apidocs/org/mapdb/TxRollbackException.html">TxRollbackException</a> is
+thrown on write or commit, if current transaction was rolled back thanks
+to an conflict.</p>
+<p>TxMaker has Serializable Isolation level, this level supports highest
+guarantees. Other isolation levels are not implemented, since author
+does not want to support (and explain) isolation problems.</p>
+<p>TODO Current TxMaker uses global lock, so concurrent performance sucks.
+It will be rewritten after 1.0 release.</p>
+</div>
+<div class="section" id="collections">
+<h2>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
+<p>MapDB collection uses <tt class="docutils literal"><span class="pre">Engine</span></tt> as its parameter. There are two basic
+indexes:</p>
+<p><a class="reference external" href="apidocs/org/mapdb/BTreeMap.html">BTreeMap</a> is ordered B-Linked-Tree.
+It offers great concurrent performance. It is best for small sized keys.</p>
+<p><a class="reference external" href="apidocs/org/mapdb/HTreeMap.html">HTreeMap</a> is segmented Hash-Tree.
+It is good for large keys and values. It also supports entry expiration
+based on maximal size or time-to-live.</p>
+<p>There also also <a class="reference external" href="apidocs/org/mapdb/Queues.html">Queues</a> and
+<a class="reference external" href="apidocs/org/mapdb/Atomic.html">Atomic</a> variables</p>
+<p>TODO explain collections.</p>
+</div>
+<div class="section" id="serialization">
+<h2>Serialization<a class="headerlink" href="#serialization" title="Permalink to this headline">¶</a></h2>
+<p>MapDB contains its own serialization framework. TODO explain
+serialization</p>
+</div>
+<div class="section" id="concurrency-patterns">
+<h2>Concurrency patterns<a class="headerlink" href="#concurrency-patterns" title="Permalink to this headline">¶</a></h2>
+<p>TODO concurrency patterns.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MapDB internals</a><ul>
+<li><a class="reference internal" href="#dictionary">Dictionary</a></li>
+<li><a class="reference internal" href="#dbmaker-and-db">DBMaker and DB</a></li>
+<li><a class="reference internal" href="#layers">Layers</a></li>
+<li><a class="reference internal" href="#volume">Volume</a></li>
+<li><a class="reference internal" href="#store">Store</a></li>
+<li><a class="reference internal" href="#engine-wrappers">Engine Wrappers</a></li>
+<li><a class="reference internal" href="#txmaker">TxMaker</a></li>
+<li><a class="reference internal" href="#collections">Collections</a></li>
+<li><a class="reference internal" href="#serialization">Serialization</a></li>
+<li><a class="reference internal" href="#concurrency-patterns">Concurrency patterns</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="htreemap.html"
+                        title="previous chapter">HTreeMap</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="queues.html"
+                        title="next chapter">Queues</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/internals.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="queues.html" title="Queues"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="htreemap.html" title="HTreeMap"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

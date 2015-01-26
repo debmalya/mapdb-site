@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MapDB &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="#" />
+    <link rel="next" title="MapDB documentation" href="doc/index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="doc/index.html" title="MapDB documentation"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mapdb">
+<h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
+<p>MapDB is embedded database engine. It provides java collections backed by disk or memory database store.
+MapDB has excellent performance comparable to <cite>java.util.HashMap</cite> and other collections, but is not limited by GC.
+It is also very flexible engine with many storage backend, cache algorithms,  and so on.
+And finally MapDB is pure-java single 400K JAR and only depends on JRE 6+ or Android 2.1+.</p>
+<div class="section" id="news">
+<h2>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>2014-08-07 <a class="reference external" href="http://www.mapdb.org/changelog.html#Version_106_2014-08-07">MapDB 1.0.6
+released</a>.
+Fixed transaction log replay after unclean shutdown.</li>
+</ul>
+<p>Follow news on <a class="reference external" href="news.xml">RSS</a> |
+<a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/mapdb-news">Mail-List</a>
+| <a class="reference external" href="http://twitter.com/MapDBnews">Twitter</a></p>
+</div>
+<div class="section" id="what-for">
+<h2>What for?<a class="headerlink" href="#what-for" title="Permalink to this headline">¶</a></h2>
+<p>MapDB is great in following situations: TODO links to doc</p>
+<ul class="simple">
+<li>In-memory cache with expiration based on time-to-live or maximal size, Redis or EZCache replacement</li>
+<li>Huge indexes</li>
+<li>Persistent data model</li>
+<li>Alternative memory model if you are limited by GC</li>
+</ul>
+</div>
+<div class="section" id="get-started">
+<h2>Get started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
+<p>Add <a class="reference external" href="http://mvnrepository.com/artifact/org.mapdb/mapdb">maven dependency</a>:</p>
+<div class="code xml highlight-python"><div class="highlight"><pre>&lt;dependency&gt;
+   &lt;groupId&gt;org.mapdb&lt;/groupId&gt;
+   &lt;artifactId&gt;mapdb&lt;/artifactId&gt;
+   &lt;version&gt;1.0.6&lt;/version&gt;
+&lt;/dependency&gt;
+</pre></div>
+</div>
+<p>And simple in-memory example:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>import org.mapdb.*;
+
+DB db = DBMaker.newMemoryDB().make();
+
+ConcurrentNavigableMap treeMap = db.getTreeMap(&quot;map&quot;);
+treeMap.put(&quot;something&quot;,&quot;here&quot;);
+
+db.commit();
+db.close();
+</pre></div>
+</div>
+<p>Continue at <tt class="xref doc docutils literal"><span class="pre">doc/intro-getting-started</span></tt> chapter in documentation.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="doc/index.html"><em>MapDB documentation</em></a></li>
+<li><tt class="xref doc docutils literal"><span class="pre">javadoc/org/mapdb/package-index</span></tt></li>
+<li><a class="reference external" href="https://github.com/jankotek/MapDB/tree/master/src/test/java/examples">Examples</a></li>
+</ul>
+</div>
+<div class="section" id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<p>First please try usual search, read documentation and Frequently Asked Questions:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="doc/index.html">MapDB documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc/getting-started.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/durability-versus-speed.html">Durability and speed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/db-and-dbmaker.html">Transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/what-for.html">What for?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/caches.html">Caches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/htreemap.html">HTreeMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/internals.html">MapDB internals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/queues.html">Queues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/secondary-collections.html">Secondary Collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc/transactions.html">Transactions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#general-questions">General questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#performance-questions">Performance questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#troubleshooting-questions">Troubleshooting questions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>For general questions there is <a class="reference external" href="https://groups.google.com/forum/#!forum/mapdb">mailing list</a>. You may subscribe without GMail account by <a class="reference external" href="mailto:mapdb+subscribe&#37;&#52;&#48;googlegroups&#46;com">sending email</a>.</p>
+<p>Bug reports are hosted on <a class="reference external" href="https://github.com/jankotek/MapDB/issues">Github</a>.</p>
+<p>Finally last option is to <a class="reference external" href="mailto:jan(at)kotek&#46;net">contact me directly</a>. Unless you mark your mail as private,
+I reserve right to forward technical questions and answers into mailing-list.</p>
+<p>I usually respond to non-paying users within a few days. Contact me if you need more direct support or consultation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MapDB</a><ul>
+<li><a class="reference internal" href="#news">News</a></li>
+<li><a class="reference internal" href="#what-for">What for?</a></li>
+<li><a class="reference internal" href="#get-started">Get started</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="doc/index.html"
+                        title="next chapter">MapDB documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="doc/index.html" title="MapDB documentation"
+             >next</a> |</li>
+        <li><a href="#">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MapDB documentation &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="next" title="Getting started" href="getting-started.html" />
+    <link rel="prev" title="MapDB" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="MapDB"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mapdb-documentation">
+<h1>MapDB documentation<a class="headerlink" href="#mapdb-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#maven">Maven</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#hello-world">Hello World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#what-you-should-know">What you should know</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="durability-versus-speed.html">Durability and speed</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="durability-versus-speed.html#transactions-disabled">Transactions disabled</a></li>
+<li class="toctree-l2"><a class="reference internal" href="durability-versus-speed.html#memory-mapped-files-mmap">Memory mapped files (mmap)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="durability-versus-speed.html#crc32-checksums">CRC32 checksums</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="db-and-dbmaker.html">Transactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="what-for.html">What for?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="what-for.html#huge-on-disk-collections">Huge on-disk collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what-for.html#in-memory-collections">In-memory collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what-for.html#key-value-cache-with-expiration">Key-value cache with expiration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what-for.html#alternative-memory-model">Alternative memory model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="caches.html">Caches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#hash-table-cache">Hash Table cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#least-recently-used-cache">Least-Recently-Used cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#hard-reference-cache">Hard reference cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#soft-and-weak-reference-cache">Soft and Weak reference cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#disabled-cache-or-reduce-size">Disabled cache or reduce size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#clear-cache">Clear cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#cache-hit-and-miss-statistics">Cache hit and miss statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caches.html#cache-priority">Cache priority</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="htreemap.html">HTreeMap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="htreemap.html#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="htreemap.html#entry-expiration-parameters">Entry expiration parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="htreemap.html#compared-to-btreemap">Compared to BTreeMap</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">MapDB internals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#dictionary">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#dbmaker-and-db">DBMaker and DB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#layers">Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#volume">Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#store">Store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#engine-wrappers">Engine Wrappers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#txmaker">TxMaker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#collections">Collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#serialization">Serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internals.html#concurrency-patterns">Concurrency patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="queues.html">Queues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="queues.html#fifo-queue">FIFO Queue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="queues.html#stack">Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="queues.html#circularqueue">CircularQueue</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="secondary-collections.html">Secondary Collections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="secondary-collections.html#consistency">Consistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary-collections.html#performance">Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transactions.html">Transactions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transactions.html#transactions-disables-aka-direct-mode">Transactions disables (aka direct mode)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transactions.html#single-global-transaction">Single global transaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transactions.html#concurrent-transactions">Concurrent transactions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">MapDB</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="getting-started.html"
+                        title="next chapter">Getting started</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="MapDB"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Caches &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="HTreeMap" href="htreemap.html" />
+    <link rel="prev" title="What for?" href="what-for.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="htreemap.html" title="HTreeMap"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="what-for.html" title="What for?"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="caches">
+<h1>Caches<a class="headerlink" href="#caches" title="Permalink to this headline">¶</a></h1>
+<p>MapDB has several options to cache deserialized objects. Proper cache
+configuration is crucial for good performance of your application. Many
+performance problems can be fixed just by changing cache settings.</p>
+<p>Most dbs and old generation of MapDB (JDBM) use fixed size to cache read
+from disk. MapDB eliminated page layer, so it does not have regular
+cache. Instead it used memory mapped files and relies on operating
+system to do disk caching.</p>
+<p>When we talk about cache in mapdb we mean <em>instance cache</em> .Instead of
+pages, MapDB caches deserialized objects such as tree nodes, <tt class="docutils literal"><span class="pre">Long</span></tt>,
+<tt class="docutils literal"><span class="pre">Person</span></tt> and so on. Instance cache helps to minimize deserialization
+overhead. When you fetch an object twice, it will be deserialized only
+once, second time it will be fetched from cache.</p>
+<p>Because object instance may be stored in cache, yor data-model has to be
+immutable. On every modification you must create copy of object and
+persist new version. You also can not modify object fetched from db, an
+example:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>//wrong
+Person person = new Person();
+map.put(&quot;John&quot;,person);
+person.setName(&quot;John&quot;);
+
+//right
+Person person = new Person();
+person.setName(&quot;John&quot;);
+map.put(&quot;John&quot;,person);
+
+//wrong
+Person person = map.get(&quot;John&quot;);
+person.setAge(15);
+
+//right
+Person person = map.get(&quot;John&quot;);
+person = person.clone();
+person.setAge(15);
+map.put(&quot;John&quot;,person);
+</pre></div>
+</div>
+<p>MapDB offers 5 cache implementations. Some are unbounded and could cause
+<tt class="docutils literal"><span class="pre">OutOfMemoryError</span></tt> when used incorrectly.</p>
+<div class="section" id="hash-table-cache">
+<h2>Hash Table cache<a class="headerlink" href="#hash-table-cache" title="Permalink to this headline">¶</a></h2>
+<p>This cache is fixed size hash table (an array), where elements are
+placed by recid hash. Old entries are evicted by hash collisions. It has
+almost zero performance overhead, but provides good results, so this
+cache is on by default.</p>
+<p>It does not have automatic entry eviction, so some records may remain in
+cache (on heap) for very long time. This cache should be used in
+combination with small records, there is no auto-removal and it could
+cause <tt class="docutils literal"><span class="pre">OOME</span></tt></p>
+<p>Default cache size is 32000 records, there is DBMaker parameter to
+regulate its size. This cache is on by default, so it does not need to
+be enabled in DBMaker. An example:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+    .newFileDB(file)          //or memory db
+    .cacheSize(1000000)     //optionally change cache size
+    .make()
+</pre></div>
+</div>
+</div>
+<div class="section" id="least-recently-used-cache">
+<h2>Least-Recently-Used cache<a class="headerlink" href="#least-recently-used-cache" title="Permalink to this headline">¶</a></h2>
+<p>LRU cache keeps track when records are used, and if cache would grow
+beyond maximal size, it removes least recently used records. Compared to
+HashTable cache it has better hit statistics, but more overhead. There
+is overhead associated with maintaining LRU queue. It is recommended to
+use this cache only if cost of deserialization cost is high and cache
+miss is serious problem.</p>
+<p>MRU queue is maintained on &#8216;best effort&#8217;, there are some shortcuts for
+better performance. So the actual cache size oscillates a few records
+around maximal size. Please consult <tt class="docutils literal"><span class="pre">LongConcurrentLRUMap</span></tt> source for
+example.</p>
+<p>This cache is activated by <tt class="docutils literal"><span class="pre">cacheLRUEnable()</span></tt> DBMaker parameter. You
+can also change maximal size, default size is 32000 records. An example:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+    .newFileDB(file)        //or memory db
+    .cacheLRUEnable()
+    .cacheSize(1000000)     //optionally change cache size
+    .make()
+</pre></div>
+</div>
+</div>
+<div class="section" id="hard-reference-cache">
+<h2>Hard reference cache<a class="headerlink" href="#hard-reference-cache" title="Permalink to this headline">¶</a></h2>
+<p>HardRef cache is unbounded cache which does not evict any of its
+entries. This cahce is practically <tt class="docutils literal"><span class="pre">Map</span></tt> of recids and records:
+<tt class="docutils literal"><span class="pre">HashMap&lt;recid,</span> <span class="pre">Record&gt;</span></tt></p>
+<p>If store is larger than heap, it will get filled and eventually cause
+<tt class="docutils literal"><span class="pre">OOME</span></tt> exception. It is great to get great performance from small
+stores. After cache is warmed, it offers read-only performance
+comparable to <tt class="docutils literal"><span class="pre">java.util</span></tt> collections.</p>
+<p>MapDB also has weak/soft reference caches, but GC has some serious
+overhead. So hard reference cache has lower overhead if there is enough
+memory.</p>
+<p>This cache is activated with <tt class="docutils literal"><span class="pre">cacheHardRefEnable()</span></tt> DBMaker parameter.
+It does not have maximal size. An example:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+    .newFileDB(file)          //or memory db
+    .cacheHardRefEnable()
+    .make()
+</pre></div>
+</div>
+<p>No records are automatically removed from this cache. But you can still
+clear all records manually:</p>
+<div class="code java highlight-python"><div class="highlight"><pre><span class="n">db</span><span class="o">.</span><span class="n">getEngine</span><span class="p">()</span><span class="o">.</span><span class="n">clearCache</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="soft-and-weak-reference-cache">
+<h2>Soft and Weak reference cache<a class="headerlink" href="#soft-and-weak-reference-cache" title="Permalink to this headline">¶</a></h2>
+<p>Other option is to use weak or soft reference cache. In this cache
+garbage collector removes records from cache. This cache is practically
+<tt class="docutils literal"><span class="pre">Map</span></tt> of recids and references to records:
+<tt class="docutils literal"><span class="pre">HashMap&lt;recid,</span> <span class="pre">SoftRef&lt;Record&gt;&gt;</span></tt>.</p>
+<p>Soft and Weak references differs by eagerness with which they are
+garbage collected. Weak reference should be GC immediately after all
+references are released. Soft reference should be only removed when free
+heap is low. However practical implications depends on JVM settings. For
+example you can still get <tt class="docutils literal"><span class="pre">OutOfMemoryError</span></tt> even with soft
+references.</p>
+<p>This caches are activated by <tt class="docutils literal"><span class="pre">cacheWeakRefEnable()</span></tt> and
+<tt class="docutils literal"><span class="pre">cacheSoftRefEnable()</span></tt> DBMaker parameters:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>//weak
+DB db = DBMaker
+    .newFileDB(file)            //or memory db
+    .cacheWeakRefEnable()
+    .make()
+
+//or soft
+DB db = DBMaker
+    .newMemoryDB()              //or file db
+    .cacheSoftRefEnable()
+    .make()
+</pre></div>
+</div>
+</div>
+<div class="section" id="disabled-cache-or-reduce-size">
+<h2>Disabled cache or reduce size<a class="headerlink" href="#disabled-cache-or-reduce-size" title="Permalink to this headline">¶</a></h2>
+<p>Instance cache is enabled by default. On small devices you may want to
+disable it to reduce memory usage. This is done by <tt class="docutils literal"><span class="pre">cacheDisable()</span></tt>
+parameter:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+    .newFileDB(file)          //or memory db
+    .cacheDisable()
+    .make()
+</pre></div>
+</div>
+<p>Completely disabling cache hurts performance. So there are could be
+better alternatives:</p>
+<p>First you could clear cache after every operation. Checkout howto clearc
+cache in chapter bellow:</p>
+<p>Other alternative is to reduce cache size. By default cache size is
+32,000 records, probably too much for most Android phones:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
+    .newFileDB(file)        //or memory db
+    .cacheSize(128)         //optionally change cache size
+    .make()
+</pre></div>
+</div>
+</div>
+<div class="section" id="clear-cache">
+<h2>Clear cache<a class="headerlink" href="#clear-cache" title="Permalink to this headline">¶</a></h2>
+<p>If you only use MapDB in batches, you can reduce cache memory overhead,
+by clearing cache at end of batch:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>//do some heavy stuff with mapdb:
+map.getAll...
+
+//we are done clear cache
+db.getEngine().clearCache();
+
+//now do some other stuff, which does not use MapDB:
+save_my_files...
+</pre></div>
+</div>
+</div>
+<div class="section" id="cache-hit-and-miss-statistics">
+<h2>Cache hit and miss statistics<a class="headerlink" href="#cache-hit-and-miss-statistics" title="Permalink to this headline">¶</a></h2>
+<p>Right now MapDB does not offer hit/miss statistics for any cache. This
+feature requires a few lines of code and will be added soon.</p>
+<p>TODO cache hit/miss statistics.</p>
+</div>
+<div class="section" id="cache-priority">
+<h2>Cache priority<a class="headerlink" href="#cache-priority" title="Permalink to this headline">¶</a></h2>
+<p>TODO Right now there is no record priority for cache.</p>
+<p>However it is very easy to add this into MapDB. For example you could
+give more preferential treatment to btree directory nodes, while leaf
+nodes would not be cached. All it takes is a few
+<tt class="docutils literal"><span class="pre">record</span> <span class="pre">instanceof</span> <span class="pre">BTreeDirNode</span></tt> in single class.</p>
+<p>TODO MapDB could also have flexible multi level cache layering.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Caches</a><ul>
+<li><a class="reference internal" href="#hash-table-cache">Hash Table cache</a></li>
+<li><a class="reference internal" href="#least-recently-used-cache">Least-Recently-Used cache</a></li>
+<li><a class="reference internal" href="#hard-reference-cache">Hard reference cache</a></li>
+<li><a class="reference internal" href="#soft-and-weak-reference-cache">Soft and Weak reference cache</a></li>
+<li><a class="reference internal" href="#disabled-cache-or-reduce-size">Disabled cache or reduce size</a></li>
+<li><a class="reference internal" href="#clear-cache">Clear cache</a></li>
+<li><a class="reference internal" href="#cache-hit-and-miss-statistics">Cache hit and miss statistics</a></li>
+<li><a class="reference internal" href="#cache-priority">Cache priority</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="what-for.html"
+                        title="previous chapter">What for?</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="htreemap.html"
+                        title="next chapter">HTreeMap</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/caches.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="htreemap.html" title="HTreeMap"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="what-for.html" title="What for?"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HTreeMap &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" />
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="MapDB internals" href="internals.html" />
+    <link rel="prev" title="Caches" href="caches.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="internals.html" title="MapDB internals"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="caches.html" title="Caches"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="htreemap">
+<h1>HTreeMap<a class="headerlink" href="#htreemap" title="Permalink to this headline">¶</a></h1>
+<p>HTreeMap (provides HashMap and HashSet) is one of <a href="#id1"><span class="problematic" id="id2">``</span></a>Map``s offered by MapDB. It has
+great performance with large keys. It also offers entry expiration based on size or TTL.</p>
+<p>HTreeMap is <em>segmented Hash Tree</em>. Most hash collections use hash table based in fixed size array,
+when it becomes full, all data has to be moved and rehashed into
+new bigger table. HTreeMap uses auto-expanding 4 level Hash Tree, so it never needs resizing.
+Hash Tree also saves lot of space compared to traditional hash tables.
+TODO performance degradation depending on size. Probably  log N.</p>
+<p>To achieve parallel scalability HTreeMap is split to 16  segments,
+each with separate read-write lock. <tt class="docutils literal"><span class="pre">ConcurrentHashMap</span></tt> in JDK 7 works similar
+way. Number of segments (also called concurrency scale) is hard wired
+into design and can not be changed.</p>
+<p>HTreeMap optionally supports entry expiration based on four criteria:
+maximal map size, time-to-live since last modification and time-to-live
+since last access. Expired entries are automatically removed. This
+feature uses FIFO queue, each segment has independent expiration queue.
+Priority per entry can not be set.</p>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>HTreeMap has number of parameters to tune its performance. Number of
+segments (aka concurrency factor) is hard-coded to16 and can not be
+changed. Other params can be set only when map is created and can not be
+changed latter.</p>
+<p>Most important are probably <strong>serializers</strong>. General serialization has
+some guessing and overhead, so it always has better performance to use
+more specific serializers. To specify key and value serializer use code
+bellow. There are dozens ready to use serializers available as static
+fields on <tt class="docutils literal"><span class="pre">Serializer</span></tt> interface:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String, Long&gt; map = db.createHashMap(&quot;map&quot;)
+    .keySerializer(Serializer.STRING)
+    .valueSerializer(Serializer.LONG)
+    .makeOrGet()
+</pre></div>
+</div>
+<p>HTreeMap is recommended for handling large key/values. In same cases you
+may want to use compression. Enabling compression store-wide is not
+always best, since constantly (de)compressing index tree has overhead.
+Instead it is better to apply compression just to specific serializer on key or value.
+This is done by using serializer wrapper:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String, Long&gt; map = db.createHashMap(&quot;map&quot;)
+    .keySerializer(new Serializer.CompressionWrapper(Serializer.STRING))
+    .makeOrGet()
+
+    TODO add Serializer.compressed() method?
+</pre></div>
+</div>
+<p>Most hash maps uses 32bit hash generated by <tt class="docutils literal"><span class="pre">Object.hashCode()</span></tt> and check equality with <tt class="docutils literal"><span class="pre">Object.equals(other)</span></tt>.
+However many classes do not implement those functions correctly, and inconsistent hashing is
+very bad for persistence, it can lead to data loss.
+In default configuration HTreeMap uses generic key serializer and relies on those methods as well,
+however it throws an exception, if inconsitent hashing is detected. TODO exception name</p>
+<p>If specialized Key Serializer is defined, HTreeMap relies on it to provide hash code and equality check
+for keys. For example <tt class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY</span></tt> uses TODO methods from Arrays
+This way you can use primitive arrays directly as a key/value without a wrapper.
+Bypassing wrappers such as <tt class="docutils literal"><span class="pre">String</span></tt> improves performance:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;byte[], Long&gt; map = db.createHashMap(&quot;map&quot;)
+    .keySerializer(Serializer.BYTE_ARRAY)
+    .makeOrGet()
+</pre></div>
+</div>
+<p>Other parameter is <strong>size counter</strong>. By default HTreeMap does not keep
+track of its size, calling <tt class="docutils literal"><span class="pre">map.size()</span></tt> requires linear scan to count
+all entries. You can enable size counter, in that case
+<tt class="docutils literal"><span class="pre">map.size()</span></tt> is instant, but there is some overhead on inserts.</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String, Long&gt; map = db.createHashMap(&quot;map&quot;)
+    .counterEnable()
+    .makeOrGet()
+</pre></div>
+</div>
+<p>And finally some sugar. There is <strong>value creator</strong>, a function to create
+value if existing value is not found. Newly created value is inserted
+into map. This way <tt class="docutils literal"><span class="pre">map.get(key)</span></tt> never returns null. This is mainly
+useful for various generators and caches.</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String,Long&gt; map = db.createHashMap(&quot;map&quot;)
+        .valueCreator(new Fun.Function1&lt;Long,String&gt;() {
+            @Override public Long run(String o) {
+                return 1111L;
+            }
+        })
+        .makeOrGet();
+</pre></div>
+</div>
+<p>or more readable version in Java 8:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String,Long&gt; map = db.createHashMap(&quot;map&quot;)
+        .valueCreator((key)-&gt; 1111L)
+        .makeOrGet();
+
+// this way map.get() returns 1111L if no value is found
+map.get(&quot;aa&quot;); // 1111L
+map.get(&quot;bb&quot;); // 1111L
+
+// map now contains [&quot;aa&quot;-&gt;1111L, &quot;bb&quot;-&gt;1111L]
+</pre></div>
+</div>
+</div>
+<div class="section" id="entry-expiration-parameters">
+<h2>Entry expiration parameters<a class="headerlink" href="#entry-expiration-parameters" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">HTreeMap</span></tt> offers optional entry expiration if some conditions are
+met. Entry can expire if:</p>
+<ul class="simple">
+<li>Number of entries in map would exceed maximal size</li>
+<li>Entry exist in map longer time than expiration period is. The
+expiration period could be since last modification or since last read
+access.</li>
+<li>Disk/memory space consumed by Map is bigger then some limit in GB.</li>
+</ul>
+<p>There is shortcut in <tt class="docutils literal"><span class="pre">DBMaker</span></tt> to quickly use <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> as off-heap
+cache with memory size limit:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>// Off-heap map with max size 16GB
+Map cache = DBMaker
+    .newCacheDirect(16)
+</pre></div>
+</div>
+<p>This equals to <tt class="docutils literal"><span class="pre">expireStoreSize</span></tt> param:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap cache = db.createHashMap(&quot;cache&quot;)
+    .expireStoreSize(128)
+    .makeOrGet()
+</pre></div>
+</div>
+<p>It is also possible to limit maximal size of map:</p>
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap cache = db.createHashMap(&quot;cache&quot;)
+    .expireMaxSize(128)
+    .makeOrGet()
+</pre></div>
+</div>
+<p>And finally you can set expiration time since last modification or since
+last access.</p>
+<div class="code java highlight-python"><div class="highlight"><pre>// remove entries 1H after their last modification, or 10 minutes after last get()
+HTreeMap cache = db.createHashMap(&quot;cache&quot;)
+     .expireAfterWrite(1, TimeUnit.HOURS)
+     .expireAfterRead(10, TimeUnit.MINUTES)
+     .makeOrGet()
+</pre></div>
+</div>
+<p>TODO expiration counts are approximate. Map size can go slightly over limits for short period of time.</p>
+<p>TODO disk space limit has issues. Investigate how it works and document</p>
+<p>TODO expiration threads</p>
+</div>
+<div class="section" id="compared-to-btreemap">
+<h2>Compared to BTreeMap<a class="headerlink" href="#compared-to-btreemap" title="Permalink to this headline">¶</a></h2>
+<p><cite>HTreeMap</cite> has major advantage <cite>BTreeMap</cite> with large keys. Unlike
+BTreeMap it only stores hash codes in tree nodes. Each lookup on
+BTreeMap deserializes tree nodes together with their keys.
+Simple <tt class="docutils literal"><span class="pre">BTreeMap.get(key)</span></tt> could deserialize houndreds of keys.</p>
+<p>TODO link to performance test, compare with BTreeMap</p>
+<p>On other side HTreeMap has limited concurrency factor to 16, so with
+writes it wont scale over 4 CPU cores. It uses read-write locks, so read
+operations are not affected. However in practice disk IO is more likely
+to be bottleneck. TODO benchmarks</p>
+<p>HTreeMap is simpler than BTreeMap. It has more predictable performance over long time
+and does not get fragmented after frequent deletes.
+HTreeMap also offers expiration.
+BTreeMap pays tax in some cases for its complex lock-free design.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">HTreeMap</a><ul>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#entry-expiration-parameters">Entry expiration parameters</a></li>
+<li><a class="reference internal" href="#compared-to-btreemap">Compared to BTreeMap</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="caches.html"
+                        title="previous chapter">Caches</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="internals.html"
+                        title="next chapter">MapDB internals</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/htreemap.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="internals.html" title="MapDB internals"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="caches.html" title="Caches"
+             >previous</a> |</li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li>
+          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
