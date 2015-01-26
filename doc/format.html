@@ -8,7 +8,7 @@
     
     <title>Appendix: Storage formats &mdash; MapDB</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -34,7 +34,61 @@
              accesskey="I">index</a></li>
         <li><a href="../index.html">MapDB</a> &raquo;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Appendix: Storage formats</a><ul>
+<li><a class="reference internal" href="#parity">Parity</a><ul>
+<li><a class="reference internal" href="#parity-1">Parity 1</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storedirect">StoreDirect</a><ul>
+<li><a class="reference internal" href="#head">Head</a></li>
+<li><a class="reference internal" href="#index-page">Index page</a></li>
+<li><a class="reference internal" href="#index-value">Index Value</a></li>
+<li><a class="reference internal" href="#linked-records">Linked records</a></li>
+<li><a class="reference internal" href="#long-stack">Long Stack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#write-ahead-log">Write Ahead Log</a><ul>
+<li><a class="reference internal" href="#wal-lifecycle">WAL lifecycle</a></li>
+<li><a class="reference internal" href="#wal-file-format">WAL file format</a></li>
+<li><a class="reference internal" href="#wal-instructions">WAL Instructions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#append-only-store">Append Only Store</a><ul>
+<li><a class="reference internal" href="#instructions">Instructions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/format.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -236,60 +290,6 @@ and so on. Optionally store can be split between multiple files, to support onli
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Appendix: Storage formats</a><ul>
-<li><a class="reference internal" href="#parity">Parity</a><ul>
-<li><a class="reference internal" href="#parity-1">Parity 1</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#storedirect">StoreDirect</a><ul>
-<li><a class="reference internal" href="#head">Head</a></li>
-<li><a class="reference internal" href="#index-page">Index page</a></li>
-<li><a class="reference internal" href="#index-value">Index Value</a></li>
-<li><a class="reference internal" href="#linked-records">Linked records</a></li>
-<li><a class="reference internal" href="#long-stack">Long Stack</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#write-ahead-log">Write Ahead Log</a><ul>
-<li><a class="reference internal" href="#wal-lifecycle">WAL lifecycle</a></li>
-<li><a class="reference internal" href="#wal-file-format">WAL file format</a></li>
-<li><a class="reference internal" href="#wal-instructions">WAL Instructions</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#append-only-store">Append Only Store</a><ul>
-<li><a class="reference internal" href="#instructions">Instructions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/format.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
