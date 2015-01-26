@@ -8,7 +8,7 @@
     
     <title>Features &mdash; MapDB</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -34,7 +34,59 @@
              accesskey="I">index</a></li>
         <li><a href="index.html">MapDB</a> &raquo;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Features</a><ul>
+<li><a class="reference internal" href="#highlights">Highlights</a></li>
+<li><a class="reference internal" href="#caching">Caching</a><ul>
+<li><a class="reference internal" href="#hashtable-instance-cache">HashTable instance cache</a></li>
+<li><a class="reference internal" href="#lru-instance-cache">LRU instance cache</a></li>
+<li><a class="reference internal" href="#weak-reference-instance-cache">Weak reference instance cache</a></li>
+<li><a class="reference internal" href="#soft-reference-instance-cache">Soft reference instance cache</a></li>
+<li><a class="reference internal" href="#hard-reference-instance-cache">Hard reference instance cache</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#serialization">Serialization</a><ul>
+<li><a class="reference internal" href="#hand-coded-serializers">Hand Coded Serializers</a></li>
+<li><a class="reference internal" href="#generic-pojo-serialization">Generic POJO serialization</a></li>
+<li><a class="reference internal" href="#asynchronous-writes">Asynchronous Writes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-features">Other features</a><ul>
+<li><a class="reference internal" href="#transparent-compression">Transparent compression</a></li>
+<li><a class="reference internal" href="#transparent-encryption">Transparent encryption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/features.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -206,58 +258,6 @@ DBMaker.encryptionEnable(String password)</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/logo.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Features</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#caching">Caching</a><ul>
-<li><a class="reference internal" href="#hashtable-instance-cache">HashTable instance cache</a></li>
-<li><a class="reference internal" href="#lru-instance-cache">LRU instance cache</a></li>
-<li><a class="reference internal" href="#weak-reference-instance-cache">Weak reference instance cache</a></li>
-<li><a class="reference internal" href="#soft-reference-instance-cache">Soft reference instance cache</a></li>
-<li><a class="reference internal" href="#hard-reference-instance-cache">Hard reference instance cache</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#serialization">Serialization</a><ul>
-<li><a class="reference internal" href="#hand-coded-serializers">Hand Coded Serializers</a></li>
-<li><a class="reference internal" href="#generic-pojo-serialization">Generic POJO serialization</a></li>
-<li><a class="reference internal" href="#asynchronous-writes">Asynchronous Writes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#other-features">Other features</a><ul>
-<li><a class="reference internal" href="#transparent-compression">Transparent compression</a></li>
-<li><a class="reference internal" href="#transparent-encryption">Transparent encryption</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/features.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
