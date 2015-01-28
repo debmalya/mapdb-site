@@ -1,0 +1,2650 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<title>SerializerBase.Header (mapdb 1.0.7-SNAPSHOT API)</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SerializerBase.Header (mapdb 1.0.7-SNAPSHOT API)";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../org/mapdb/package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/SerializerBase.Header.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+<li><a href="../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../org/mapdb/SerializerBase.FastArrayList.html" title="class in org.mapdb"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../org/mapdb/SerializerBase.HeaderMapDB.html" title="interface in org.mapdb"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../index.html?org/mapdb/SerializerBase.Header.html" target="_top">Frames</a></li>
+<li><a href="SerializerBase.Header.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li>Method</li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li>Method</li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">org.mapdb</div>
+<h2 title="Interface SerializerBase.Header" class="title">Interface SerializerBase.Header</h2>
+</div>
+<div class="contentContainer">
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>Enclosing class:</dt>
+<dd><a href="../../org/mapdb/SerializerBase.html" title="class in org.mapdb">SerializerBase</a></dd>
+</dl>
+<hr>
+<br>
+<pre>protected static interface <span class="strong">SerializerBase.Header</span></pre>
+<div class="block"><p>Header byte, is used at start of each record to indicate data type WARNING !!! values bellow must be unique !!!!!</p></div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Jan Kotek</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_BOOLEAN">ARRAY_BOOLEAN</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_BYTE">ARRAY_BYTE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_BYTE_ALL_EQUAL">ARRAY_BYTE_ALL_EQUAL</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_CHAR">ARRAY_CHAR</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_DOUBLE">ARRAY_DOUBLE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_FLOAT">ARRAY_FLOAT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_INT">ARRAY_INT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_INT_BYTE">ARRAY_INT_BYTE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_INT_PACKED">ARRAY_INT_PACKED</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_INT_SHORT">ARRAY_INT_SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_LONG">ARRAY_LONG</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_LONG_BYTE">ARRAY_LONG_BYTE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_LONG_INT">ARRAY_LONG_INT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_LONG_PACKED">ARRAY_LONG_PACKED</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_LONG_SHORT">ARRAY_LONG_SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_OBJECT">ARRAY_OBJECT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_OBJECT_ALL_NULL">ARRAY_OBJECT_ALL_NULL</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_OBJECT_NO_REFS">ARRAY_OBJECT_NO_REFS</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_OBJECT_PACKED_LONG">ARRAY_OBJECT_PACKED_LONG</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAY_SHORT">ARRAY_SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAYLIST">ARRAYLIST</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ARRAYLIST_PACKED_LONG">ARRAYLIST_PACKED_LONG</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BIGDECIMAL">BIGDECIMAL</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BIGINTEGER">BIGINTEGER</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BOOLEAN_FALSE">BOOLEAN_FALSE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BOOLEAN_TRUE">BOOLEAN_TRUE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BYTE">BYTE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BYTE_0">BYTE_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BYTE_1">BYTE_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#BYTE_M1">BYTE_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#CHAR">CHAR</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#CHAR_0">CHAR_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#CHAR_1">CHAR_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#CHAR_255">CHAR_255</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#CLASS">CLASS</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DATE">DATE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE">DOUBLE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_0">DOUBLE_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_1">DOUBLE_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_255">DOUBLE_255</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_INT">DOUBLE_INT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_M1">DOUBLE_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#DOUBLE_SHORT">DOUBLE_SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT">FLOAT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT_0">FLOAT_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT_1">FLOAT_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT_255">FLOAT_255</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT_M1">FLOAT_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FLOAT_SHORT">FLOAT_SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#FUN_HI">FUN_HI</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#HASHMAP">HASHMAP</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#HASHSET">HASHSET</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT">INT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_0">INT_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_1">INT_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_10">INT_10</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_11">INT_11</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_12">INT_12</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_13">INT_13</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_14">INT_14</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_15">INT_15</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_16">INT_16</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_2">INT_2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_3">INT_3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_4">INT_4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_5">INT_5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_6">INT_6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_7">INT_7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_8">INT_8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_9">INT_9</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_F1">INT_F1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_F2">INT_F2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_F3">INT_F3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M1">INT_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M2">INT_M2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M3">INT_M3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M4">INT_M4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M5">INT_M5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M6">INT_M6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M7">INT_M7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M8">INT_M8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_M9">INT_M9</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_MAX_VALUE">INT_MAX_VALUE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_MF1">INT_MF1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_MF2">INT_MF2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_MF3">INT_MF3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#INT_MIN_VALUE">INT_MIN_VALUE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#JAVA_SERIALIZATION">JAVA_SERIALIZATION</a></strong></code>
+<div class="block">Value used in Java Serialization header.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LINKEDHASHMAP">LINKEDHASHMAP</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LINKEDHASHSET">LINKEDHASHSET</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LINKEDLIST">LINKEDLIST</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG">LONG</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_0">LONG_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_1">LONG_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_10">LONG_10</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_11">LONG_11</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_12">LONG_12</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_13">LONG_13</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_14">LONG_14</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_15">LONG_15</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_16">LONG_16</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_2">LONG_2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_3">LONG_3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_4">LONG_4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_5">LONG_5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_6">LONG_6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_7">LONG_7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_8">LONG_8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_9">LONG_9</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F1">LONG_F1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F2">LONG_F2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F3">LONG_F3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F4">LONG_F4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F5">LONG_F5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F6">LONG_F6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_F7">LONG_F7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M1">LONG_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M2">LONG_M2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M3">LONG_M3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M4">LONG_M4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M5">LONG_M5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M6">LONG_M6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M7">LONG_M7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M8">LONG_M8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_M9">LONG_M9</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MAX_VALUE">LONG_MAX_VALUE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF1">LONG_MF1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF2">LONG_MF2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF3">LONG_MF3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF4">LONG_MF4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF5">LONG_MF5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF6">LONG_MF6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MF7">LONG_MF7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#LONG_MIN_VALUE">LONG_MIN_VALUE</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MA_BOOL">MA_BOOL</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MA_INT">MA_INT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MA_LONG">MA_LONG</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MA_STRING">MA_STRING</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MA_VAR">MA_VAR</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#MAPDB">MAPDB</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#NAMED">NAMED</a></strong></code>
+<div class="block">reference to named object</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#NULL">NULL</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#OBJECT_STACK">OBJECT_STACK</a></strong></code>
+<div class="block">used for reference to already serialized object in object graph</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#POJO">POJO</a></strong></code>
+<div class="block">Use POJO Serializer to get class structure and set its fields</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#PROPERTIES">PROPERTIES</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT">SHORT</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT_0">SHORT_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT_1">SHORT_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT_255">SHORT_255</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT_M1">SHORT_M1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#SHORT_M255">SHORT_M255</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING">STRING</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_0">STRING_0</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_1">STRING_1</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_10">STRING_10</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_2">STRING_2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_3">STRING_3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_4">STRING_4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_5">STRING_5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_6">STRING_6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_7">STRING_7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_8">STRING_8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#STRING_9">STRING_9</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TREEMAP">TREEMAP</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TREESET">TREESET</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE2">TUPLE2</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE3">TUPLE3</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE4">TUPLE4</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE5">TUPLE5</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE6">TUPLE6</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE7">TUPLE7</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#TUPLE8">TUPLE8</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#UUID">UUID</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/SerializerBase.Header.html#ZERO_FAIL">ZERO_FAIL</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="ZERO_FAIL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ZERO_FAIL</h4>
+<pre>static final&nbsp;int ZERO_FAIL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ZERO_FAIL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="NULL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>NULL</h4>
+<pre>static final&nbsp;int NULL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.NULL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BOOLEAN_TRUE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BOOLEAN_TRUE</h4>
+<pre>static final&nbsp;int BOOLEAN_TRUE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BOOLEAN_TRUE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BOOLEAN_FALSE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BOOLEAN_FALSE</h4>
+<pre>static final&nbsp;int BOOLEAN_FALSE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BOOLEAN_FALSE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M9">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M9</h4>
+<pre>static final&nbsp;int INT_M9</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M9">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M8</h4>
+<pre>static final&nbsp;int INT_M8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M7</h4>
+<pre>static final&nbsp;int INT_M7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M6</h4>
+<pre>static final&nbsp;int INT_M6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M5</h4>
+<pre>static final&nbsp;int INT_M5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M4</h4>
+<pre>static final&nbsp;int INT_M4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M3</h4>
+<pre>static final&nbsp;int INT_M3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M2</h4>
+<pre>static final&nbsp;int INT_M2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_M1</h4>
+<pre>static final&nbsp;int INT_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_0</h4>
+<pre>static final&nbsp;int INT_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_1</h4>
+<pre>static final&nbsp;int INT_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_2</h4>
+<pre>static final&nbsp;int INT_2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_3</h4>
+<pre>static final&nbsp;int INT_3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_4</h4>
+<pre>static final&nbsp;int INT_4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_5</h4>
+<pre>static final&nbsp;int INT_5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_6</h4>
+<pre>static final&nbsp;int INT_6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_7</h4>
+<pre>static final&nbsp;int INT_7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_8</h4>
+<pre>static final&nbsp;int INT_8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_9">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_9</h4>
+<pre>static final&nbsp;int INT_9</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_9">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_10">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_10</h4>
+<pre>static final&nbsp;int INT_10</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_10">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_11">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_11</h4>
+<pre>static final&nbsp;int INT_11</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_11">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_12">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_12</h4>
+<pre>static final&nbsp;int INT_12</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_12">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_13">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_13</h4>
+<pre>static final&nbsp;int INT_13</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_13">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_14">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_14</h4>
+<pre>static final&nbsp;int INT_14</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_14">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_15">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_15</h4>
+<pre>static final&nbsp;int INT_15</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_15">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_16">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_16</h4>
+<pre>static final&nbsp;int INT_16</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_16">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_MIN_VALUE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_MIN_VALUE</h4>
+<pre>static final&nbsp;int INT_MIN_VALUE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_MIN_VALUE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_MAX_VALUE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_MAX_VALUE</h4>
+<pre>static final&nbsp;int INT_MAX_VALUE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_MAX_VALUE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_MF1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_MF1</h4>
+<pre>static final&nbsp;int INT_MF1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_MF1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_F1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_F1</h4>
+<pre>static final&nbsp;int INT_F1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_F1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_MF2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_MF2</h4>
+<pre>static final&nbsp;int INT_MF2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_MF2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_F2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_F2</h4>
+<pre>static final&nbsp;int INT_F2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_F2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_MF3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_MF3</h4>
+<pre>static final&nbsp;int INT_MF3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_MF3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT_F3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_F3</h4>
+<pre>static final&nbsp;int INT_F3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT_F3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="INT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT</h4>
+<pre>static final&nbsp;int INT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.INT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M9">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M9</h4>
+<pre>static final&nbsp;int LONG_M9</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M9">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M8</h4>
+<pre>static final&nbsp;int LONG_M8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M7</h4>
+<pre>static final&nbsp;int LONG_M7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M6</h4>
+<pre>static final&nbsp;int LONG_M6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M5</h4>
+<pre>static final&nbsp;int LONG_M5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M4</h4>
+<pre>static final&nbsp;int LONG_M4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M3</h4>
+<pre>static final&nbsp;int LONG_M3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M2</h4>
+<pre>static final&nbsp;int LONG_M2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_M1</h4>
+<pre>static final&nbsp;int LONG_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_0</h4>
+<pre>static final&nbsp;int LONG_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_1</h4>
+<pre>static final&nbsp;int LONG_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_2</h4>
+<pre>static final&nbsp;int LONG_2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_3</h4>
+<pre>static final&nbsp;int LONG_3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_4</h4>
+<pre>static final&nbsp;int LONG_4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_5</h4>
+<pre>static final&nbsp;int LONG_5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_6</h4>
+<pre>static final&nbsp;int LONG_6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_7</h4>
+<pre>static final&nbsp;int LONG_7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_8</h4>
+<pre>static final&nbsp;int LONG_8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_9">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_9</h4>
+<pre>static final&nbsp;int LONG_9</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_9">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_10">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_10</h4>
+<pre>static final&nbsp;int LONG_10</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_10">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_11">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_11</h4>
+<pre>static final&nbsp;int LONG_11</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_11">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_12">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_12</h4>
+<pre>static final&nbsp;int LONG_12</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_12">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_13">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_13</h4>
+<pre>static final&nbsp;int LONG_13</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_13">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_14">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_14</h4>
+<pre>static final&nbsp;int LONG_14</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_14">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_15">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_15</h4>
+<pre>static final&nbsp;int LONG_15</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_15">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_16">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_16</h4>
+<pre>static final&nbsp;int LONG_16</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_16">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MIN_VALUE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MIN_VALUE</h4>
+<pre>static final&nbsp;int LONG_MIN_VALUE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MIN_VALUE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MAX_VALUE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MAX_VALUE</h4>
+<pre>static final&nbsp;int LONG_MAX_VALUE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MAX_VALUE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF1</h4>
+<pre>static final&nbsp;int LONG_MF1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F1</h4>
+<pre>static final&nbsp;int LONG_F1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF2</h4>
+<pre>static final&nbsp;int LONG_MF2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F2</h4>
+<pre>static final&nbsp;int LONG_F2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF3</h4>
+<pre>static final&nbsp;int LONG_MF3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F3</h4>
+<pre>static final&nbsp;int LONG_F3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF4</h4>
+<pre>static final&nbsp;int LONG_MF4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F4</h4>
+<pre>static final&nbsp;int LONG_F4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF5</h4>
+<pre>static final&nbsp;int LONG_MF5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F5</h4>
+<pre>static final&nbsp;int LONG_F5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF6</h4>
+<pre>static final&nbsp;int LONG_MF6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F6</h4>
+<pre>static final&nbsp;int LONG_F6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_MF7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_MF7</h4>
+<pre>static final&nbsp;int LONG_MF7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_MF7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG_F7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_F7</h4>
+<pre>static final&nbsp;int LONG_F7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG_F7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG</h4>
+<pre>static final&nbsp;int LONG</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LONG">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BYTE_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE_M1</h4>
+<pre>static final&nbsp;int BYTE_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BYTE_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BYTE_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE_0</h4>
+<pre>static final&nbsp;int BYTE_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BYTE_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BYTE_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE_1</h4>
+<pre>static final&nbsp;int BYTE_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BYTE_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BYTE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE</h4>
+<pre>static final&nbsp;int BYTE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BYTE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="CHAR_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CHAR_0</h4>
+<pre>static final&nbsp;int CHAR_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.CHAR_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="CHAR_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CHAR_1</h4>
+<pre>static final&nbsp;int CHAR_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.CHAR_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="CHAR_255">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CHAR_255</h4>
+<pre>static final&nbsp;int CHAR_255</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.CHAR_255">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="CHAR">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CHAR</h4>
+<pre>static final&nbsp;int CHAR</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.CHAR">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT_M1</h4>
+<pre>static final&nbsp;int SHORT_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT_0</h4>
+<pre>static final&nbsp;int SHORT_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT_1</h4>
+<pre>static final&nbsp;int SHORT_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT_255">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT_255</h4>
+<pre>static final&nbsp;int SHORT_255</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT_255">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT_M255">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT_M255</h4>
+<pre>static final&nbsp;int SHORT_M255</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT_M255">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SHORT</h4>
+<pre>static final&nbsp;int SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT_M1</h4>
+<pre>static final&nbsp;int FLOAT_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT_0</h4>
+<pre>static final&nbsp;int FLOAT_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT_1</h4>
+<pre>static final&nbsp;int FLOAT_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT_255">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT_255</h4>
+<pre>static final&nbsp;int FLOAT_255</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT_255">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT_SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT_SHORT</h4>
+<pre>static final&nbsp;int FLOAT_SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT_SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FLOAT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FLOAT</h4>
+<pre>static final&nbsp;int FLOAT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FLOAT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_M1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_M1</h4>
+<pre>static final&nbsp;int DOUBLE_M1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_M1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_0</h4>
+<pre>static final&nbsp;int DOUBLE_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_1</h4>
+<pre>static final&nbsp;int DOUBLE_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_255">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_255</h4>
+<pre>static final&nbsp;int DOUBLE_255</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_255">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_SHORT</h4>
+<pre>static final&nbsp;int DOUBLE_SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE_INT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_INT</h4>
+<pre>static final&nbsp;int DOUBLE_INT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE_INT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DOUBLE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE</h4>
+<pre>static final&nbsp;int DOUBLE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DOUBLE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_BYTE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_BYTE</h4>
+<pre>static final&nbsp;int ARRAY_BYTE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_BYTE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_BYTE_ALL_EQUAL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_BYTE_ALL_EQUAL</h4>
+<pre>static final&nbsp;int ARRAY_BYTE_ALL_EQUAL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_BYTE_ALL_EQUAL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_BOOLEAN">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_BOOLEAN</h4>
+<pre>static final&nbsp;int ARRAY_BOOLEAN</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_BOOLEAN">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_SHORT</h4>
+<pre>static final&nbsp;int ARRAY_SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_CHAR">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_CHAR</h4>
+<pre>static final&nbsp;int ARRAY_CHAR</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_CHAR">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_FLOAT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_FLOAT</h4>
+<pre>static final&nbsp;int ARRAY_FLOAT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_FLOAT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_DOUBLE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_DOUBLE</h4>
+<pre>static final&nbsp;int ARRAY_DOUBLE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_DOUBLE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_INT_BYTE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_INT_BYTE</h4>
+<pre>static final&nbsp;int ARRAY_INT_BYTE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_INT_BYTE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_INT_SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_INT_SHORT</h4>
+<pre>static final&nbsp;int ARRAY_INT_SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_INT_SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_INT_PACKED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_INT_PACKED</h4>
+<pre>static final&nbsp;int ARRAY_INT_PACKED</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_INT_PACKED">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_INT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_INT</h4>
+<pre>static final&nbsp;int ARRAY_INT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_INT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_LONG_BYTE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_LONG_BYTE</h4>
+<pre>static final&nbsp;int ARRAY_LONG_BYTE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_LONG_BYTE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_LONG_SHORT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_LONG_SHORT</h4>
+<pre>static final&nbsp;int ARRAY_LONG_SHORT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_LONG_SHORT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_LONG_PACKED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_LONG_PACKED</h4>
+<pre>static final&nbsp;int ARRAY_LONG_PACKED</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_LONG_PACKED">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_LONG_INT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_LONG_INT</h4>
+<pre>static final&nbsp;int ARRAY_LONG_INT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_LONG_INT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_LONG</h4>
+<pre>static final&nbsp;int ARRAY_LONG</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_LONG">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_0">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_0</h4>
+<pre>static final&nbsp;int STRING_0</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_0">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_1">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_1</h4>
+<pre>static final&nbsp;int STRING_1</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_1">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_2</h4>
+<pre>static final&nbsp;int STRING_2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_3</h4>
+<pre>static final&nbsp;int STRING_3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_4</h4>
+<pre>static final&nbsp;int STRING_4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_5</h4>
+<pre>static final&nbsp;int STRING_5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_6</h4>
+<pre>static final&nbsp;int STRING_6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_7</h4>
+<pre>static final&nbsp;int STRING_7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_8</h4>
+<pre>static final&nbsp;int STRING_8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_9">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_9</h4>
+<pre>static final&nbsp;int STRING_9</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_9">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING_10">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_10</h4>
+<pre>static final&nbsp;int STRING_10</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING_10">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="STRING">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING</h4>
+<pre>static final&nbsp;int STRING</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.STRING">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BIGDECIMAL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BIGDECIMAL</h4>
+<pre>static final&nbsp;int BIGDECIMAL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BIGDECIMAL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="BIGINTEGER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BIGINTEGER</h4>
+<pre>static final&nbsp;int BIGINTEGER</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.BIGINTEGER">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="CLASS">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CLASS</h4>
+<pre>static final&nbsp;int CLASS</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.CLASS">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="DATE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DATE</h4>
+<pre>static final&nbsp;int DATE</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.DATE">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="FUN_HI">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>FUN_HI</h4>
+<pre>static final&nbsp;int FUN_HI</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.FUN_HI">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="UUID">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>UUID</h4>
+<pre>static final&nbsp;int UUID</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.UUID">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MAPDB">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MAPDB</h4>
+<pre>static final&nbsp;int MAPDB</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MAPDB">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE2</h4>
+<pre>static final&nbsp;int TUPLE2</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE2">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE3</h4>
+<pre>static final&nbsp;int TUPLE3</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE3">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE4">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE4</h4>
+<pre>static final&nbsp;int TUPLE4</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE4">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE5">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE5</h4>
+<pre>static final&nbsp;int TUPLE5</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE5">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE6">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE6</h4>
+<pre>static final&nbsp;int TUPLE6</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE6">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE7">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE7</h4>
+<pre>static final&nbsp;int TUPLE7</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE7">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TUPLE8">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TUPLE8</h4>
+<pre>static final&nbsp;int TUPLE8</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TUPLE8">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_OBJECT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_OBJECT</h4>
+<pre>static final&nbsp;int ARRAY_OBJECT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_OBJECT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_OBJECT_PACKED_LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_OBJECT_PACKED_LONG</h4>
+<pre>static final&nbsp;int ARRAY_OBJECT_PACKED_LONG</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_OBJECT_PACKED_LONG">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAYLIST_PACKED_LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAYLIST_PACKED_LONG</h4>
+<pre>static final&nbsp;int ARRAYLIST_PACKED_LONG</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAYLIST_PACKED_LONG">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_OBJECT_ALL_NULL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_OBJECT_ALL_NULL</h4>
+<pre>static final&nbsp;int ARRAY_OBJECT_ALL_NULL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_OBJECT_ALL_NULL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAY_OBJECT_NO_REFS">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAY_OBJECT_NO_REFS</h4>
+<pre>static final&nbsp;int ARRAY_OBJECT_NO_REFS</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAY_OBJECT_NO_REFS">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="ARRAYLIST">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ARRAYLIST</h4>
+<pre>static final&nbsp;int ARRAYLIST</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.ARRAYLIST">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TREEMAP">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TREEMAP</h4>
+<pre>static final&nbsp;int TREEMAP</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TREEMAP">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="HASHMAP">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HASHMAP</h4>
+<pre>static final&nbsp;int HASHMAP</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.HASHMAP">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LINKEDHASHMAP">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LINKEDHASHMAP</h4>
+<pre>static final&nbsp;int LINKEDHASHMAP</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LINKEDHASHMAP">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="TREESET">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>TREESET</h4>
+<pre>static final&nbsp;int TREESET</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.TREESET">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="HASHSET">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HASHSET</h4>
+<pre>static final&nbsp;int HASHSET</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.HASHSET">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LINKEDHASHSET">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LINKEDHASHSET</h4>
+<pre>static final&nbsp;int LINKEDHASHSET</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LINKEDHASHSET">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="LINKEDLIST">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LINKEDLIST</h4>
+<pre>static final&nbsp;int LINKEDLIST</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.LINKEDLIST">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="PROPERTIES">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>PROPERTIES</h4>
+<pre>static final&nbsp;int PROPERTIES</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.PROPERTIES">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="JAVA_SERIALIZATION">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>JAVA_SERIALIZATION</h4>
+<pre>static final&nbsp;int JAVA_SERIALIZATION</pre>
+<div class="block"><p>Value used in Java Serialization header. For this header we throw an exception because data might be corrupted</p></div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.JAVA_SERIALIZATION">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="POJO">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>POJO</h4>
+<pre>static final&nbsp;int POJO</pre>
+<div class="block"><p>Use POJO Serializer to get class structure and set its fields</p></div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.POJO">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="OBJECT_STACK">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>OBJECT_STACK</h4>
+<pre>static final&nbsp;int OBJECT_STACK</pre>
+<div class="block"><p>used for reference to already serialized object in object graph</p></div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.OBJECT_STACK">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="NAMED">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>NAMED</h4>
+<pre>static final&nbsp;int NAMED</pre>
+<div class="block"><p>reference to named object</p></div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.NAMED">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MA_LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MA_LONG</h4>
+<pre>static final&nbsp;int MA_LONG</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MA_LONG">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MA_INT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MA_INT</h4>
+<pre>static final&nbsp;int MA_INT</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MA_INT">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MA_BOOL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MA_BOOL</h4>
+<pre>static final&nbsp;int MA_BOOL</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MA_BOOL">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MA_STRING">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MA_STRING</h4>
+<pre>static final&nbsp;int MA_STRING</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MA_STRING">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+<a name="MA_VAR">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>MA_VAR</h4>
+<pre>static final&nbsp;int MA_VAR</pre>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../constant-values.html#org.mapdb.SerializerBase.Header.MA_VAR">Constant Field Values</a></dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../org/mapdb/package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/SerializerBase.Header.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+<li><a href="../../help-doc.html">Help</a></li>
+</ul>
+<div class="aboutLanguage"><em><script type="text/javascript" src="../../highlight.pack.js"></script>
+<script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+//--></script></em></div>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../org/mapdb/SerializerBase.FastArrayList.html" title="class in org.mapdb"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../org/mapdb/SerializerBase.HeaderMapDB.html" title="interface in org.mapdb"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../index.html?org/mapdb/SerializerBase.Header.html" target="_top">Frames</a></li>
+<li><a href="SerializerBase.Header.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li>Method</li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li>Method</li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+<p class="legalCopy"><small>Copyright &#169; 2015. All Rights Reserved.</small></p>
+</body>
+</html>

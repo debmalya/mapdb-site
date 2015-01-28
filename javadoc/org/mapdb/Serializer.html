@@ -1,0 +1,579 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<title>Serializer (mapdb 1.0.7-SNAPSHOT API)</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Serializer (mapdb 1.0.7-SNAPSHOT API)";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../org/mapdb/package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Serializer.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+<li><a href="../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../org/mapdb/Queues.Stack.html" title="class in org.mapdb"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../org/mapdb/Serializer.CompressionWrapper.html" title="class in org.mapdb"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../index.html?org/mapdb/Serializer.html" target="_top">Frames</a></li>
+<li><a href="Serializer.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">org.mapdb</div>
+<h2 title="Interface Serializer" class="title">Interface Serializer&lt;A&gt;</h2>
+</div>
+<div class="contentContainer">
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Known Implementing Classes:</dt>
+<dd><a href="../../org/mapdb/BTreeMap.NodeSerializer.html" title="class in org.mapdb">BTreeMap.NodeSerializer</a>, <a href="../../org/mapdb/Queues.SimpleQueue.NodeSerializer.html" title="class in org.mapdb">Queues.SimpleQueue.NodeSerializer</a>, <a href="../../org/mapdb/Serializer.CompressionWrapper.html" title="class in org.mapdb">Serializer.CompressionWrapper</a>, <a href="../../org/mapdb/SerializerBase.html" title="class in org.mapdb">SerializerBase</a>, <a href="../../org/mapdb/SerializerPojo.html" title="class in org.mapdb">SerializerPojo</a></dd>
+</dl>
+<hr>
+<br>
+<pre>public interface <span class="strong">Serializer&lt;A&gt;</span></pre>
+<div class="block"><p>Provides serialization and deserialization</p></div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Jan Kotek</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Interface and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.CompressionWrapper.html" title="class in org.mapdb">Serializer.CompressionWrapper</a>&lt;<a href="../../org/mapdb/Serializer.CompressionWrapper.html" title="type parameter in Serializer.CompressionWrapper">E</a>&gt;</strong></code>
+<div class="block">wraps another serializer and (de)compresses its output/input</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#BASIC">BASIC</a></strong></code>
+<div class="block">Basic serializer for most classes in &lsquo;java.lang&rsquo; and &lsquo;java.util&rsquo; packages.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#BOOLEAN">BOOLEAN</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;byte[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#BYTE_ARRAY">BYTE_ARRAY</a></strong></code>
+<div class="block">Serializes <code>byte[]</code> it adds header which contains size information</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;byte[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#BYTE_ARRAY_NOSIZE">BYTE_ARRAY_NOSIZE</a></strong></code>
+<div class="block">Serializes <code>byte[]</code> directly into underlying store It does not store size, so it can not be used in Maps and other collections.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;char[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#CHAR_ARRAY">CHAR_ARRAY</a></strong></code>
+<div class="block">Serializes <code>char[]</code> it adds header which contains size information</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;double[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#DOUBLE_ARRAY">DOUBLE_ARRAY</a></strong></code>
+<div class="block">Serializes <code>double[]</code> it adds header which contains size information</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#ILLEGAL_ACCESS">ILLEGAL_ACCESS</a></strong></code>
+<div class="block">Always throws <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalAccessError.html?is-external=true" title="class or interface in java.lang"><code>IllegalAccessError</code></a> when invoked.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;int[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#INT_ARRAY">INT_ARRAY</a></strong></code>
+<div class="block">Serializes <code>int[]</code> it adds header which contains size information</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#INTEGER">INTEGER</a></strong></code>
+<div class="block">Serializes Integer into 4 bytes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#JAVA">JAVA</a></strong></code>
+<div class="block">Serializer which uses standard Java Serialization with <a href="http://docs.oracle.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io"><code>ObjectInputStream</code></a> and <a href="http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io"><code>ObjectOutputStream</code></a></div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#LONG">LONG</a></strong></code>
+<div class="block">Serializes Long into 8 bytes, used mainly for testing.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;long[]&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#LONG_ARRAY">LONG_ARRAY</a></strong></code>
+<div class="block">Serializes <code>long[]</code> it adds header which contains size information</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#STRING">STRING</a></strong></code>
+<div class="block">Serializes strings using UTF8 encoding.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#STRING_ASCII">STRING_ASCII</a></strong></code>
+<div class="block">Serializes strings using ASCII encoding (8 bit character).</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#STRING_INTERN">STRING_INTERN</a></strong></code>
+<div class="block">Serializes strings using UTF8 encoding.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#STRING_NOSIZE">STRING_NOSIZE</a></strong></code>
+<div class="block">Serializes strings using UTF8 encoding.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#UUID">UUID</a></strong></code>
+<div class="block">Serializers <a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util"><code>UUID</code></a> class</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../org/mapdb/Serializer.html" title="type parameter in Serializer">A</a></code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#deserialize(java.io.DataInput,%20int)">deserialize</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a>&nbsp;in,
+           int&nbsp;available)</code>
+<div class="block">Deserialize the content of an object from a DataInput.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#fixedSize()">fixedSize</a></strong>()</code>
+<div class="block">Data could be serialized into record with variable size or fixed size.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../org/mapdb/Serializer.html#serialize(java.io.DataOutput,%20A)">serialize</a></strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io">DataOutput</a>&nbsp;out,
+         <a href="../../org/mapdb/Serializer.html" title="type parameter in Serializer">A</a>&nbsp;value)</code>
+<div class="block">Serialize the content of an object into a ObjectOutput</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="STRING">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt; STRING</pre>
+<div class="block"><p>Serializes strings using UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values</p></div>
+</li>
+</ul>
+<a name="STRING_INTERN">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_INTERN</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt; STRING_INTERN</pre>
+<div class="block"><p>Serializes strings using UTF8 encoding. Deserialized String is interned <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true#intern()" title="class or interface in java.lang"><code>String.intern()</code></a>, so it could save some memory.</p><p>Stores string size so can be used as collection serializer. Does not handle null values</p></div>
+</li>
+</ul>
+<a name="STRING_ASCII">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_ASCII</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt; STRING_ASCII</pre>
+<div class="block"><p>Serializes strings using ASCII encoding (8 bit character). Is faster compared to UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values</p></div>
+</li>
+</ul>
+<a name="STRING_NOSIZE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STRING_NOSIZE</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt; STRING_NOSIZE</pre>
+<div class="block"><p>Serializes strings using UTF8 encoding. Used mainly for testing. Does not handle null values.</p></div>
+</li>
+</ul>
+<a name="LONG">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt; LONG</pre>
+<div class="block"><p>Serializes Long into 8 bytes, used mainly for testing. Does not handle null values.</p></div>
+</li>
+</ul>
+<a name="INTEGER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INTEGER</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt; INTEGER</pre>
+<div class="block"><p>Serializes Integer into 4 bytes. Does not handle null values.</p></div>
+</li>
+</ul>
+<a name="BOOLEAN">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BOOLEAN</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt; BOOLEAN</pre>
+</li>
+</ul>
+<a name="ILLEGAL_ACCESS">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ILLEGAL_ACCESS</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt; ILLEGAL_ACCESS</pre>
+<div class="block"><p>Always throws <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalAccessError.html?is-external=true" title="class or interface in java.lang"><code>IllegalAccessError</code></a> when invoked. Useful for testing and assertions.</p></div>
+</li>
+</ul>
+<a name="BASIC">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BASIC</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt; BASIC</pre>
+<div class="block"><p>Basic serializer for most classes in &lsquo;java.lang&rsquo; and &lsquo;java.util&rsquo; packages. It does not handle custom POJO classes. It also does not handle classes which require access to <code>DB</code> itself.</p></div>
+</li>
+</ul>
+<a name="BYTE_ARRAY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE_ARRAY</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;byte[]&gt; BYTE_ARRAY</pre>
+<div class="block"><p>Serializes <code>byte[]</code> it adds header which contains size information</p></div>
+</li>
+</ul>
+<a name="BYTE_ARRAY_NOSIZE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>BYTE_ARRAY_NOSIZE</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;byte[]&gt; BYTE_ARRAY_NOSIZE</pre>
+<div class="block"><p>Serializes <code>byte[]</code> directly into underlying store It does not store size, so it can not be used in Maps and other collections.</p></div>
+</li>
+</ul>
+<a name="CHAR_ARRAY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CHAR_ARRAY</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;char[]&gt; CHAR_ARRAY</pre>
+<div class="block"><p>Serializes <code>char[]</code> it adds header which contains size information</p></div>
+</li>
+</ul>
+<a name="INT_ARRAY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>INT_ARRAY</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;int[]&gt; INT_ARRAY</pre>
+<div class="block"><p>Serializes <code>int[]</code> it adds header which contains size information</p></div>
+</li>
+</ul>
+<a name="LONG_ARRAY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>LONG_ARRAY</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;long[]&gt; LONG_ARRAY</pre>
+<div class="block"><p>Serializes <code>long[]</code> it adds header which contains size information</p></div>
+</li>
+</ul>
+<a name="DOUBLE_ARRAY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DOUBLE_ARRAY</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;double[]&gt; DOUBLE_ARRAY</pre>
+<div class="block"><p>Serializes <code>double[]</code> it adds header which contains size information</p></div>
+</li>
+</ul>
+<a name="JAVA">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>JAVA</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt; JAVA</pre>
+<div class="block"><p>Serializer which uses standard Java Serialization with <a href="http://docs.oracle.com/javase/6/docs/api/java/io/ObjectInputStream.html?is-external=true" title="class or interface in java.io"><code>ObjectInputStream</code></a> and <a href="http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html?is-external=true" title="class or interface in java.io"><code>ObjectOutputStream</code></a></p></div>
+</li>
+</ul>
+<a name="UUID">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>UUID</h4>
+<pre>static final&nbsp;<a href="../../org/mapdb/Serializer.html" title="interface in org.mapdb">Serializer</a>&lt;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util">UUID</a>&gt; UUID</pre>
+<div class="block"><p>Serializers <a href="http://docs.oracle.com/javase/6/docs/api/java/util/UUID.html?is-external=true" title="class or interface in java.util"><code>UUID</code></a> class</p></div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="serialize(java.io.DataOutput,java.lang.Object)">
+<!--   -->
+</a><a name="serialize(java.io.DataOutput, A)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>serialize</h4>
+<pre>void&nbsp;serialize(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io">DataOutput</a>&nbsp;out,
+             <a href="../../org/mapdb/Serializer.html" title="type parameter in Serializer">A</a>&nbsp;value)
+               throws <a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block"><p>Serialize the content of an object into a ObjectOutput</p></div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>out</code> - ObjectOutput to save object into</dd><dd><code>value</code> - Object to serialize</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
+</li>
+</ul>
+<a name="deserialize(java.io.DataInput, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>deserialize</h4>
+<pre><a href="../../org/mapdb/Serializer.html" title="type parameter in Serializer">A</a>&nbsp;deserialize(<a href="http://docs.oracle.com/javase/6/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a>&nbsp;in,
+            int&nbsp;available)
+              throws <a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block"><p>Deserialize the content of an object from a DataInput.</p></div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - to read serialized data from</dd><dd><code>available</code> - how many bytes are available in DataInput for reading, may be -1 (in streams) or 0 (null).</dd>
+<dt><span class="strong">Returns:</span></dt><dd>deserialized object</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
+</li>
+</ul>
+<a name="fixedSize()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>fixedSize</h4>
+<pre>int&nbsp;fixedSize()</pre>
+<div class="block"><p>Data could be serialized into record with variable size or fixed size. Some optimizations can be applied to serializers with fixed size</p></div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>fixed size or -1 for variable size</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../org/mapdb/package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Serializer.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+<li><a href="../../help-doc.html">Help</a></li>
+</ul>
+<div class="aboutLanguage"><em><script type="text/javascript" src="../../highlight.pack.js"></script>
+<script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+//--></script></em></div>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../org/mapdb/Queues.Stack.html" title="class in org.mapdb"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../org/mapdb/Serializer.CompressionWrapper.html" title="class in org.mapdb"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../index.html?org/mapdb/Serializer.html" target="_top">Frames</a></li>
+<li><a href="Serializer.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+<p class="legalCopy"><small>Copyright &#169; 2015. All Rights Reserved.</small></p>
+</body>
+</html>
