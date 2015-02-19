@@ -43,6 +43,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#version-1-0-7-2015-02-19">Version 1.0.7 (2015-02-19)</a></li>
 <li><a class="reference internal" href="#version-1-0-6-2014-08-07">Version 1.0.6 (2014-08-07)</a></li>
 <li><a class="reference internal" href="#version-1-0-5-2014-07-15">Version 1.0.5 (2014-07-15)</a></li>
 <li><a class="reference internal" href="#version-1-0-4-2014-06-26">Version 1.0.4 (2014-06-26)</a></li>
@@ -97,6 +98,30 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-0-7-2015-02-19">
+<h2>Version 1.0.7 (2015-02-19)<a class="headerlink" href="#version-1-0-7-2015-02-19" title="Permalink to this headline">¶</a></h2>
+<p>Fixed bugs in Write-Ahead-Log and <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> entry expiration.</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>Fixed serializer for newer android versions. <a class="reference external" href="https://github.com/koa/MapDB/commit/da938caac36f807c9f737ec6b06c7b4d72a91a2a">Link</a></li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/443">#443</a> In-memory compaction does not delete temp files</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/442">#442</a> DirectByteBuffer unmapping and Async Write could cause JVM crash on compaction and commit</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/419">#419</a> DB.getHashSet() does not restore expiration settings</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/418">#418</a> HTreeMap expiration was broken</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/400">#400</a> HTreeMap.get() resets TTL to zero in some cases</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/417">#417</a> Infinite loop in Store.calculateStatistics()</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/374">#374</a> Map value creator is never called!</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/414">#414</a> Snapshots were not working under some conditions</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/381">#381</a> WAL corruption with deletes</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/364">#364</a> WAL corruption with async writes</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/373">#373</a> SerializerPojo throws NotSerializableException for Class field</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/445">#445</a> Race condition in Hashtable cache caused ClassCastException</li>
+</ul>
+<p>Open issues:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jankotek/MapDB/labels/1.0">A few</a> I could not replicate.</li>
+</ul>
+</div>
 <div class="section" id="version-1-0-6-2014-08-07">
 <h2>Version 1.0.6 (2014-08-07)<a class="headerlink" href="#version-1-0-6-2014-08-07" title="Permalink to this headline">¶</a></h2>
 <p>Fixed problem in transaction log replay after unclean shutdown WAL

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BTreeMap &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">BTreeMap</a><ul>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+<li><a class="reference internal" href="#fragmention">Fragmention</a></li>
+<li><a class="reference internal" href="#compared-to-htreemap">Compared to HTreeMap</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/doc/btreemap.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="btreemap">
+<h1>BTreeMap<a class="headerlink" href="#btreemap" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">BTreeMap</span></tt> provides <tt class="docutils literal"><span class="pre">TreeMap</span></tt> and <tt class="docutils literal"><span class="pre">TreeSet</span></tt> for MapDB. It is based on lock-free concurrent B-Linked-Tree.
+It offers great performance for small keys and with parallel access.</p>
+<p>TODO explain compressions</p>
+<p>TODO describe B-Linked-Tree</p>
+<div class="section" id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<p>BTrees in general are affected by node size and number of directory levels. Larger node means shallow tree,
+and faster lookups, but slower updates. In MapDB you should adjust node size with average key size</p>
+</div>
+<div class="section" id="fragmention">
+<h2>Fragmention<a class="headerlink" href="#fragmention" title="Permalink to this headline">¶</a></h2>
+<p>Trade-off for lock-free design is fragmentation after deletion. B-Linked-Tree does not delete btree nodes after
+entry removal, once they become empty. If you fill BTreeMap and than remove all entries, about 40% of space will not
+be released. Value updates (keys are kept) is not affected by this fragmentation.</p>
+<p>This fragmentation is at different than storage fragmentation, so <tt class="docutils literal"><span class="pre">DB.compact()</span></tt> will not help.
+Solution is to move all content into new <tt class="docutils literal"><span class="pre">BTreeMap</span></tt>. Its very fast with Data Pump streaming,
+new Map will have zero fragmentation and better node locality (in theory disk cache friendly).</p>
+<p>TODO provide utils to move BTreeMap content
+TODO provide statistics to calculate BTreeMap fragmentation</p>
+<p>In future we will provide BTreeMap wrapper which will do this compaction automatically. It will use three collections:
+First <tt class="docutils literal"><span class="pre">BTreeMap</span></tt> will be read-only and contain data. Second small map will contain updates. Periodically third map
+will be produced as merge of first two, and swapped with primary.
+<a href="#id1"><span class="problematic" id="id2">``</span></a>SSTable``s in Cassandra and other databases works similar way.</p>
+<p>TODO provide wrapper to compact/merge BTreeMap content automatically.</p>
+</div>
+<div class="section" id="compared-to-htreemap">
+<h2>Compared to HTreeMap<a class="headerlink" href="#compared-to-htreemap" title="Permalink to this headline">¶</a></h2>
+<p>TODO create separate page about collections in MapDB</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">MapDB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jan Kotek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
