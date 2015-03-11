@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Benchmarks &mdash; MapDB</title>
+    <title>Success Stories &mdash; MapDB</title>
     
     <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -92,17 +92,15 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Benchmarks</a><ul>
-<li><a class="reference internal" href="#long-uuid-map">Long - UUID map</a></li>
-<li><a class="reference internal" href="#id1">Long - UUID map</a></li>
-<li><a class="reference internal" href="#on-disk">On Disk</a></li>
+<li><a class="reference internal" href="#">Success Stories</a><ul>
+<li><a class="reference internal" href="#modusp">ModusP</a></li>
 </ul>
 </li>
 </ul>
 
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/benchmarks.txt"
+    <li><a href="_sources/success.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -126,47 +124,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="benchmarks">
-<h1>Benchmarks<a class="headerlink" href="#benchmarks" title="Permalink to this headline">¶</a></h1>
-<p>Goal for MapDB is to have speed comparable to <tt class="docutils literal"><span class="pre">java.util.concurrent</span></tt> collections such <tt class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></tt>.
-MapDB does things like serialization on background, so it is not always possible, but its very close.</p>
-<p>This benchmark compares various <tt class="docutils literal"><span class="pre">Map</span></tt> implementations. Benchmark sources are available in
-<a class="reference external" href="https://github.com/jankotek/mapdb-benchmarks">Github repo</a>.</p>
-<div class="section" id="long-uuid-map">
-<h2>Long - UUID map<a class="headerlink" href="#long-uuid-map" title="Permalink to this headline">¶</a></h2>
-<p>First benchmark tests <tt class="docutils literal"><span class="pre">Map&lt;Long,UUID&gt;</span></tt> map. It chooses small entry size (24 bytes), since its size affect performance.</p>
-<p>TODO metrics</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-single-thread.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-single-thread.png" />
-<p><tt class="docutils literal"><span class="pre">ConcurrentHashMap</span></tt> is about 8x faster than MapDB. Map size is 10 million items,
-so there is practically zero GC overhead. With larger sizes <tt class="docutils literal"><span class="pre">ConcurrentHashMap</span></tt>
-performance degrades due to GC overhead and MapDB will eventually become faster.</p>
-<p>Also MapDB uses compression, so it consumes much less memory.</p>
-<p>TODO chart of size scalability</p>
-<p>TODO chart of memory usage depending on collection size</p>
-<p>Chart bellow shows performance of <tt class="docutils literal"><span class="pre">BTreeMap</span></tt> from MapDB with number of threads on quad core CPU with 8 virtual cores.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.BTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.BTreeMap-scalability.png" />
-<p>And this is multi-threaded performance for <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> (HashMap). There is bug in segment hashing,
-so it wont scale over 2 threads.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.HTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.HTreeMap-scalability.png" />
-</div>
-<div class="section" id="id1">
-<h2>Long - UUID map<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Second benchmark tests <tt class="docutils literal"><span class="pre">Map&lt;String,String&gt;</span></tt> with key and value size 32 bytes.
-This is unfortunate situation for MapDB since deserialization overhead is high.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-single-thread.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-single-thread.png" />
-<p>MapDB 2.0 was all about optimizing deserialization costs and it pays of.
-Please notice performance difference between MapDB 1.0 and 2.0 collections.</p>
-<p>Also <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> is surprisingly fast compared to <tt class="docutils literal"><span class="pre">ConcurrentHashMap</span></tt>.
-String hashing probably adds fixed overhead.</p>
-<p>And here is multi-threaded performance with String keys and values</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.BTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.BTreeMap-scalability.png" />
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.HTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.HTreeMap-scalability.png" />
-<p>TODO BTreeMap external values</p>
-<p>TODO BTreeMap node size</p>
-</div>
-<div class="section" id="on-disk">
-<h2>On Disk<a class="headerlink" href="#on-disk" title="Permalink to this headline">¶</a></h2>
-<p>TODO: On disk benchmarks Will be added soon...</p>
+  <div class="section" id="success-stories">
+<h1>Success Stories<a class="headerlink" href="#success-stories" title="Permalink to this headline">¶</a></h1>
+<p>See who is using MapDB and what they sey about it.</p>
+<div class="section" id="modusp">
+<h2>ModusP<a class="headerlink" href="#modusp" title="Permalink to this headline">¶</a></h2>
+<p>We have successfully finished our consultation session with Jan Kotek
+for MapDB integration. With Jan&#8217;s help we&#8217;ve successfully ran our
+mapping task using mapDB after weeks of failing to do this using any
+other method (and we&#8217;ve tried many).</p>
+<p>It was my first use of MapDB, and for the first time I learned about
+the big limitations of the java collections and since using MongoDB was
+also not efficient due to the huge amount of IO required. MapDB was the
+perfect solution for us.</p>
+<p>It was a great pleasure to work with Jan, he is an amazing
+professional</p>
+<p>Tom B., <a class="reference external" href="http://www.modusp.com/">ModusP</a></p>
 </div>
 </div>
 
