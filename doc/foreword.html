@@ -90,22 +90,9 @@
     </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">MapDB</a><ul>
-<li><a class="reference internal" href="#collections">Collections</a><ul>
-<li><a class="reference internal" href="#btreemap-and-htreemap">BTreeMap and HTreeMap</a></li>
-<li><a class="reference internal" href="#queues">Queues</a></li>
-<li><a class="reference internal" href="#atomic-variables">Atomic variables</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/doc/overview.txt"
+    <li><a href="../_sources/doc/foreword.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -131,52 +118,25 @@
             
   <div class="section" id="mapdb">
 <h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is a database engine. But its flexibility and performance makes it usable in many
-non traditional situations:</p>
-<blockquote>
-<div><ul class="simple">
-<li>in-memory performance is comparable to <tt class="docutils literal"><span class="pre">java.util</span></tt> collections, so it can be use used as drop-in replacement for those</li>
-<li>one could use it as alternative memory model to Jave Heap and program business logic outside of limits imposed by Garbage Collections</li>
-<li>TODO streaming</li>
-<li>TODO data forklift</li>
-<li>TODO serialization</li>
-</ul>
-</div></blockquote>
-<p>TODO not magic solution disclaimer</p>
-<div class="section" id="collections">
-<h2>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
-<p>MapDB provides following collections: Maps, Sets and Queues.
-TODO: clarify if queues will move to separate project
-TODO: BlockingDequeue with List implementation based on LinkedList?</p>
-<div class="section" id="btreemap-and-htreemap">
-<h3>BTreeMap and HTreeMap<a class="headerlink" href="#btreemap-and-htreemap" title="Permalink to this headline">¶</a></h3>
-<p>MapDB provides two index implementations: btree and hash tree. Both have distinctive features
-and excel in different scenarios.</p>
-<p><tt class="docutils literal"><span class="pre">BTreeMap</span></tt> provides TreeMap and TreeSet. It is excellent for huge collections with small keys.
-It also has lock-free design, great for parallel updates on multi-core systems. It has wide range of
-compression options with almost zero overhead (delta, common prefix) to minimize data consumption.
-Compared to <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> it also has faster iteration and Data Pump streaming.</p>
-<p><tt class="docutils literal"><span class="pre">HTreeMap</span></tt> provides HashMap and HashSet. Unlike other hash based Map implementations it uses
-auto-expanding hash table and  never performs rehashing to grow table.It works great with large keys.
-Also its better for entry removals compared to <tt class="docutils literal"><span class="pre">BTreeMap</span></tt>. Finally <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> has various
-options for entry expiration based on maximal size, time to live, storage usage and so on.</p>
-</div>
-<div class="section" id="queues">
-<h3>Queues<a class="headerlink" href="#queues" title="Permalink to this headline">¶</a></h3>
-<p>TODO decide if lock-free queues will be kept</p>
-</div>
-<div class="section" id="atomic-variables">
-<h3>Atomic variables<a class="headerlink" href="#atomic-variables" title="Permalink to this headline">¶</a></h3>
-<p>MapDB has atomic variables similar to <tt class="docutils literal"><span class="pre">java.util.concurrent.atomic</span></tt> package. Their state is stored in storage
-and preserved between JVM restarts. They support compare-and-swap as expected, but also fully respect transactions.</p>
-<p>Atomic variables makes it very simple to write business logic completely stored in MapDB storage not affected
-by Garbage Collector overhead. Also they respect traditional java concurrency such as locks, CAS, semaphores etc.</p>
-<p>There is usual cohort of data types such as <tt class="docutils literal"><span class="pre">AtomicLong`s,</span> <span class="pre">`AtomicString``s</span> <span class="pre">etc.</span> <span class="pre">But</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">also</span>
-<span class="pre">``Atomic.Var</span></tt> which can store any class. Its content gets serialized and preserved in database. All it needs
-is correct <tt class="docutils literal"><span class="pre">equals</span></tt> method implementation for CAS and to be immutable.</p>
-<p>TODO links to chapters</p>
-</div>
-</div>
+<p>MapDB is embedded database engine for java. It provides java collections backed by on-disk or in-memory storage.
+It has great performance and many configuration options. Its not limited by garbage collector and in-memory
+collections outperform their on-heap counterparts such as <tt class="docutils literal"><span class="pre">java.util.HashMap</span></tt>. MapDB has tiny overhead
+and excelent vertical scalability. It runs from Android phone to multi CPU server with several terabyte stores.</p>
+<p>MapDB is old project. It started in 2001 under name JDBM. Originally it was storage engine for astronomical application.
+Over years it evolved, got new features and better performance. It started as a hobby project, and eventually turned
+into full time paid job, however it retains its qualities:  carefully crafted compact and quality code.
+Current MapDB 2.0 is 5th generation of this project.</p>
+<p>MapDB followed different evolution than other databases. Rather than db engine it could be better described
+as alternative memory model for java. There are several components: storage engines, memory allocator, serialization, trees,
+caches... Those can be used together, or independenly, swapped, wrapped etc. MapDB has very modular and flexible design
+so it is very easy to implement your own things such as RAID or in-memory cache with on-disk overflow.</p>
+<p>MapDB also has concurrent design in sense that it allows multiple threads to write (and read) data in parallel. Default configuration
+scales linearly to 4 CPU cores (parallel updates). However with different configuration (and trade-offs) it scales well even on 20+ cores.</p>
+<p>And finally MapDB has very little overhead (and consequently great performance). It was originally designed to run on 486 CPUs and it retained
+much of its qualities. Internal logic is represented using primitive variables, there is almost zero trash for GC.
+And unlike other dbs it does not have block page layer, updates and reads require almost zero copy. And finally
+its serialization lifecycle takes good advantage of JVM qualities, so its performance can be compared to low level engines written in C
+(MapDB is pure java).</p>
 </div>
 
 

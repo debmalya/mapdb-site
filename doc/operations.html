@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>MapDB &mdash; MapDB</title>
+    <title>Operations &mdash; MapDB</title>
     
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -92,11 +92,22 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">MapDB</a><ul>
-<li><a class="reference internal" href="#collections">Collections</a><ul>
-<li><a class="reference internal" href="#btreemap-and-htreemap">BTreeMap and HTreeMap</a></li>
-<li><a class="reference internal" href="#queues">Queues</a></li>
-<li><a class="reference internal" href="#atomic-variables">Atomic variables</a></li>
+<li><a class="reference internal" href="#">Operations</a><ul>
+<li><a class="reference internal" href="#backups">Backups</a><ul>
+<li><a class="reference internal" href="#incremental-backups">Incremental backups</a></li>
+<li><a class="reference internal" href="#backup-under-commit-lock">Backup under commit lock</a></li>
+<li><a class="reference internal" href="#backup-with-snapshots">Backup with snapshots</a></li>
+<li><a class="reference internal" href="#full-export-into-text-file">Full export into text file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monitoring">Monitoring</a><ul>
+<li><a class="reference internal" href="#jmx">JMX</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compaction">Compaction</a><ul>
+<li><a class="reference internal" href="#record-fragmentation-and-average-free-record-size">Record fragmentation and average free record size</a></li>
+<li><a class="reference internal" href="#btree-compaction">BTree compaction</a></li>
+<li><a class="reference internal" href="#append-only-file-background-compaction">Append Only File background compaction</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +116,7 @@
 
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/doc/overview.txt"
+    <li><a href="../_sources/doc/operations.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -129,52 +140,53 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="mapdb">
-<h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is a database engine. But its flexibility and performance makes it usable in many
-non traditional situations:</p>
+  <div class="section" id="operations">
+<h1>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h1>
+<p>This is chapter for DBA and DevOps. It describes howto run MapDB in long period of time,
+while keeping data safe and performance good and consistent.</p>
+<p>MapDB is just database engine, so basic library does not include tools usually bundled with full
+database systems. But there are external libraries which will be also discussed here.
+With some tuning MapDB is very capable of running in continuous operation.</p>
+<div class="section" id="backups">
+<h2>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="incremental-backups">
+<h3>Incremental backups<a class="headerlink" href="#incremental-backups" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="backup-under-commit-lock">
+<h3>Backup under commit lock<a class="headerlink" href="#backup-under-commit-lock" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="backup-with-snapshots">
+<h3>Backup with snapshots<a class="headerlink" href="#backup-with-snapshots" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
-<li>in-memory performance is comparable to <tt class="docutils literal"><span class="pre">java.util</span></tt> collections, so it can be use used as drop-in replacement for those</li>
-<li>one could use it as alternative memory model to Jave Heap and program business logic outside of limits imposed by Garbage Collections</li>
-<li>TODO streaming</li>
-<li>TODO data forklift</li>
-<li>TODO serialization</li>
+<li>data corruption in HTreeMap from incomplete updates</li>
+<li>lock entire HTreeMap</li>
 </ul>
 </div></blockquote>
-<p>TODO not magic solution disclaimer</p>
-<div class="section" id="collections">
-<h2>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
-<p>MapDB provides following collections: Maps, Sets and Queues.
-TODO: clarify if queues will move to separate project
-TODO: BlockingDequeue with List implementation based on LinkedList?</p>
-<div class="section" id="btreemap-and-htreemap">
-<h3>BTreeMap and HTreeMap<a class="headerlink" href="#btreemap-and-htreemap" title="Permalink to this headline">¶</a></h3>
-<p>MapDB provides two index implementations: btree and hash tree. Both have distinctive features
-and excel in different scenarios.</p>
-<p><tt class="docutils literal"><span class="pre">BTreeMap</span></tt> provides TreeMap and TreeSet. It is excellent for huge collections with small keys.
-It also has lock-free design, great for parallel updates on multi-core systems. It has wide range of
-compression options with almost zero overhead (delta, common prefix) to minimize data consumption.
-Compared to <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> it also has faster iteration and Data Pump streaming.</p>
-<p><tt class="docutils literal"><span class="pre">HTreeMap</span></tt> provides HashMap and HashSet. Unlike other hash based Map implementations it uses
-auto-expanding hash table and  never performs rehashing to grow table.It works great with large keys.
-Also its better for entry removals compared to <tt class="docutils literal"><span class="pre">BTreeMap</span></tt>. Finally <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> has various
-options for entry expiration based on maximal size, time to live, storage usage and so on.</p>
 </div>
-<div class="section" id="queues">
-<h3>Queues<a class="headerlink" href="#queues" title="Permalink to this headline">¶</a></h3>
-<p>TODO decide if lock-free queues will be kept</p>
+<div class="section" id="full-export-into-text-file">
+<h3>Full export into text file<a class="headerlink" href="#full-export-into-text-file" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="atomic-variables">
-<h3>Atomic variables<a class="headerlink" href="#atomic-variables" title="Permalink to this headline">¶</a></h3>
-<p>MapDB has atomic variables similar to <tt class="docutils literal"><span class="pre">java.util.concurrent.atomic</span></tt> package. Their state is stored in storage
-and preserved between JVM restarts. They support compare-and-swap as expected, but also fully respect transactions.</p>
-<p>Atomic variables makes it very simple to write business logic completely stored in MapDB storage not affected
-by Garbage Collector overhead. Also they respect traditional java concurrency such as locks, CAS, semaphores etc.</p>
-<p>There is usual cohort of data types such as <tt class="docutils literal"><span class="pre">AtomicLong`s,</span> <span class="pre">`AtomicString``s</span> <span class="pre">etc.</span> <span class="pre">But</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">also</span>
-<span class="pre">``Atomic.Var</span></tt> which can store any class. Its content gets serialized and preserved in database. All it needs
-is correct <tt class="docutils literal"><span class="pre">equals</span></tt> method implementation for CAS and to be immutable.</p>
-<p>TODO links to chapters</p>
+</div>
+<div class="section" id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="jmx">
+<h3>JMX<a class="headerlink" href="#jmx" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="compaction">
+<h2>Compaction<a class="headerlink" href="#compaction" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>compaction in memory versus temporary files</li>
+</ul>
+<div class="section" id="record-fragmentation-and-average-free-record-size">
+<h3>Record fragmentation and average free record size<a class="headerlink" href="#record-fragmentation-and-average-free-record-size" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="btree-compaction">
+<h3>BTree compaction<a class="headerlink" href="#btree-compaction" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="append-only-file-background-compaction">
+<h3>Append Only File background compaction<a class="headerlink" href="#append-only-file-background-compaction" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
