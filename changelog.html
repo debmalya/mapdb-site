@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="index.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="next" title="Credits" href="credits.html" />
+    <link rel="prev" title="Benchmarks" href="benchmarks.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -74,7 +74,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="index.html">Home</a></li>
@@ -89,18 +89,24 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="credits.html" title="Credits"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="benchmarks.html" title="Benchmarks"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Home</a>&nbsp;|</li>
         <li><a href="contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -132,12 +138,20 @@
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/changelog.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="benchmarks.html"
+                        title="previous chapter">Benchmarks</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="credits.html"
+                        title="next chapter">Credits</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changelog.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -156,13 +170,13 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="version-1-0-7-2015-02-19">
 <h2>Version 1.0.7 (2015-02-19)<a class="headerlink" href="#version-1-0-7-2015-02-19" title="Permalink to this headline">¶</a></h2>
-<p>Fixed bugs in Write-Ahead-Log and <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> entry expiration.</p>
+<p>Fixed bugs in Write-Ahead-Log and <code class="docutils literal"><span class="pre">HTreeMap</span></code> entry expiration.</p>
 <p>Changes:</p>
 <ul class="simple">
 <li>Fixed serializer for newer android versions. <a class="reference external" href="https://github.com/koa/MapDB/commit/da938caac36f807c9f737ec6b06c7b4d72a91a2a">Link</a></li>
@@ -203,13 +217,13 @@ access.</p>
 <ul class="simple">
 <li>Fix #346: WAL log corruption when killing the mapdb process.
 Discarding corrupted log was not reliable.</li>
-<li>Fix #356: <tt class="docutils literal"><span class="pre">asyncWriteEnable()</span></tt> had race condition in record
+<li>Fix #356: <code class="docutils literal"><span class="pre">asyncWriteEnable()</span></code> had race condition in record
 preallocation. Could result to data loss. Feature is too complex to
 fix, so was removed. Expect minor performance regression.</li>
 <li>Fix DB: TreeMap Pump keyExtractor was not used. Would cause problem
 with Tuple2 pairs</li>
 <li>Fix #358: set correct hasher when open exist hash tree map</li>
-<li>Atomic classes now expose recid via public <tt class="docutils literal"><span class="pre">getRecid()</span></tt> method</li>
+<li>Atomic classes now expose recid via public <code class="docutils literal"><span class="pre">getRecid()</span></code> method</li>
 <li>DB now exposes Name Catalog via public methods. External libraries
 can manipulate catalog content.</li>
 </ul>
@@ -245,12 +259,12 @@ Unconfirmed and can not reproduce. It needs more investigation.</li>
 </div>
 <div class="section" id="version-1-0-2-2014-06-02">
 <h2>Version 1.0.2 (2014-06-02)<a class="headerlink" href="#version-1-0-2-2014-06-02" title="Permalink to this headline">¶</a></h2>
-<p>Fixed <tt class="docutils literal"><span class="pre">Serializer.CompressionWrapper()</span></tt>, this bug does not affect
-<tt class="docutils literal"><span class="pre">DBMaker.compressionEnable()</span></tt></p>
+<p>Fixed <code class="docutils literal"><span class="pre">Serializer.CompressionWrapper()</span></code>, this bug does not affect
+<code class="docutils literal"><span class="pre">DBMaker.compressionEnable()</span></code></p>
 <p>Changes:</p>
 <ul class="simple">
 <li>Fix #321: Small behaviour regression in BTreeMap Pump</li>
-<li>Fix #332: <tt class="docutils literal"><span class="pre">Serializer.CompressionWrapper()</span></tt> decompressed wrong
+<li>Fix #332: <code class="docutils literal"><span class="pre">Serializer.CompressionWrapper()</span></code> decompressed wrong
 data. Reverted some optimization which caused this issue.</li>
 </ul>
 <p>Open problems:</p>
@@ -326,9 +340,9 @@ many Out Of Memory errors.</li>
 <li>Fix #312: error while opening db with readonly</li>
 <li>Fix #304: BTreeMap.replace() fails under concurrent access</li>
 <li>Large scale code cleanup before 1.0.0 freeze and release</li>
-<li>DBMaker: rename <tt class="docutils literal"><span class="pre">syncOnCommitDisable()</span></tt> to
-<tt class="docutils literal"><span class="pre">commitFileSyncDisable()</span></tt></li>
-<li>DBMaker: add <tt class="docutils literal"><span class="pre">newHeapDB()</span></tt> option, this store does not use
+<li>DBMaker: rename <code class="docutils literal"><span class="pre">syncOnCommitDisable()</span></code> to
+<code class="docutils literal"><span class="pre">commitFileSyncDisable()</span></code></li>
+<li>DBMaker: add <code class="docutils literal"><span class="pre">newHeapDB()</span></code> option, this store does not use
 serialization and is almost as fast as java collections</li>
 </ul>
 <p>Open problems:</p>
@@ -356,8 +370,8 @@ data corruption under concurrent access.</li>
 We no longer use overlapping ByteBuffers which were source of errors.</li>
 <li>Fix #297: BTreeMap modification listeners received wrong key. As
 result secondary collections could contain wrong data.</li>
-<li>Fix #300: <tt class="docutils literal"><span class="pre">Queue.offer()</span></tt> should return false, not throw an
-<tt class="docutils literal"><span class="pre">IllegalStateException()</span></tt>. Not really isssue since MapDB does not
+<li>Fix #300: <code class="docutils literal"><span class="pre">Queue.offer()</span></code> should return false, not throw an
+<code class="docutils literal"><span class="pre">IllegalStateException()</span></code>. Not really isssue since MapDB does not
 have queues with limited size yet.</li>
 <li>Engine: add close listener, to prevent NPE on shutdown in HTreeMap
 Cache</li>
@@ -370,8 +384,8 @@ slow sync and commits</li>
 incremental allocation.</li>
 <li>DBMaker: The &#8216;full chunk allocation&#8217; option was removed and is now on
 by default.</li>
-<li>DBMaker: method <tt class="docutils literal"><span class="pre">newDirectMemoryDB()</span></tt> replaced with
-<tt class="docutils literal"><span class="pre">newMemoryDirectDB()</span></tt></li>
+<li>DBMaker: method <code class="docutils literal"><span class="pre">newDirectMemoryDB()</span></code> replaced with
+<code class="docutils literal"><span class="pre">newMemoryDirectDB()</span></code></li>
 <li>Fun: Added Tuple5 and Tuple6 support</li>
 </ul>
 <p>Open problems:</p>
@@ -387,7 +401,7 @@ Unconfirmed and needs more investigation.</li>
 corruption with disabled transactions. Async-Writer queue is no longer
 unbounded to prevent memory leaks. In-memory cache is now much easier to
 use with memory size limit, checkout
-<tt class="docutils literal"><span class="pre">Map</span> <span class="pre">cache</span> <span class="pre">=</span> <span class="pre">DBMaker.newCache(sizeLimitInGB)</span></tt></p>
+<code class="docutils literal"><span class="pre">Map</span> <span class="pre">cache</span> <span class="pre">=</span> <span class="pre">DBMaker.newCache(sizeLimitInGB)</span></code></p>
 <p>Changes:</p>
 <ul class="simple">
 <li>Fix #261: SerializerPojo could cause data corruption with transaction
@@ -396,7 +410,7 @@ disabled.</li>
 <li>Fix #280: Check for parent folder when opening file db.</li>
 <li>Fix #288: syncOnCommitDisable() does not work at WAL</li>
 <li>Fix #276: In-memory cache based on HTreeMap now has memory size
-limit. Checkout <tt class="docutils literal"><span class="pre">Map</span> <span class="pre">cache</span> <span class="pre">=</span> <span class="pre">DBMaker.newCache(sizeLimitInGB)</span></tt></li>
+limit. Checkout <code class="docutils literal"><span class="pre">Map</span> <span class="pre">cache</span> <span class="pre">=</span> <span class="pre">DBMaker.newCache(sizeLimitInGB)</span></code></li>
 <li>Fix #282: DB.createXXX() does not throw exception if collection
 already exists.</li>
 <li>Fix #275: AsyncWrite fails with OOM error, Async Write Queue has now
@@ -458,9 +472,9 @@ public now.</li>
 <li>Pump between stores was postponed to 1.1 release. All methods are not
 public now.</li>
 <li>Random Access File is now default option. Memory Mapped Files can be
-enabled with <tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></tt></li>
+enabled with <code class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></code></li>
 <li>Refactor: Utils class removed</li>
-<li>Refactor: <tt class="docutils literal"><span class="pre">Bind.findValsX()</span></tt> renamed to <tt class="docutils literal"><span class="pre">Fun.filter()</span></tt></li>
+<li>Refactor: <code class="docutils literal"><span class="pre">Bind.findValsX()</span></code> renamed to <code class="docutils literal"><span class="pre">Fun.filter()</span></code></li>
 <li>StoreDirect and WAL format changes.</li>
 <li>Jar is now annotated as OSGIi bundle, some classloader fixes.</li>
 <li>StoreWAL commit speedup</li>
@@ -478,21 +492,21 @@ collection</li>
 <li>HTreeMap: use Hasher for collection hashes.</li>
 <li>Fix #232: POJO serialization broken on complex object graphs</li>
 <li>Fix #229: compression was not working.</li>
-<li><tt class="docutils literal"><span class="pre">DB.createTreeMap()</span></tt> and <tt class="docutils literal"><span class="pre">DB.createHashMap()</span></tt> now uses builder</li>
+<li><code class="docutils literal"><span class="pre">DB.createTreeMap()</span></code> and <code class="docutils literal"><span class="pre">DB.createHashMap()</span></code> now uses builder</li>
 </ul>
 </div>
 <div class="section" id="version-0-9-7-2013-10-28">
 <h2>Version 0.9.7 (2013-10-28)<a class="headerlink" href="#version-0-9-7-2013-10-28" title="Permalink to this headline">¶</a></h2>
 <p>Store format is not backward compatible. Fixed locking issues on
 Windows. Concurrent Transactions (TxMaker) reworked and finally fixed.
-Added <tt class="docutils literal"><span class="pre">DBMaker.fullChunkAllocationEnable()</span></tt> to enable disk space
+Added <code class="docutils literal"><span class="pre">DBMaker.fullChunkAllocationEnable()</span></code> to enable disk space
 allocation in 1GB chunks. In-memory store now can be compacted. Fixed
-race condition in <tt class="docutils literal"><span class="pre">BTreeMap.put()</span></tt>.</p>
+race condition in <code class="docutils literal"><span class="pre">BTreeMap.put()</span></code>.</p>
 <p>Changes:</p>
 <ul class="simple">
 <li>Rework integer/long serialization.</li>
-<li>Fix #214: Queues now implement <tt class="docutils literal"><span class="pre">BlockingQueue</span></tt> interface</li>
-<li>Refactor <tt class="docutils literal"><span class="pre">DBMaker</span></tt> so it uses properties. Easy to load/save config.</li>
+<li>Fix #214: Queues now implement <code class="docutils literal"><span class="pre">BlockingQueue</span></code> interface</li>
+<li>Refactor <code class="docutils literal"><span class="pre">DBMaker</span></code> so it uses properties. Easy to load/save config.</li>
 <li>TxMaker reworked, fixed concurrency issue.</li>
 <li>StoreDirect &amp; WAL use stricter locking.</li>
 <li>Fix #218 and #192, locking issues on Windows during compaction
@@ -518,8 +532,8 @@ race condition.</li>
 <li>Concurrent Transactions were broken and are now completely
 re-written.</li>
 <li>Snapshots are no longer enabled by default.
-<tt class="docutils literal"><span class="pre">DbMaker.snapshotDisable()</span></tt> replaced by
-<tt class="docutils literal"><span class="pre">DbMaker.snapshotEnable()</span></tt></li>
+<code class="docutils literal"><span class="pre">DbMaker.snapshotDisable()</span></code> replaced by
+<code class="docutils literal"><span class="pre">DbMaker.snapshotEnable()</span></code></li>
 <li>StoreDirect now has checksum which refuses to reopen incorrectly
 closed stores. In result stores created with 0.9.5- can not be open.</li>
 <li>Store now supports recid preallocation, this leads to faster insert.</li>
@@ -529,8 +543,8 @@ closed stores. In result stores created with 0.9.5- can not be open.</li>
 improvement</li>
 <li>StoreHeap rewritten. Now it has full transactions.</li>
 <li>Changes in locking to make it more robust and prevent deadlocks</li>
-<li>Java Assertions used instead of <tt class="docutils literal"><span class="pre">IllegalArgumentException</span></tt> and
-<tt class="docutils literal"><span class="pre">InternalError</span></tt>. Please use <tt class="docutils literal"><span class="pre">-ea</span></tt> JVM switch when running MapDB</li>
+<li>Java Assertions used instead of <code class="docutils literal"><span class="pre">IllegalArgumentException</span></code> and
+<code class="docutils literal"><span class="pre">InternalError</span></code>. Please use <code class="docutils literal"><span class="pre">-ea</span></code> JVM switch when running MapDB</li>
 <li>SerializerBase: various optimizations so methods fits into JIT limits</li>
 </ul>
 </div>
@@ -564,12 +578,12 @@ time.</li>
 <li>Reworked Serializer implementations</li>
 <li>Checksum, Compression and Encryption integrated into store, now much
 faster</li>
-<li>Add <tt class="docutils literal"><span class="pre">.sizeLong()</span></tt> into HTreeMap and BTreeMap.</li>
+<li>Add <code class="docutils literal"><span class="pre">.sizeLong()</span></code> into HTreeMap and BTreeMap.</li>
 <li>Fixed data corruption in HTreeMap</li>
 <li>Rewritten space reclaim algorithm</li>
 <li>Store now has maximal size limit</li>
-<li><tt class="docutils literal"><span class="pre">DBMaker.writeAheadLogDisable()</span></tt> renamed to
-<tt class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></tt></li>
+<li><code class="docutils literal"><span class="pre">DBMaker.writeAheadLogDisable()</span></code> renamed to
+<code class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></code></li>
 <li>TxMaker is now concurrent</li>
 <li>BTreeMap now supports descending maps</li>
 </ul>
@@ -590,8 +604,8 @@ Sileny</li>
 <li>FIX Issue #139 - rolled back TX should not throw exception on close.</li>
 <li>FIX Issue #135 - SerializerPojo registered classes problem. Credit
 Jan Sileny</li>
-<li>ADD <tt class="docutils literal"><span class="pre">DBMaker.syncOnCommitDisable()</span></tt> parameter</li>
-<li>ADD all stuff in <tt class="docutils literal"><span class="pre">DataIO.ByteArrayDataOutput</span></tt> and <tt class="docutils literal"><span class="pre">DataInput2</span></tt> is
+<li>ADD <code class="docutils literal"><span class="pre">DBMaker.syncOnCommitDisable()</span></code> parameter</li>
+<li>ADD all stuff in <code class="docutils literal"><span class="pre">DataIO.ByteArrayDataOutput</span></code> and <code class="docutils literal"><span class="pre">DataInput2</span></code> is
 public. It also extends In/OutputStream now.</li>
 </ul>
 </div>
@@ -610,7 +624,7 @@ readExternal methods)</li>
 transactions</li>
 <li>FIX Issue #125 - calling close twice failed.</li>
 <li>FIX race condition in HTreeMap</li>
-<li>ADD <tt class="docutils literal"><span class="pre">ByteBuffer</span></tt> now uses <tt class="docutils literal"><span class="pre">duplicate()</span></tt> instead of
+<li>ADD <code class="docutils literal"><span class="pre">ByteBuffer</span></code> now uses <code class="docutils literal"><span class="pre">duplicate()</span></code> instead of
 synchronization. Better concurrency</li>
 <li>ADD Issue #123 - Replace RandomAccessFile by FileChannel and improve
 performance on 32bit systems.</li>
@@ -620,7 +634,7 @@ performance on 32bit systems.</li>
 markdown</li>
 <li>ADD reuse DataOutput instances, performance improvement</li>
 <li>ADD datapump to create BTreeMap from large unsorted data set in
-linear time. Checkout <tt class="docutils literal"><span class="pre">Huge_Insert</span></tt> example</li>
+linear time. Checkout <code class="docutils literal"><span class="pre">Huge_Insert</span></code> example</li>
 <li>ADD improve AsyncWriteEngine performance by removing Write Queue</li>
 </ul>
 </div>
@@ -682,20 +696,26 @@ Upgrade!</li>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="credits.html" title="Credits"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="benchmarks.html" title="Benchmarks"
+             >previous</a> |</li>
         <li><a href="index.html">Home</a>&nbsp;|</li>
         <li><a href="contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

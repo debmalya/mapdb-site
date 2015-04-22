@@ -25,10 +25,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
     <link rel="up" title="MapDB documentation" href="index.html" />
-    <link rel="next" title="Durability and speed" href="durability-versus-speed.html" />
-    <link rel="prev" title="MapDB documentation" href="index.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="next" title="MapDB" href="overview.html" />
+    <link rel="prev" title="MapDB" href="foreword.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -77,7 +75,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -92,25 +90,25 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="durability-versus-speed.html" title="Durability and speed"
+          <a href="overview.html" title="MapDB"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="MapDB documentation"
+          <a href="foreword.html" title="MapDB"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -123,17 +121,19 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">MapDB documentation</a></p>
+  <p class="topless"><a href="foreword.html"
+                        title="previous chapter">MapDB</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="durability-versus-speed.html"
-                        title="next chapter">Durability and speed</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/getting-started.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">MapDB</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/getting-started.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -152,7 +152,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="getting-started">
 <h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
@@ -259,9 +259,9 @@ DBMaker.randomAccessFileEnable() configuration option to access files
 larger than 2GB. RAF introduces overhead compared to memory mapped
 files.</li>
 <li>MapDB does not run defrag on background. You need to call
-<tt class="docutils literal"><span class="pre">DB.compact()</span></tt> from time to time.</li>
-<li>MapDB uses unchecked exceptions. All <tt class="docutils literal"><span class="pre">IOException</span></tt> are wrapped into
-unchecked <tt class="docutils literal"><span class="pre">IOError</span></tt>. MapDB has weak error handling and assumes disk
+<code class="docutils literal"><span class="pre">DB.compact()</span></code> from time to time.</li>
+<li>MapDB uses unchecked exceptions. All <code class="docutils literal"><span class="pre">IOException</span></code> are wrapped into
+unchecked <code class="docutils literal"><span class="pre">IOError</span></code>. MapDB has weak error handling and assumes disk
 failure can not be recovered at runtime. However this does not
 affects data safety, if you use durable commits.</li>
 </ul>
@@ -274,27 +274,27 @@ affects data safety, if you use durable commits.</li>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="durability-versus-speed.html" title="Durability and speed"
+          <a href="overview.html" title="MapDB"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="MapDB documentation"
+          <a href="foreword.html" title="MapDB"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

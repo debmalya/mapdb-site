@@ -25,10 +25,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
     <link rel="up" title="MapDB documentation" href="index.html" />
-    <link rel="next" title="Transactions" href="db-and-dbmaker.html" />
-    <link rel="prev" title="Getting started" href="getting-started.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="next" title="DB and DBMaker" href="db-and-dbmaker.html" />
+    <link rel="prev" title="MapDB" href="overview.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -77,7 +75,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -92,25 +90,25 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="db-and-dbmaker.html" title="Transactions"
+          <a href="db-and-dbmaker.html" title="DB and DBMaker"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="getting-started.html" title="Getting started"
+          <a href="overview.html" title="MapDB"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -123,17 +121,19 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="getting-started.html"
-                        title="previous chapter">Getting started</a></p>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">MapDB</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="db-and-dbmaker.html"
-                        title="next chapter">Transactions</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/durability-versus-speed.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="next chapter">DB and DBMaker</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/durability-versus-speed.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -152,7 +152,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="durability-and-speed">
 <h1>Durability and speed<a class="headerlink" href="#durability-and-speed" title="Permalink to this headline">¶</a></h1>
@@ -169,7 +169,7 @@ reliable and simple, and is used by many databases such as Posgresql or
 Mysql.</p>
 <p>However WAL is slow, data has to be copied and synced multiple times.
 You may optionally disable WAL by disabling transactions:
-<tt class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></tt>. In this case you <strong>must</strong> correctly
+<code class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></code>. In this case you <strong>must</strong> correctly
 close store before JVM shutdown, or you loose all your data. You may
 also use shutdown hook to close database before JVM exits, however this
 does not protect your data if JVM crashes or is killed:</p>
@@ -189,10 +189,10 @@ no-transactions share the same storage format (except WAL) so one can
 import data very fast with transactions disabled. Once import is
 finished, store gets reopened with transactions enabled.</p>
 <p>With transactions disabled you loose rollback capability,
-<tt class="docutils literal"><span class="pre">db.rollback()</span></tt> will throw an exception. <tt class="docutils literal"><span class="pre">db.commit()</span></tt> will have
+<code class="docutils literal"><span class="pre">db.rollback()</span></code> will throw an exception. <code class="docutils literal"><span class="pre">db.commit()</span></code> will have
 nothing to commit (all data are already stored), so it does next best
 thing: Commit tries to flush all write caches and synchronizes storage
-files. So if you call <tt class="docutils literal"><span class="pre">db.commit()</span></tt> and do not make any more writes,
+files. So if you call <code class="docutils literal"><span class="pre">db.commit()</span></code> and do not make any more writes,
 your store should be safe (no data loss) in case of JVM crash.</p>
 </div>
 <div class="section" id="memory-mapped-files-mmap">
@@ -204,10 +204,10 @@ disk access mode called Random-Access-File (RAF).</p>
 <p>Mmap files are much faster compared to RAF. Exact speed bonus depends on
 operating system and disk case management, but is typically between 10%
 and 300%.</p>
-<p>Memory mapped files are activated with <tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></tt>
+<p>Memory mapped files are activated with <code class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></code>
 setting.</p>
 <p>One can also activate mmap files only if 64bit platform is detected:
-<tt class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></tt>.</p>
+<code class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></code>.</p>
 <p>Mmap files are highly dependent on operating system. For example on
 Windows you can not delete mmap file while it is locked by JVM. If
 Windows JVM dies without closing mmap file, you have to restart Windows
@@ -224,7 +224,7 @@ data.</p>
 <p>CRC32 checksum has to be calculated on each put/modify/get operation so
 this option has some performance overhead. Write-ahead-log uses CRC32
 checksum by default.</p>
-<p>Checksum is activated by this setting: <tt class="docutils literal"><span class="pre">DBMaker.checksumEnable()</span></tt>. It
+<p>Checksum is activated by this setting: <code class="docutils literal"><span class="pre">DBMaker.checksumEnable()</span></code>. It
 affect storage format, so once activate you always have to reopen store
 with this setting. Also checksum can not be latter activate once store
 was created without it.</p>
@@ -241,27 +241,27 @@ was created without it.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="db-and-dbmaker.html" title="Transactions"
+          <a href="db-and-dbmaker.html" title="DB and DBMaker"
              >next</a> |</li>
         <li class="right" >
-          <a href="getting-started.html" title="Getting started"
+          <a href="overview.html" title="MapDB"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

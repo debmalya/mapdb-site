@@ -25,10 +25,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
     <link rel="up" title="MapDB documentation" href="index.html" />
-    <link rel="next" title="Frequently Asked Questions" href="../faq.html" />
+    <link rel="next" title="Concurrency" href="concurrency.html" />
     <link rel="prev" title="Secondary Collections" href="secondary-collections.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -77,7 +75,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -92,14 +90,14 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../faq.html" title="Frequently Asked Questions"
+          <a href="concurrency.html" title="Concurrency"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="secondary-collections.html" title="Secondary Collections"
@@ -107,10 +105,10 @@
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -126,14 +124,16 @@
   <p class="topless"><a href="secondary-collections.html"
                         title="previous chapter">Secondary Collections</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../faq.html"
-                        title="next chapter">Frequently Asked Questions</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/transactions.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="concurrency.html"
+                        title="next chapter">Concurrency</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/transactions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -152,7 +152,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="transactions">
 <h1>Transactions<a class="headerlink" href="#transactions" title="Permalink to this headline">¶</a></h1>
@@ -174,7 +174,7 @@ conflict resolution.</p>
 best write performance. Changes are written directly to underlying
 files.</p>
 <p>This mode has zero crash protection. If you do not close your database
-correctly, your data are gone. You may also call <tt class="docutils literal"><span class="pre">db.commit()</span></tt> to
+correctly, your data are gone. You may also call <code class="docutils literal"><span class="pre">db.commit()</span></code> to
 flush and sync all changes into underlying files.</p>
 <p>This mode is generally recommended for cases where data can be
 reconstructed easily. For example initial imports, caches etc.</p>
@@ -201,7 +201,7 @@ protected by Write-Ahead-Log.</p>
 <p>In this case user has multiple transactions. Each has its own snapshots
 with serializable isolation and optimistic locking. It offers strongest
 consistency possible. Changes are held in memory. On commit MapDB checks
-for conflicts and commits or throws <tt class="docutils literal"><span class="pre">TxRollbackException</span></tt> and rollback
+for conflicts and commits or throws <code class="docutils literal"><span class="pre">TxRollbackException</span></code> and rollback
 changes.</p>
 <div class="code java highlight-python"><div class="highlight"><pre>    //Open Transaction Factory. DBMaker shares most options with single-transaction mode.
         TxMaker txMaker = DBMaker
@@ -245,14 +245,14 @@ changes.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../faq.html" title="Frequently Asked Questions"
+          <a href="concurrency.html" title="Concurrency"
              >next</a> |</li>
         <li class="right" >
           <a href="secondary-collections.html" title="Secondary Collections"
@@ -260,12 +260,12 @@ changes.</p>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

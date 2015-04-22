@@ -27,8 +27,6 @@
     <link rel="up" title="MapDB documentation" href="index.html" />
     <link rel="next" title="Transactions" href="transactions.html" />
     <link rel="prev" title="Queues" href="queues.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -77,7 +75,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -92,7 +90,7 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -107,10 +105,10 @@
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -127,12 +125,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="transactions.html"
                         title="next chapter">Transactions</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/secondary-collections.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/secondary-collections.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -151,7 +151,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="secondary-collections">
 <h1>Secondary Collections<a class="headerlink" href="#secondary-collections" title="Permalink to this headline">¶</a></h1>
@@ -206,8 +206,8 @@ closed.</p>
 <p>There are some best practices for Secondary Collections to handle this:</p>
 <ul class="simple">
 <li>Secondary Collections must be thread safe. Either use MapDB or
-<tt class="docutils literal"><span class="pre">java.util.concurrent.*</span></tt> collections. Other (but not optimal)
-option is to use <tt class="docutils literal"><span class="pre">Collections.synchronized*()</span></tt> wrappers.</li>
+<code class="docutils literal"><span class="pre">java.util.concurrent.*</span></code> collections. Other (but not optimal)
+option is to use <code class="docutils literal"><span class="pre">Collections.synchronized*()</span></code> wrappers.</li>
 <li>When using concurrent transactions, do not mix collections from
 multiple transactions. If primary gets rollback, secondary will not
 be updated if its not within the same transaction.</li>
@@ -229,7 +229,7 @@ way to pre-fill secondary collection (for example with data pump).</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -244,12 +244,12 @@ way to pre-fill secondary collection (for example with data pump).</p>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

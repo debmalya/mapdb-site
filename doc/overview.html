@@ -24,8 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="next" title="Durability and speed" href="durability-versus-speed.html" />
+    <link rel="prev" title="Getting started" href="getting-started.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -74,7 +75,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -89,18 +90,25 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="durability-versus-speed.html" title="Durability and speed"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
- 
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -115,12 +123,20 @@
 </li>
 </ul>
 
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/overview.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting-started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="durability-versus-speed.html"
+                        title="next chapter">Durability and speed</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/overview.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -139,7 +155,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="mapdb">
 <h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
@@ -147,7 +163,7 @@
 non traditional situations:</p>
 <blockquote>
 <div><ul class="simple">
-<li>in-memory performance is comparable to <tt class="docutils literal"><span class="pre">java.util</span></tt> collections, so it can be use used as drop-in replacement for those</li>
+<li>in-memory performance is comparable to <code class="docutils literal"><span class="pre">java.util</span></code> collections, so it can be use used as drop-in replacement for those</li>
 <li>one could use it as alternative memory model to Jave Heap and program business logic outside of limits imposed by Garbage Collections</li>
 <li>TODO streaming</li>
 <li>TODO data forklift</li>
@@ -164,13 +180,13 @@ TODO: BlockingDequeue with List implementation based on LinkedList?</p>
 <h3>BTreeMap and HTreeMap<a class="headerlink" href="#btreemap-and-htreemap" title="Permalink to this headline">¶</a></h3>
 <p>MapDB provides two index implementations: btree and hash tree. Both have distinctive features
 and excel in different scenarios.</p>
-<p><tt class="docutils literal"><span class="pre">BTreeMap</span></tt> provides TreeMap and TreeSet. It is excellent for huge collections with small keys.
+<p><code class="docutils literal"><span class="pre">BTreeMap</span></code> provides TreeMap and TreeSet. It is excellent for huge collections with small keys.
 It also has lock-free design, great for parallel updates on multi-core systems. It has wide range of
 compression options with almost zero overhead (delta, common prefix) to minimize data consumption.
-Compared to <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> it also has faster iteration and Data Pump streaming.</p>
-<p><tt class="docutils literal"><span class="pre">HTreeMap</span></tt> provides HashMap and HashSet. Unlike other hash based Map implementations it uses
+Compared to <code class="docutils literal"><span class="pre">HTreeMap</span></code> it also has faster iteration and Data Pump streaming.</p>
+<p><code class="docutils literal"><span class="pre">HTreeMap</span></code> provides HashMap and HashSet. Unlike other hash based Map implementations it uses
 auto-expanding hash table and  never performs rehashing to grow table.It works great with large keys.
-Also its better for entry removals compared to <tt class="docutils literal"><span class="pre">BTreeMap</span></tt>. Finally <tt class="docutils literal"><span class="pre">HTreeMap</span></tt> has various
+Also its better for entry removals compared to <code class="docutils literal"><span class="pre">BTreeMap</span></code>. Finally <code class="docutils literal"><span class="pre">HTreeMap</span></code> has various
 options for entry expiration based on maximal size, time to live, storage usage and so on.</p>
 </div>
 <div class="section" id="queues">
@@ -179,13 +195,13 @@ options for entry expiration based on maximal size, time to live, storage usage 
 </div>
 <div class="section" id="atomic-variables">
 <h3>Atomic variables<a class="headerlink" href="#atomic-variables" title="Permalink to this headline">¶</a></h3>
-<p>MapDB has atomic variables similar to <tt class="docutils literal"><span class="pre">java.util.concurrent.atomic</span></tt> package. Their state is stored in storage
+<p>MapDB has atomic variables similar to <code class="docutils literal"><span class="pre">java.util.concurrent.atomic</span></code> package. Their state is stored in storage
 and preserved between JVM restarts. They support compare-and-swap as expected, but also fully respect transactions.</p>
 <p>Atomic variables makes it very simple to write business logic completely stored in MapDB storage not affected
 by Garbage Collector overhead. Also they respect traditional java concurrency such as locks, CAS, semaphores etc.</p>
-<p>There is usual cohort of data types such as <tt class="docutils literal"><span class="pre">AtomicLong`s,</span> <span class="pre">`AtomicString``s</span> <span class="pre">etc.</span> <span class="pre">But</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">also</span>
-<span class="pre">``Atomic.Var</span></tt> which can store any class. Its content gets serialized and preserved in database. All it needs
-is correct <tt class="docutils literal"><span class="pre">equals</span></tt> method implementation for CAS and to be immutable.</p>
+<p>There is usual cohort of data types such as <code class="docutils literal"><span class="pre">AtomicLong`s,</span> <span class="pre">`AtomicString``s</span> <span class="pre">etc.</span> <span class="pre">But</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">also</span>
+<span class="pre">``Atomic.Var</span></code> which can store any class. Its content gets serialized and preserved in database. All it needs
+is correct <code class="docutils literal"><span class="pre">equals</span></code> method implementation for CAS and to be immutable.</p>
 <p>TODO links to chapters</p>
 </div>
 </div>
@@ -197,20 +213,27 @@ is correct <tt class="docutils literal"><span class="pre">equals</span></tt> met
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="durability-versus-speed.html" title="Durability and speed"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
- 
+
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

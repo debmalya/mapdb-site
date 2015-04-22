@@ -24,10 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="next" title="Getting started" href="getting-started.html" />
-    <link rel="prev" title="MapDB" href="../index.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="next" title="MapDB" href="foreword.html" />
+    <link rel="prev" title="Success Stories" href="../success.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -76,7 +74,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -91,37 +89,39 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="getting-started.html" title="Getting started"
+          <a href="foreword.html" title="MapDB"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="MapDB"
+          <a href="../success.html" title="Success Stories"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">MapDB</a></p>
+  <p class="topless"><a href="../success.html"
+                        title="previous chapter">Success Stories</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="getting-started.html"
-                        title="next chapter">Getting started</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/doc/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="foreword.html"
+                        title="next chapter">MapDB</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -140,16 +140,26 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="mapdb-documentation">
 <h1>MapDB documentation<a class="headerlink" href="#mapdb-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">MapDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#maven">Maven</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#hello-world">Hello World</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#what-you-should-know">What you should know</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">MapDB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#collections">Collections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#btreemap-and-htreemap">BTreeMap and HTreeMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#queues">Queues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html#atomic-variables">Atomic variables</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="durability-versus-speed.html">Durability and speed</a><ul>
@@ -158,7 +168,10 @@
 <li class="toctree-l2"><a class="reference internal" href="durability-versus-speed.html#crc32-checksums">CRC32 checksums</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="db-and-dbmaker.html">Transactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db-and-dbmaker.html">DB and DBMaker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="db-and-dbmaker.html#transactions">Transactions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="what-for.html">What for?</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="what-for.html#huge-on-disk-collections">Huge on-disk collections</a></li>
 <li class="toctree-l2"><a class="reference internal" href="what-for.html#in-memory-collections">In-memory collections</a></li>
@@ -177,9 +190,16 @@
 <li class="toctree-l2"><a class="reference internal" href="caches.html#cache-priority">Cache priority</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="btreemap.html">BTreeMap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="btreemap.html#performance">Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="btreemap.html#fragmention">Fragmention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="btreemap.html#compared-to-htreemap">Compared to HTreeMap</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="htreemap.html">HTreeMap</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="htreemap.html#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="htreemap.html#entry-expiration-parameters">Entry expiration parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="htreemap.html#concurrent-scalability">Concurrent scalability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="htreemap.html#compared-to-btreemap">Compared to BTreeMap</a></li>
 </ul>
 </li>
@@ -213,6 +233,58 @@
 <li class="toctree-l2"><a class="reference internal" href="transactions.html#concurrent-transactions">Concurrent transactions</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="concurrency.html">Concurrency</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concurrency.html#segment-locking">Segment locking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrency.html#collection-locking">Collection locking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrency.html#consistency-safety">Consistency safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrency.html#executors">Executors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="operations.html#backups">Backups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#incremental-backups">Incremental backups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#backup-under-commit-lock">Backup under commit lock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#backup-with-snapshots">Backup with snapshots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#full-export-into-text-file">Full export into text file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html#monitoring">Monitoring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#jmx">JMX</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html#compaction">Compaction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#record-fragmentation-and-average-free-record-size">Record fragmentation and average free record size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#btree-compaction">BTree compaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="operations.html#append-only-file-background-compaction">Append Only File background compaction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">Appendix: Storage formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="format.html#parity">Parity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="format.html#parity-1">Parity 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="format.html#storedirect">StoreDirect</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="format.html#head">Head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#index-page">Index page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#index-value">Index Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#linked-records">Linked records</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#long-stack">Long Stack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="format.html#write-ahead-log">Write Ahead Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="format.html#wal-lifecycle">WAL lifecycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#wal-file-format">WAL file format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="format.html#wal-instructions">WAL Instructions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="format.html#append-only-store">Append Only Store</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="format.html#instructions">Instructions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -223,26 +295,26 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="getting-started.html" title="Getting started"
+          <a href="foreword.html" title="MapDB"
              >next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="MapDB"
+          <a href="../success.html" title="Success Stories"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

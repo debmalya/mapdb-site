@@ -24,9 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="index.html" />
-    <link rel="prev" title="Transactions" href="doc/transactions.html" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
-          rel='stylesheet' type='text/css'>
+    <link rel="prev" title="Appendix: Storage formats" href="doc/format.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -75,7 +73,7 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 <div class="pageheader">
   <ul>
     <li><a href="index.html">Home</a></li>
@@ -90,21 +88,21 @@
   </div>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="doc/transactions.html" title="Transactions"
+          <a href="doc/format.html" title="Appendix: Storage formats"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">Home</a>&nbsp;|</li>
         <li><a href="contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -140,14 +138,16 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="doc/transactions.html"
-                        title="previous chapter">Transactions</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/faq.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="doc/format.html"
+                        title="previous chapter">Appendix: Storage formats</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/faq.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -166,7 +166,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="frequently-asked-questions">
 <h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
@@ -245,14 +245,14 @@ please always check root exception in the chain.</p>
 <p>MapDB can not map file into memory. Make sure you are using latest JVM
 (7+). This is common problem on Windows (use Linux). Workaround is to
 use RAF files (on by default) and disable memory mapped files
-(<tt class="docutils literal"><span class="pre">mmapFileEnable()</span></tt>)</p>
+(<code class="docutils literal"><span class="pre">mmapFileEnable()</span></code>)</p>
 </div>
 <div class="section" id="internalerror-error-assertionfailederror-illegalargumentexception-stackoverflowerror-and-so-on">
 <h3>InternalError, Error, AssertionFailedError, IllegalArgumentException, StackOverflowError and so on<a class="headerlink" href="#internalerror-error-assertionfailederror-illegalargumentexception-stackoverflowerror-and-so-on" title="Permalink to this headline">¶</a></h3>
 <p>There was an problem in MapDB. Maybe store was corrupted thanks to an
 internal error or disk failure. Disabling cache
-<tt class="docutils literal"><span class="pre">DBMaker.cacheDisable()</span></tt> or async writes
-<tt class="docutils literal"><span class="pre">DBMaker.asyncWriteDisable()</span></tt> may workaround the problem. Please
+<code class="docutils literal"><span class="pre">DBMaker.cacheDisable()</span></code> or async writes
+<code class="docutils literal"><span class="pre">DBMaker.asyncWriteDisable()</span></code> may workaround the problem. Please
 <a class="reference external" href="https://github.com/jankotek/MapDB/issues/new">create new bug report</a>
 with code to reproduce this issue.</p>
 </div>
@@ -261,16 +261,16 @@ with code to reproduce this issue.</p>
 <p>Your app is creating new object instances faster then GC can collect
 them. This assertion is triggered if Garbage Collection consumes 98% of
 all CPU time. Tune Instance Cache settings and optimize your
-serialization. You may also increase heap size by <tt class="docutils literal"><span class="pre">-Xmx3G</span></tt> switch.
+serialization. You may also increase heap size by <code class="docutils literal"><span class="pre">-Xmx3G</span></code> switch.
 Workaround is to disable this assertion by JVM switch
-<tt class="docutils literal"><span class="pre">-XX:-UseGCOverheadLimit</span></tt></p>
+<code class="docutils literal"><span class="pre">-XX:-UseGCOverheadLimit</span></code></p>
 </div>
 <div class="section" id="can-not-delete-or-rename-db-files-on-windows">
 <h3>Can not delete or rename db files on Windows<a class="headerlink" href="#can-not-delete-or-rename-db-files-on-windows" title="Permalink to this headline">¶</a></h3>
 <p>MapDB uses memory mapped files, Windows locks them exclusively and
 prevents deletion. Solution is to close MapDB properly before JVM exits.
 Make sure you have latest JVM. Disable memory mapped files of those are
-enabled (<tt class="docutils literal"><span class="pre">mmapFileEnable()</span></tt>) Also restarting Windows may help.</p>
+enabled (<code class="docutils literal"><span class="pre">mmapFileEnable()</span></code>) Also restarting Windows may help.</p>
 </div>
 <div class="section" id="computer-becomes-very-slow-during-db-writes">
 <h3>Computer becomes very slow during DB writes<a class="headerlink" href="#computer-becomes-very-slow-during-db-writes" title="Permalink to this headline">¶</a></h3>
@@ -280,13 +280,13 @@ Thread.sleep(1) into your code, or set lower thread priority.</p>
 <div class="section" id="file-locking-overlappingfilelockexception-some-ioerrors">
 <h3>File locking, OverlappingFileLockException, some IOErrors<a class="headerlink" href="#file-locking-overlappingfilelockexception-some-ioerrors" title="Permalink to this headline">¶</a></h3>
 <p>You are trying to open file already opened by another MapDB. Make sure
-that you <tt class="docutils literal"><span class="pre">DB.close()</span></tt> store correctly. Some operating systems
+that you <code class="docutils literal"><span class="pre">DB.close()</span></code> store correctly. Some operating systems
 (Windows) may leave file lock even after JVM is terminated. You may also
 try to open database in read-only mode.</p>
 </div>
 <div class="section" id="strange-behavior-in-collections">
 <h3>Strange behavior in collections<a class="headerlink" href="#strange-behavior-in-collections" title="Permalink to this headline">¶</a></h3>
-<p>Maps and Sets in MapDB should be drop-in replacement for <tt class="docutils literal"><span class="pre">java.util</span></tt>
+<p>Maps and Sets in MapDB should be drop-in replacement for <code class="docutils literal"><span class="pre">java.util</span></code>
 collections. So any significant difference is a bug. Please <a class="reference external" href="https://github.com/jankotek/MapDB/issues/new">create new
 bug report</a> with code
 to reproduce issue.</p>
@@ -308,23 +308,23 @@ can replicate and fix issues at light speed.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="doc/transactions.html" title="Transactions"
+          <a href="doc/format.html" title="Appendix: Storage formats"
              >previous</a> |</li>
         <li><a href="index.html">Home</a>&nbsp;|</li>
         <li><a href="contents.html">Documentation</a> &raquo;</li>
  
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, Jan Kotek.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
