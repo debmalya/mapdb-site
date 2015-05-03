@@ -117,6 +117,7 @@
 <li><a class="reference internal" href="#parity-1">Parity 1</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#feature-bitmap-header">Feature bitmap header</a></li>
 <li><a class="reference internal" href="#storedirect">StoreDirect</a><ul>
 <li><a class="reference internal" href="#head">Head</a></li>
 <li><a class="reference internal" href="#index-page">Index page</a></li>
@@ -189,6 +190,28 @@ lowest bit is than set so total number of non-zero bits is odd:</p>
 </div>
 <p>Methods: <code class="docutils literal"><span class="pre">DataIO.parity1set()</span></code> and <code class="docutils literal"><span class="pre">DataIO.parity1get()</span></code></p>
 </div>
+</div>
+<div class="section" id="feature-bitmap-header">
+<h2>Feature bitmap header<a class="headerlink" href="#feature-bitmap-header" title="Permalink to this headline">¶</a></h2>
+<p>Feature bitmap is 64bits stored in header. It indicates features storage was created with.
+Some of those affect storage format (compression, checksums) and must be enabled to make store readable.
+Some slots are not yet used and are reserved for future features. If such unknown bit is set,
+MapDB might refuse to open storage, with exception that never version should be used</p>
+<p>Currently used feature bits are:</p>
+<ol class="arabic simple">
+<li>LZW record compresson enabled</li>
+<li>XTEA record encryption enabled. User must supply password to open database.</li>
+<li>CRC32 record checksum enabled</li>
+<li>Store does not track free space. There might be unclaimed free space between records, this makes free space metrics invalid.</li>
+<li>Sharded engine. It means that name catalog or class catalog might not be present</li>
+<li>Created from backup. Storage was not created empty, but from existing database, as backup or from data pump</li>
+<li>External index table. Index table is not stored in this Volume (file), but somewhere outside, most likely in external file</li>
+<li>Compaction disabled. Some features might prevent compaction, for example StoreAppend in single file.</li>
+</ol>
+<p>9) Paranoid. Store was created by patched MapDB it added extra information to catch bugs and data corrupton.
+This store can not be opened with normal mapdb.</p>
+<p>10) Disable parity bit checks. Stor was created by patched MapDB. For extra performance some checksums were disabled.
+This store can not be opened with normal mapdb.</p>
 </div>
 <div class="section" id="storedirect">
 <h2>StoreDirect<a class="headerlink" href="#storedirect" title="Permalink to this headline">¶</a></h2>

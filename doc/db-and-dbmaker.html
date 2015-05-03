@@ -154,9 +154,9 @@
             
   <div class="section" id="db-and-dbmaker">
 <h1>DB and DBMaker<a class="headerlink" href="#db-and-dbmaker" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is set of loosely coupled components. One could wire classes such
-as <code class="docutils literal"><span class="pre">CacheMRU</span></code>, <code class="docutils literal"><span class="pre">StoreWAL</span></code> and <code class="docutils literal"><span class="pre">BTreeMap</span></code> manually, byt there are
-two factory classes to do it for you: <code class="docutils literal"><span class="pre">DBMaker</span></code> and <code class="docutils literal"><span class="pre">DB</span></code>. They use
+<p>MapDB is set of loosely coupled components. One could instantiate components
+manually with contructors and parameters. To make things easier there are
+two factory classes to do: <code class="docutils literal"><span class="pre">DBMaker</span></code> and <code class="docutils literal"><span class="pre">DB</span></code>. They use
 maker (builder) pattern, so most configuration options are quickly
 available via code assistant in IDE.</p>
 <p><a class="reference external" href="apidocs/org/mapdb/DBMaker.html">DBMaker</a> handles database
@@ -166,14 +166,14 @@ configuration options. Most of those can be set using this class.</p>
 transaction session). It creates and opens collections . It also handles
 transaction with methods such as <code class="docutils literal"><span class="pre">commit()</span></code>, <code class="docutils literal"><span class="pre">rollback()</span></code> and
 <code class="docutils literal"><span class="pre">close()</span></code>.</p>
-<p>To open (or create) store use one of <code class="docutils literal"><span class="pre">DBMaker.newXXX()</span></code> static
-methods. MapDB has more formats and modes, each <code class="docutils literal"><span class="pre">newXXX()</span></code> uses
-different: <code class="docutils literal"><span class="pre">newMemoryDB()</span></code> opens in-memory database backed by
-<code class="docutils literal"><span class="pre">byte[]</span></code>, <code class="docutils literal"><span class="pre">newAppendFileDB()</span></code> opens db which uses append-only log
+<p>To open (or create) store use one of <code class="docutils literal"><span class="pre">DBMaker.xxxDB()</span></code> static
+methods. MapDB has more formats and modes, each <code class="docutils literal"><span class="pre">xxxDB()</span></code> uses
+different mode: <code class="docutils literal"><span class="pre">memoryDB()</span></code> opens in-memory database backed by
+<code class="docutils literal"><span class="pre">byte[]</span></code>, <code class="docutils literal"><span class="pre">sppendFileDB()</span></code> opens db which uses append-only log
 files and so on.</p>
-<p><code class="docutils literal"><span class="pre">newXXX()</span></code> method is followed by configuration options and <code class="docutils literal"><span class="pre">make()</span></code>
-method which applyes all options and returns <code class="docutils literal"><span class="pre">DB</span></code> object. This example
-opens file storage with encryption enabled:</p>
+<p><code class="docutils literal"><span class="pre">xxxDB()</span></code> method is followed by configuration options and <code class="docutils literal"><span class="pre">make()</span></code>
+method which applyes all options, opens storage and returns <code class="docutils literal"><span class="pre">DB</span></code> object.
+This example opens file storage with encryption enabled:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
         <span class="o">.</span><span class="na">appendFileDB</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;/some/file&quot;</span><span class="o">))</span>
         <span class="o">.</span><span class="na">encryptionEnable</span><span class="o">(</span><span class="s">&quot;password&quot;</span><span class="o">)</span>
@@ -182,13 +182,15 @@ opens file storage with encryption enabled:</p>
 </div>
 <p>Once you have DB you may open collection or other record. DB has two
 types of factory methods:</p>
-<p><code class="docutils literal"><span class="pre">getXXX()</span></code> opens existing collection (or record). If collection with
-given name does not exist, it is silently created with default settings
-and returned. An example:</p>
+<p><code class="docutils literal"><span class="pre">xxx(String)</span></code> takes name and opens existing collection (or record)
+such as <code class="docutils literal"><span class="pre">treeMap(&quot;customers&quot;)</span></code>.
+If collection with given name does not exist,
+it is silently created with default settings and returned.
+An example:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">NavigableSet</span> <span class="n">treeSet</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">getTreeSet</span><span class="o">(</span><span class="s">&quot;treeSet&quot;</span><span class="o">);</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">createXXX()</span></code> creates new collection (or settings) with customized
+<p><code class="docutils literal"><span class="pre">xxxCreate(String)</span></code> takes name and creates new collection with customized
 settings. Specialized serializers, node size, entry compression and so
 on affect performance a lot and they are customizable here.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">Atomic</span><span class="o">.</span><span class="na">Var</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">var</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">atomicVarCreate</span><span class="o">(</span><span class="s">&quot;mainPerson&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span>  <span class="n">Person</span><span class="o">.</span><span class="na">SERIALIZER</span><span class="o">);</span>
@@ -196,7 +198,7 @@ on affect performance a lot and they are customizable here.</p>
 </div>
 <p>Some <code class="docutils literal"><span class="pre">create</span></code> method may use builder style configuration. In that case
 you may finish with two methods: <code class="docutils literal"><span class="pre">make()</span></code> creates new collection, if
-collection with given name already exists it throws an exception.
+collection with given name already exists, it throws an exception.
 <code class="docutils literal"><span class="pre">makerOrGet()</span></code> is same, except if collection already exist it does not
 fail, but returns existing collection.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">NavigableSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">treeSet</span> <span class="o">=</span> <span class="n">db</span>
@@ -226,8 +228,8 @@ fail, but returns existing collection.</p>
 <span class="n">db</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>One <code class="docutils literal"><span class="pre">DB</span></code> object represents single transactions. Examples above use
-single global transaction, which is sufficient for some usages. MapDB
+<p>One <code class="docutils literal"><span class="pre">DB</span></code> object represents single transactions. Example above use
+single global transaction per store, which is sufficient for some usages. MapDB
 support concurrent transactions as well with full serializable
 isolation, optimistic locking and MVCC snapshots. In that case we need
 one extra factory which creates transactions: <code class="docutils literal"><span class="pre">TxMaker</span></code>. We use
@@ -238,8 +240,9 @@ one extra factory which creates transactions: <code class="docutils literal"><sp
         <span class="o">.</span><span class="na">makeTxMaker</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>And <code class="docutils literal"><span class="pre">TxMaker</span></code> is than used to create multiple <code class="docutils literal"><span class="pre">DB</span></code> objects, each
-representing single transaction:</p>
+<p>Single <code class="docutils literal"><span class="pre">TxMaker</span></code> represents opened store. <code class="docutils literal"><span class="pre">TxMaker</span></code> is used to create multiple
+<code class="docutils literal"><span class="pre">DB</span></code> objects, each representing single transaction. In that case <code class="docutils literal"><span class="pre">DB.close()</span></code>
+closes one transaction, but  storage remains open by <code class="docutils literal"><span class="pre">TxMaker</span></code>:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">tx0</span> <span class="o">=</span> <span class="n">txMaker</span><span class="o">.</span><span class="na">makeTx</span><span class="o">();</span>
 <span class="n">Map</span> <span class="n">map0</span> <span class="o">=</span> <span class="n">tx0</span><span class="o">.</span><span class="na">treeMap</span><span class="o">(</span><span class="s">&quot;testMap&quot;</span><span class="o">);</span>
 <span class="n">map0</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="s">&quot;zero&quot;</span><span class="o">);</span>
@@ -261,9 +264,10 @@ representing single transaction:</p>
 <span class="n">tx1</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
 <span class="n">tx2</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
 <span class="c1">// second commit fails  with write conflict, both maps share single BTree node,</span>
-<span class="c1">// this does not happend on large maps with sufficent number of BTree nodes.</span>
+<span class="c1">// this does not happen on large maps with sufficient number of BTree nodes.</span>
 </pre></div>
 </div>
+<p>TODO snapshots and native snapshots</p>
 </div>
 </div>
 
