@@ -115,6 +115,7 @@
 <li><a class="reference internal" href="#">HTreeMap</a><ul>
 <li><a class="reference internal" href="#parameters">Parameters</a></li>
 <li><a class="reference internal" href="#entry-expiration-parameters">Entry expiration parameters</a></li>
+<li><a class="reference internal" href="#binding-and-overflow">Binding and overflow</a></li>
 <li><a class="reference internal" href="#concurrent-scalability">Concurrent scalability</a></li>
 <li><a class="reference internal" href="#compared-to-btreemap">Compared to BTreeMap</a></li>
 </ul>
@@ -212,9 +213,10 @@ This is done by using serializer wrapper:</p>
 However many classes do not implement those functions correctly, and inconsistent hashing is
 very bad for persistence, it could cause data loss.
 In default configuration HTreeMap uses generic key serializer and relies on those methods as well,
-however it throws an exception, if inconsitent hashing is detected. TODO exception name</p>
+however it throws an <code class="docutils literal"><span class="pre">IllegalArgumentException</span></code>, if inconsistent hashing is detected (for example <code class="docutils literal"><span class="pre">byte[]</span></code>
+is used without serializer).</p>
 <p>If specialized Key Serializer is defined, HTreeMap relies on it to provide hash code and equality check
-for keys. For example <code class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY</span></code> uses TODO link to <code class="docutils literal"><span class="pre">java.util.Arrays.hashCode(byte[])</span></code>.
+for keys. For example <code class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY</span></code> uses  <code class="docutils literal"><span class="pre">java.util.Arrays.hashCode(byte[])</span></code> to generate hash code.
 This way you can use primitive arrays directly as a key/value without a wrapper.
 Bypassing wrappers such as <code class="docutils literal"><span class="pre">String</span></code> improves performance:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
@@ -246,7 +248,7 @@ useful for various generators and caches.</p>
 </pre></div>
 </div>
 <p>or more readable version in Java 8:</p>
-<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String,Long&gt; map = db.createHashMap(&quot;map&quot;)
+<div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String,Long&gt; map = db.hashMapCreate(&quot;map&quot;)
         .valueCreator((key)-&gt; 1111L)
         .makeOrGet();
 
@@ -301,6 +303,134 @@ last access.</p>
 <p>TODO disk space limit has issues. Investigate how it works and document</p>
 <p>TODO expiration threads single and multithreaded.</p>
 </div>
+<div class="section" id="binding-and-overflow">
+<h2>Binding and overflow<a class="headerlink" href="#binding-and-overflow" title="Permalink to this headline">¶</a></h2>
+<p>Maps in MapDB supports call back notification on insert, update and removal.
+There is <code class="docutils literal"><span class="pre">Bind</span></code> class (TODO link to chapter) which links two collections together and keeps them synchronized.
+There are several ways to associate collections, it is described in separate chapter (TODO link).</p>
+<p>Specific for <code class="docutils literal"><span class="pre">HTreeMap</span></code> is expiration overflow. For cache one can keep most recently used
+entries in memory for faster access. After entry expires it is moved to slower storage on disk.</p>
+<p>To create overflow you need two maps. One on-disk and one in-memory. You bind them together with
+<code class="docutils literal"><span class="pre">.expireOverflow(onDisk,</span> <span class="pre">true)</span></code> parameter in builder:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">dbDisk</span> <span class="o">=</span> <span class="n">DBMaker</span>
+        <span class="o">.</span><span class="na">fileDB</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+
+<span class="n">DB</span> <span class="n">dbMemory</span> <span class="o">=</span> <span class="n">DBMaker</span>
+        <span class="o">.</span><span class="na">memoryDB</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+
+<span class="c1">// Big map populated with data expired from cache</span>
+<span class="n">HTreeMap</span> <span class="n">onDisk</span> <span class="o">=</span> <span class="n">dbDisk</span>
+        <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;onDisk&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+
+<span class="c1">// fast in-memory collection with limited size</span>
+<span class="n">HTreeMap</span> <span class="n">inMemory</span> <span class="o">=</span> <span class="n">dbMemory</span>
+        <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;inMemory&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expireAfterAccess</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+        <span class="c1">//this registers overflow to `onDisk`</span>
+        <span class="o">.</span><span class="na">expireOverflow</span><span class="o">(</span><span class="n">onDisk</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="c1">//good idea is to enable background expiration</span>
+        <span class="o">.</span><span class="na">executorEnable</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>Once binding is established, every entry removed from <code class="docutils literal"><span class="pre">inMemory</span></code> map will be added to <code class="docutils literal"><span class="pre">onDisk</span></code> map.
+This applies to expired entries, but also entries removed using <code class="docutils literal"><span class="pre">map.remove()</span></code> method.
+To completely remove entry from both maps one must first remove from <code class="docutils literal"><span class="pre">inMemory</span></code> then from <code class="docutils literal"><span class="pre">onDisk</span></code>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">//first remove from inMemory</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
+<span class="c1">//key will be moved to onDisk after deletion by modification listener, remove from onDisk</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> is called, one might expect null, and than check <code class="docutils literal"><span class="pre">onDisk</span></code>. However to make things simpler
+<code class="docutils literal"><span class="pre">inMemory</span></code> has value creator. So <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> returns values from both <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code>.
+If value is not found, it checks second map and adds its value into <code class="docutils literal"><span class="pre">inMemory</span></code>.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;one&quot;</span><span class="o">);</span>    <span class="c1">//onDisk has content, inMemory is empty</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>        <span class="c1">//&gt; 0</span>
+<span class="c1">// get method will not find value inMemory, and will get value from onDisk</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>        <span class="c1">//&gt; &quot;one&quot;</span>
+<span class="c1">// inMemory now caches result, it will latter expire and move to onDisk</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>        <span class="c1">//&gt; 1</span>
+</pre></div>
+</div>
+<p>Get and removal synchronizes two collections in cyclic way. Entry gets moved into <code class="docutils literal"><span class="pre">onDisk</span></code> when its deleted from <code class="docutils literal"><span class="pre">inMemory</span></code>.
+And <code class="docutils literal"><span class="pre">inMemory</span></code> gets populated from <code class="docutils literal"><span class="pre">onDisk</span></code> when get does find value. This creates consistency problem,
+which map is authoritative? Which contains the &#8216;real&#8217; data?</p>
+<p>MapDB offers three alternatives. Method <code class="docutils literal"><span class="pre">.expireOverflow(onDisk,</span> <span class="pre">true)</span></code> takes boolean parameter to control
+how expiration behaves. With <code class="docutils literal"><span class="pre">false</span></code> expiration uses <code class="docutils literal"><span class="pre">map.put(key,value)</span></code> to insert data to inDisk.
+With <code class="docutils literal"><span class="pre">true</span></code> it uses <code class="docutils literal"><span class="pre">map.putIfAbsent(key,value</span></code>, so no existing value gets overwritten.</p>
+<p>First option is <code class="docutils literal"><span class="pre">true</span></code>. It mean that <code class="docutils literal"><span class="pre">inMemory</span></code> is authoritative and <code class="docutils literal"><span class="pre">onDisk</span></code> content will get
+overwritten once data expires from memory and overflows to disk:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">inMemory</span> <span class="o">=</span> <span class="n">dbMemory</span>
+        <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;inMemory&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expireOverflow</span><span class="o">(</span><span class="n">onDisk</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span> <span class="c1">// &lt;&lt;&lt; true here</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+
+<span class="c1">//add two different entries</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;uno&quot;</span><span class="o">);</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;one&quot;</span><span class="o">);</span>
+<span class="c1">//simulate expiration by removing entry</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="c1">//data onDisk are overwritten, inMemory wins</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>      <span class="c1">//&gt; &quot;one&quot;</span>
+<span class="c1">// inMemory gets repopulated from onDisk</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>    <span class="c1">//&gt; &quot;one&quot;</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal"><span class="pre">false</span></code> the data added into <code class="docutils literal"><span class="pre">inMemory</span></code> are not considered authoritative. OnDisk content will never get
+overwritten. This also adds performance bonus on expiration if values are the same, since on-disk values
+are not overwritten by equal values.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">inMemory</span> <span class="o">=</span> <span class="n">dbMemory</span>
+        <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;inMemory&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expireOverflow</span><span class="o">(</span><span class="n">onDisk</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span> <span class="c1">// &lt;&lt;&lt; false here</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+
+<span class="c1">//add two different entries</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;uno&quot;</span><span class="o">);</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;one&quot;</span><span class="o">);</span>
+<span class="c1">//simulate expiration by removing entry</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="c1">//data onDisk are not overwritten, inMemory loses</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>      <span class="c1">//&gt; &quot;uno&quot;</span>
+<span class="c1">// inMemory gets repopulated from onDisk</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>    <span class="c1">//&gt; &quot;uno&quot;</span>
+
+<span class="c1">//add stuff to inMemory and expire it</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">&quot;two&quot;</span><span class="o">);</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+<span class="c1">//onDisk still gets updated, because it did not contained this key</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span> <span class="c1">//&gt; two</span>
+</pre></div>
+</div>
+<p>There is a question into which collection new data should be inserted. It depends how much you value your data.
+If it caches some external source (such as SQL), I would insert data into <code class="docutils literal"><span class="pre">inMemory</span></code> and let them hoover in air.
+In this case data might be inconsistent after crash/shutdown. It is better to drop cache content and
+repopulate it from primary store.</p>
+<p>If content of cache is valuable (is primary content, or too high cost to repopulate from SQL)
+one should insert data to <code class="docutils literal"><span class="pre">onDisk</span></code>.
+Disk store can be protected by transaction with periodic commit.
+In this case only small time interval of data would be lost.</p>
+<p>Inserts are simple, but updates create consistency problem. If key-value pair changes one collection might contain
+older value. So on updates it is recommended to update BOTH <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code> collections:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">//put value to on disk</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;one&quot;</span><span class="o">);</span>
+<span class="c1">//in memory gets updated from on disk, no problem here</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">//&gt; &quot;one&quot;</span>
+
+<span class="c1">//updating just one collection creates consistency problem</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;uno&quot;</span><span class="o">);</span>
+<span class="c1">//old content of inMemory has not expired yet</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">//&gt; &quot;one&quot;</span>
+
+<span class="c1">//one has to update both collections at the same time</span>
+<span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;uno&quot;</span><span class="o">);</span>
+<span class="n">inMemory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;uno&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="concurrent-scalability">
 <h2>Concurrent scalability<a class="headerlink" href="#concurrent-scalability" title="Permalink to this headline">¶</a></h2>
 <p>HTreeMap scales concurrently by using 16 separate segment, each with its own <code class="docutils literal"><span class="pre">ReadWriteLock</span></code>.
@@ -312,7 +442,13 @@ to 16 segments. TODO benchmarks.</p>
 <p>Trade off in this case is higher memory consumption. There are 16 different stores, each with its own
 memory allocator and unused blocks. TODO memory benchmarks.
 But each store can be compacted separately. TODO add compaction doc for this</p>
-<p>TODO example construct storage</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">DBMaker</span>
+       <span class="o">.</span><span class="na">hashMapSegmentedMemory</span><span class="o">()</span>
+       <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">valueSerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">BYTE_ARRAY</span><span class="o">)</span>
+       <span class="o">.</span><span class="na">make</span><span class="o">();</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="compared-to-btreemap">
 <h2>Compared to BTreeMap<a class="headerlink" href="#compared-to-btreemap" title="Permalink to this headline">¶</a></h2>
