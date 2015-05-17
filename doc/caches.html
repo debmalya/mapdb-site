@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
     <link rel="next" title="BTreeMap" href="btreemap.html" />
-    <link rel="prev" title="What for?" href="what-for.html" />
+    <link rel="prev" title="Durability and speed" href="durability-versus-speed.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -100,12 +100,12 @@
           <a href="btreemap.html" title="BTreeMap"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="what-for.html" title="What for?"
+          <a href="durability-versus-speed.html" title="Durability and speed"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -119,15 +119,15 @@
 <li><a class="reference internal" href="#soft-and-weak-reference-cache">Soft and Weak reference cache</a></li>
 <li><a class="reference internal" href="#disabled-cache-or-reduce-size">Disabled cache or reduce size</a></li>
 <li><a class="reference internal" href="#clear-cache">Clear cache</a></li>
-<li><a class="reference internal" href="#cache-hit-and-miss-statistics">Cache hit and miss statistics</a></li>
+<li><a class="reference internal" href="#cache-hit-and-miss-metrics">Cache hit and miss metrics</a></li>
 <li><a class="reference internal" href="#cache-priority">Cache priority</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="what-for.html"
-                        title="previous chapter">What for?</a></p>
+  <p class="topless"><a href="durability-versus-speed.html"
+                        title="previous chapter">Durability and speed</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="btreemap.html"
                         title="next chapter">BTreeMap</a></p>
@@ -161,22 +161,22 @@
             
   <div class="section" id="caches">
 <h1>Caches<a class="headerlink" href="#caches" title="Permalink to this headline">¶</a></h1>
-<p>MapDB has several options to cache deserialized objects. Proper cache
+<p>MapDB has several options to cache deserialized objects. A proper cache
 configuration is crucial for good performance of your application. Many
-performance problems can be fixed just by changing cache settings.</p>
-<p>Most dbs and old generation of MapDB (JDBM) use fixed size to cache read
-from disk. MapDB eliminated page layer, so it does not have regular
-cache. Instead it used memory mapped files and relies on operating
+performance problems can be fixed just by changing the cache settings.</p>
+<p>Most dbs and the old generation of MapDB (JDBM) use fixed size to cache read
+from the disk. MapDB eliminated the page layer, so it does not have regular
+cache. Instead it used memory mapped files and relies on the operating
 system to do disk caching.</p>
 <p>When we talk about cache in mapdb we mean <em>instance cache</em> .Instead of
-pages, MapDB caches deserialized objects such as tree nodes, <code class="docutils literal"><span class="pre">Long</span></code>,
+pages, MapDB caches deserialized objects, such as tree nodes, <code class="docutils literal"><span class="pre">Long</span></code>,
 <code class="docutils literal"><span class="pre">Person</span></code> and so on. Instance cache helps to minimize deserialization
 overhead. When you fetch an object twice, it will be deserialized only
-once, second time it will be fetched from cache.</p>
-<p>Because object instance may be stored in cache, yor data-model has to be
-immutable. On every modification you must create copy of object and
-persist new version. You also can not modify object fetched from db, an
-example:</p>
+once. The second time it will be fetched from cache.</p>
+<p>Because the object instance may be stored in cache, yor data-model has to be
+immutable. On every modification you must create a copy of the object and
+persist the new version. You also can not modify an object fetched from the db. An
+example of this is the following:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="c1">//wrong</span>
 <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">();</span>
 <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;John&quot;</span><span class="o">,</span> <span class="n">person</span><span class="o">);</span>
@@ -202,15 +202,15 @@ example:</p>
 <code class="docutils literal"><span class="pre">OutOfMemoryError</span></code> when used incorrectly.</p>
 <div class="section" id="hash-table-cache">
 <h2>Hash Table cache<a class="headerlink" href="#hash-table-cache" title="Permalink to this headline">¶</a></h2>
-<p>This cache is fixed size hash table (an array), where elements are
+<p>This cache is a fixed size hash table (an array), where elements are
 placed by recid hash. Old entries are evicted by hash collisions. It has
-almost zero performance overhead, but provides good results, so this
+almost zero performance overhead and it provides good results, so this
 cache is recommended.</p>
-<p>It does not have automatic entry eviction, so some records may remain in
-cache (on heap) for very long time. This cache should be used in
-combination with small records, there is no auto-removal and it could
-cause <code class="docutils literal"><span class="pre">OOME</span></code></p>
-<p>Default cache size is 2048 records, there is DBMaker parameter to
+<p>It does not have an automatic entry eviction, so some records may remain in
+cache (on heap) for a very long time. This cache should be used in
+combination with small records. As there is no auto-removal and it could
+cause OOME.</p>
+<p>Default cache size is 2048 records and there is a DBMaker parameter to
 regulate its size. This cache is on by default, so it does not need to
 be enabled in DBMaker. An example:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
@@ -223,18 +223,17 @@ be enabled in DBMaker. An example:</p>
 </div>
 <div class="section" id="least-recently-used-cache">
 <h2>Least-Recently-Used cache<a class="headerlink" href="#least-recently-used-cache" title="Permalink to this headline">¶</a></h2>
-<p>LRU cache keeps track when records are used, and if cache would grow
-beyond maximal size, it removes least recently used records. Compared to
-HashTable cache it has better hit statistics, but more overhead. There
+<p>LRU cache keeps track when records are used, and if cache grows
+beyond maximal size, it removes the least recently used records. Compared to
+HashTable, cache has better hit statistics, but more overhead. There
 is overhead associated with maintaining LRU queue. It is recommended to
-use this cache only if cost of deserialization cost is high and cache
-miss is serious problem.</p>
-<p>MRU queue is maintained on &#8216;best effort&#8217;, there are some shortcuts for
+use this cache only if the cost of the deserialization is high and the cache
+miss would be a serious problem.</p>
+<p>MRU queue is maintained on &#8216;best effort&#8217; and there are some shortcuts for
 better performance. So the actual cache size oscillates a few records
-around maximal size. Please consult <code class="docutils literal"><span class="pre">LongConcurrentLRUMap</span></code> source for
-example.</p>
-<p>This cache is activated by <code class="docutils literal"><span class="pre">cacheLRUEnable()</span></code> DBMaker parameter. You
-can also change maximal size, default size is 2048 records. An example:</p>
+around maximal size.</p>
+<p>This cache is activated by the <code class="docutils literal"><span class="pre">cacheLRUEnable()</span></code> DBMaker parameter. You
+can also change the maximal size. The default size is 2048 records. An example:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
         <span class="o">.</span><span class="na">memoryDB</span><span class="o">()</span>
 
@@ -250,12 +249,12 @@ can also change maximal size, default size is 2048 records. An example:</p>
 </div>
 <div class="section" id="hard-reference-cache">
 <h2>Hard reference cache<a class="headerlink" href="#hard-reference-cache" title="Permalink to this headline">¶</a></h2>
-<p>HardRef cache is unbounded cache which does not evict any of its
-entries. This cahce is practically <code class="docutils literal"><span class="pre">Map</span></code> of recids and records:
+<p>HardRef cache is an unbounded cache which does not evict any of its
+entries. This cache is practically a <code class="docutils literal"><span class="pre">Map</span></code> of recids and records:
 <code class="docutils literal"><span class="pre">HashMap&lt;recid,</span> <span class="pre">Record&gt;</span></code></p>
-<p>If store is larger than heap, it will get filled and eventually cause
+<p>If the store is larger than the heap, it will get filled and eventually cause
 <code class="docutils literal"><span class="pre">OOME</span></code> exception. It is great to get great performance from small
-stores. After cache is warmed, it offers read-only performance
+stores. After the cache is warmed, it offers read-only performance
 comparable to <code class="docutils literal"><span class="pre">java.util</span></code> collections.</p>
 <p>MapDB also has weak/soft reference caches, but GC has some serious
 overhead. So hard reference cache has lower overhead if there is enough
@@ -272,20 +271,20 @@ It does not have maximal size. An example:</p>
 </div>
 <p>TODO is this cache cleared if free memory is bellow threshold?</p>
 <p>No records are automatically removed from this cache. But you can still
-clear all records manually: <code class="docutils literal"><span class="pre">db.getEngine().clearCache();</span></code></p>
+clear all the records manually: <code class="docutils literal"><span class="pre">db.getEngine().clearCache();</span></code></p>
 </div>
 <div class="section" id="soft-and-weak-reference-cache">
 <h2>Soft and Weak reference cache<a class="headerlink" href="#soft-and-weak-reference-cache" title="Permalink to this headline">¶</a></h2>
-<p>Other option is to use weak or soft reference cache. In this cache
-garbage collector removes records from cache. This cache is practically
+<p>Another option is to use weak or soft reference cache.
+Garbage collector removes records from cache after they are GCed. This cache is practically a
 <code class="docutils literal"><span class="pre">Map</span></code> of recids and references to records:
 <code class="docutils literal"><span class="pre">HashMap&lt;recid,</span> <span class="pre">SoftRef&lt;Record&gt;&gt;</span></code>.</p>
-<p>Soft and Weak references differs by eagerness with which they are
-garbage collected. Weak reference should be GC immediately after all
-references are released. Soft reference should be only removed when free
-heap is low. However practical implications depends on JVM settings. For
+<p>Soft and Weak references differ by the eagerness with which they are
+garbage collected. Weak reference should be GCed immediately after all the
+references are released. Soft reference should be only removed when the free
+heap is low. However, the practical implications depend on JVM settings. For
 example you can still get <code class="docutils literal"><span class="pre">OutOfMemoryError</span></code> even with soft
-references.</p>
+references, if memory is not reclaimed fast enough.</p>
 <p>This caches are activated by <code class="docutils literal"><span class="pre">cacheWeakRefEnable()</span></code> and
 <code class="docutils literal"><span class="pre">cacheSoftRefEnable()</span></code> DBMaker parameters:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
@@ -305,24 +304,24 @@ references.</p>
 </div>
 <div class="section" id="disabled-cache-or-reduce-size">
 <h2>Disabled cache or reduce size<a class="headerlink" href="#disabled-cache-or-reduce-size" title="Permalink to this headline">¶</a></h2>
-<p>Instance cache is disabled by default. On small devices you may not want to
-disable it to save memory. On other side disabled cache hurts performance. So there are could be
+<p>Instance cache is disabled by default, it was causing memory problems on small devices.
+On the other hand a disabled cache hurts the performance. So there are could be
 better alternatives:</p>
-<p>First you could clear cache after every operation. Cache can be cleared using: <code class="docutils literal"><span class="pre">db.getEngine().clearCache()</span></code></p>
-<p>Other alternative is to reduce cache size. By default cache size is
-2048 records, probably too much for most Android phones:</p>
-<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
-    .newFileDB(file)        //or memory db
-    .cacheSize(128)         //optionally change cache size
-    .make()
+<p>First you could clear the cache after every operation. The cache can be cleared using: <code class="docutils literal"><span class="pre">db.getEngine().clearCache()</span></code></p>
+<p>Another alternative is to reduce the cache size. By default the cache size is
+2048 records (when enabled), probably too much for most Android phones:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+        <span class="o">.</span><span class="na">fileDB</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>      <span class="c1">//or memory db</span>
+        <span class="o">.</span><span class="na">cacheSize</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>    <span class="c1">//change cache size</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="clear-cache">
 <h2>Clear cache<a class="headerlink" href="#clear-cache" title="Permalink to this headline">¶</a></h2>
-<p>If you use MapDB in batch operations, you can reduce cache memory overhead,
-by clearing cache at end of batch each batch. If cache is empty, it gets faster
-populated by new content from new batch:</p>
+<p>If you use MapDB in batch operations, you can reduce the cache memory overhead,
+by clearing cache at the end of each batch. If the cache is empty, it gets faster
+populated by new content from a new batch:</p>
 <div class="code java highlight-python"><div class="highlight"><pre>//do some heavy stuff with mapdb:
 map.getAll...
 
@@ -334,10 +333,9 @@ save_my_files...
 </pre></div>
 </div>
 </div>
-<div class="section" id="cache-hit-and-miss-statistics">
-<h2>Cache hit and miss statistics<a class="headerlink" href="#cache-hit-and-miss-statistics" title="Permalink to this headline">¶</a></h2>
-<p>Right now MapDB does not offer hit/miss statistics for any cache. This
-feature requires a few lines of code and will be added soon.</p>
+<div class="section" id="cache-hit-and-miss-metrics">
+<h2>Cache hit and miss metrics<a class="headerlink" href="#cache-hit-and-miss-metrics" title="Permalink to this headline">¶</a></h2>
+<p>There is option to enable metrics in DBMaker. MapDB will log metrics periodically at info level if enabled.</p>
 <p>TODO cache hit/miss statistics.</p>
 </div>
 <div class="section" id="cache-priority">
@@ -367,12 +365,12 @@ nodes would not be cached. All it takes is a few
           <a href="btreemap.html" title="BTreeMap"
              >next</a> |</li>
         <li class="right" >
-          <a href="what-for.html" title="What for?"
+          <a href="durability-versus-speed.html" title="Durability and speed"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

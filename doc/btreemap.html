@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
     <link rel="next" title="HTreeMap" href="htreemap.html" />
     <link rel="prev" title="Caches" href="caches.html" />
  
@@ -105,7 +105,7 @@
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -113,8 +113,11 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">BTreeMap</a><ul>
-<li><a class="reference internal" href="#performance">Performance</a></li>
-<li><a class="reference internal" href="#fragmention">Fragmention</a></li>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#key-serializers">Key serializers</a></li>
+<li><a class="reference internal" href="#data-pump">Data Pump</a></li>
+<li><a class="reference internal" href="#fragmentation">Fragmentation</a></li>
+<li><a class="reference internal" href="#composite-keys-and-multimaps">Composite keys and multimaps</a></li>
 <li><a class="reference internal" href="#compared-to-htreemap">Compared to HTreeMap</a></li>
 </ul>
 </li>
@@ -160,30 +163,117 @@
 It offers great performance for small keys and has good vertical scalability.</p>
 <p>TODO explain compressions</p>
 <p>TODO describe B-Linked-Tree</p>
-<div class="section" id="performance">
-<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
-<p>BTrees in general are affected by node size and number of directory levels. Larger node means shallow tree,
-and faster lookups, but slower updates. In MapDB you should adjust node size with average key size</p>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>BTreeMap has optional parameters which can be specified by using maker.:</p>
+<p>The most important among them are <strong>serializers</strong>. General serialization has
+some guessing and overhead, so better performance is always achieved if
+more specific serializers are  used. To specify the key and value serializer, use the code
+bellow. There are dozens ready to use serializers available as static
+fields on <code class="docutils literal"><span class="pre">Serializer</span></code> interface:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">LONG</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">valueSerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
 </div>
-<div class="section" id="fragmention">
-<h2>Fragmention<a class="headerlink" href="#fragmention" title="Permalink to this headline">¶</a></h2>
-<p>Trade-off for lock-free design is fragmentation after deletion. B-Linked-Tree does not delete btree nodes after
-entry removal, once they become empty. If you fill BTreeMap and than remove all entries, about 40% of space will not
-be released. Value updates (keys are kept) is not affected by this fragmentation.</p>
-<p>This fragmentation is at different than storage fragmentation, so <code class="docutils literal"><span class="pre">DB.compact()</span></code> will not help.
-Solution is to move all content into new <code class="docutils literal"><span class="pre">BTreeMap</span></code>. Its very fast with Data Pump streaming,
+<p>Another usefull parameter is <strong>size counter</strong>. By default, a BTreeMap does not keep
+track of its size and calling <code class="docutils literal"><span class="pre">map.size()</span></code> requires linear scan to count
+all entries. If you enable size counter, in that case
+<code class="docutils literal"><span class="pre">map.size()</span></code> is instant, but there is some overhead on inserts.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">counterEnable</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>BTrees store all their keys and values as part of a btree node. The node size affects performance a lot.
+A large node means that many keys have to be deserialized on lookup.
+A smaller node loads faster, but makes large BTrees deeper and requires more operations.
+The default maximal node size is 32 entries and it can be changed in this way:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">nodeSize</span><span class="o">(</span><span class="mi">64</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>Values are also stored as part of BTree leaf nodes. Large values means huge overhead and
+on single <code class="docutils literal"><span class="pre">map.get(&quot;key&quot;)</span></code> 32 values are deserialized, but only a single value returned. In this
+case, it is better to store the values outside the leaf node, in a separate record. In this case leaf node
+only has a 6 byte recid pointing to the value.</p>
+<p>Large values can also possible be compressed to save space. This example stores places
+node outside BTree leaf nodes and applies compression on each value:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">valuesOutsideNodesEnable</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">valueSerializer</span><span class="o">(</span><span class="k">new</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">CompressionWrapper</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">STRING</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>BTreeMap needs to sort its key somehow. By default it relies on <code class="docutils literal"><span class="pre">Comparable</span></code> interface implemented by most Java classes.
+In case this interface is not implemented, a key serializer must be provided. One can for example compare Object arrays:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="c1">// use array serializer for unknown objects</span>
+        <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="k">new</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">Array</span><span class="o">(</span><span class="n">db</span><span class="o">.</span><span class="na">getDefaultSerializer</span><span class="o">()))</span>
+        <span class="c1">// or use serializer for specific objects such as String</span>
+        <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="k">new</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">Array</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">STRING</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>Also primitive arrays can be used as keys. One can replace <code class="docutils literal"><span class="pre">String</span></code> by <code class="docutils literal"><span class="pre">byte[]</span></code>,which directly leads to better
+performance:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">treeMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">BYTE_ARRAY</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="key-serializers">
+<h2>Key serializers<a class="headerlink" href="#key-serializers" title="Permalink to this headline">¶</a></h2>
+<p>BTreeMap owns its performance to the way it handles keys. Lets illustrate this on an example with <code class="docutils literal"><span class="pre">Long</span></code> keys.</p>
+<p>A long key occupies 8 bytes after serialization. To minimize space usage one could pack this value to make it smaller.
+So the number 10 will occupy a single byte, 300 will take 2 bytes, 10000 three bytes etc. To make keys even more
+packable, we need to store them in even smaller values. The keys are sorted, so lets use delta compression.
+This will store the first value in full form and then only the differences between consecutive numbers.</p>
+<p>Another improvement is to make the deserialization faster. In normal <code class="docutils literal"><span class="pre">TreeMap</span></code> keys are stored in wrapped form, such as
+<code class="docutils literal"><span class="pre">Long[]</span></code>. That has a huge overhead, as each key requires new pointer, class header... BTreeMap will store keys in primitive
+array <code class="docutils literal"><span class="pre">long[]</span></code>. And finally if keys are small enough it can even fit into <code class="docutils literal"><span class="pre">int[]</span></code>.
+And because an array has better memory locality, there is a huge performance increase on binary searches.</p>
+<p>It is simple to do such optimisation for numbers. But BTreeMap also applies that on other keys, such as <code class="docutils literal"><span class="pre">String</span></code>
+(common prefix compression,single <code class="docutils literal"><span class="pre">byte[]</span></code> with offsets), <code class="docutils literal"><span class="pre">byte[]</span></code>, <code class="docutils literal"><span class="pre">UUID</span></code>, <code class="docutils literal"><span class="pre">Date</span></code> etc.</p>
+<p>This sort of optimization is used automatically. All you have to do is provide the specialized key serializer:
+<code class="docutils literal"><span class="pre">.keySerializer(Serializer.LONG)</span></code>.</p>
+<p>There are several options and implementations to pack keys. Have a look at
+<a class="reference external" href="http://www.mapdb.org/apidocs/org/mapdb/BTreeKeySerializer.html">BTreeKeySerializer</a> for more details.</p>
+<p>TODO this is major feature, document details and add benchmarks</p>
+</div>
+<div class="section" id="data-pump">
+<h2>Data Pump<a class="headerlink" href="#data-pump" title="Permalink to this headline">¶</a></h2>
+<p>TODO data pump</p>
+</div>
+<div class="section" id="fragmentation">
+<h2>Fragmentation<a class="headerlink" href="#fragmentation" title="Permalink to this headline">¶</a></h2>
+<p>A trade-off for lock-free design is fragmentation after deletion. The B-Linked-Tree does not delete btree nodes after
+entry removal, once they become empty. If you fill a BTreeMap and then remove all entries, about 40% of space will not
+be released. Any value updates (keys are kept) are not affected by this fragmentation.</p>
+<p>This fragmentation is different from storage fragmentation, so <code class="docutils literal"><span class="pre">DB.compact()</span></code> will not help.
+A solution is to move all content into a new <code class="docutils literal"><span class="pre">BTreeMap</span></code>. As it is very fast with Data Pump streaming,
 new Map will have zero fragmentation and better node locality (in theory disk cache friendly).</p>
 <p>TODO provide utils to move BTreeMap content
 TODO provide statistics to calculate BTreeMap fragmentation</p>
-<p>In future we will provide BTreeMap wrapper which will do this compaction automatically. It will use three collections:
-First <code class="docutils literal"><span class="pre">BTreeMap</span></code> will be read-only and contain data. Second small map will contain updates. Periodically third map
-will be produced as merge of first two, and swapped with primary.
-<code class="docutils literal"><span class="pre">SSTable</span></code>&#8216;s in Cassandra and other databases works similar way.</p>
+<p>In the future, we will provide BTreeMap wrapper, which will do this compaction automatically. It will use three collections:
+the first <code class="docutils literal"><span class="pre">BTreeMap</span></code> will be read-only and will also contain the data. The econd small map will contain updates. Periodically a third map
+will be produced as a merge of first two, and will be swapped with the primary.
+<code class="docutils literal"><span class="pre">SSTable</span></code>&#8216;s in Cassandra and other databases works in a similar way.</p>
 <p>TODO provide wrapper to compact/merge BTreeMap content automatically.</p>
+</div>
+<div class="section" id="composite-keys-and-multimaps">
+<h2>Composite keys and multimaps<a class="headerlink" href="#composite-keys-and-multimaps" title="Permalink to this headline">¶</a></h2>
+<p>MapDB 1.0 had tuples that were replaced in 2.0 with <code class="docutils literal"><span class="pre">Object[]</span></code>.</p>
+<p>TODO composite keys</p>
+<p>TODO multimap</p>
 </div>
 <div class="section" id="compared-to-htreemap">
 <h2>Compared to HTreeMap<a class="headerlink" href="#compared-to-htreemap" title="Permalink to this headline">¶</a></h2>
-<p>TODO create separate page about collections in MapDB</p>
+<p>BTreeMap is better for smaller keys, such as numbers and short strings.</p>
+<p>TODO compare to HTreeMap</p>
 </div>
 </div>
 
@@ -208,7 +298,7 @@ will be produced as merge of first two, and swapped with primary.
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

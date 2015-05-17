@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
-    <link rel="next" title="MapDB internals" href="internals.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
+    <link rel="next" title="Secondary Collections" href="secondary-collections.html" />
     <link rel="prev" title="BTreeMap" href="btreemap.html" />
  
     <style type="text/css">
@@ -97,7 +97,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="internals.html" title="MapDB internals"
+          <a href="secondary-collections.html" title="Secondary Collections"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="btreemap.html" title="BTreeMap"
@@ -105,7 +105,7 @@
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -126,8 +126,8 @@
   <p class="topless"><a href="btreemap.html"
                         title="previous chapter">BTreeMap</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="internals.html"
-                        title="next chapter">MapDB internals</a></p>
+  <p class="topless"><a href="secondary-collections.html"
+                        title="next chapter">Secondary Collections</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -159,36 +159,36 @@
   <div class="section" id="htreemap">
 <h1>HTreeMap<a class="headerlink" href="#htreemap" title="Permalink to this headline">¶</a></h1>
 <p>HTreeMap provides <code class="docutils literal"><span class="pre">HashMap</span></code> and <code class="docutils literal"><span class="pre">HashSet</span></code>.
-It has great performance with large keys.
-It also offers entry expiration based on size or time-to-live</p>
-<p>HTreeMap is <em>segmented Hash Tree</em>. Most hash collections use hash table based in fixed size array,
+It has a great performance with large keys.
+It also offers entry expiration based on the size or time-to-live</p>
+<p>HTreeMap is a <em>segmented Hash Tree</em>. Most hash collections use hash table based in fixed size array and
 when it becomes full, all data has to be moved and rehashed into
-new bigger table. HTreeMap uses auto-expandind Hash Treestructure, so it never needs resizing.
+a new, bigger table. HTreeMap uses auto-expandind Hash Treestructure, so it never needs resizing.
 It also occupies less space, since empty hash slots do not consume any space.
-On other side tree structure requries more seeks and is slower on access.
-Its performance degrades with size, but maximal has dir node size is 255,
+On the other hand, the tree structure requires more seeks and is slower on access.
+Its performance degrades with size, but the maximal dir node size is 128,
 so degradation is very small.
 TODO performance degradation depending on size. Probably  log N.</p>
-<p>To achieve parallel scalability HTreeMap is split into 16  segments,
-each with separate read-write lock. <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> in JDK 7 works similar
-way. Number of segments (also called concurrency scale) is hard wired
-into design and can not be changed.
-Because all segments share underlying storage, concurrent scalability is not perfect.
-Other option is to create each segment with separate storage.</p>
+<p>To achieve parallel scalability, HTreeMap is split into 16  segments,
+each with a separate read-write lock. <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> in JDK 7 works in a similar
+way. The number of segments (also called concurrency scale) is hard wired
+into design and cannot be changed.
+Because all segments share an underlying storage, concurrent scalability is not perfect.
+Another option is to create each segment with separate storage.</p>
 <p>HTreeMap optionally supports entry expiration based on four criteria:
 maximal map size, time-to-live since last modification and time-to-live
 since last access. Expired entries are automatically removed. This
-feature uses FIFO queue, each segment has independent expiration queue.
-Priority per entry can not be set.</p>
+feature uses FIFO queue and each segment has independent expiration queue.
+Priority per entry cannot be set.</p>
 <div class="section" id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p>HTreeMap has number of parameters to tune its performance. Number of
-segments (aka concurrency factor) is hard-coded to16 and can not be
-changed. Other params can be set only when map is created and can not be
+<p>HTreeMap has a number of parameters to tune its performance. The number of
+segments (aka concurrency factor) is hard-coded to 16 and cannot be
+changed. Other params can be set only when the map is created and cannot be
 changed latter.</p>
-<p>Most important are probably <strong>serializers</strong>. General serialization has
-some guessing and overhead, so it always has better performance to use
-more specific serializers. To specify key and value serializer use code
+<p>The most important are <strong>serializers</strong>. General serialization has
+some guessing and overhead, so it always has better performance if
+more specific serializers are used. To specify a key and value serializer, use the code
 bellow. There are dozens ready to use serializers available as static
 fields on <code class="docutils literal"><span class="pre">Serializer</span></code> interface:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
@@ -199,34 +199,32 @@ fields on <code class="docutils literal"><span class="pre">Serializer</span></co
 </div>
 <p>HTreeMap is recommended for handling large key/values. In same cases you
 may want to use compression. Enabling compression store-wide is not
-always best, since constantly (de)compressing index tree has overhead.
-Instead it is better to apply compression just to specific serializer on key or value.
+always the best option, since a constantly (de)compressing index tree has overhead.
+Instead, it is better to apply compression just to a specific serializer on key or value.
 This is done by using serializer wrapper:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">valueSerializer</span><span class="o">(</span><span class="k">new</span> <span class="n">Serializer</span><span class="o">.</span><span class="na">CompressionWrapper</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">STRING</span><span class="o">))</span>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
-
-<span class="c1">//TODO add Serializer.compressed() method?</span>
 </pre></div>
 </div>
 <p>Most hash maps uses 32bit hash generated by <code class="docutils literal"><span class="pre">Object.hashCode()</span></code> and check equality with <code class="docutils literal"><span class="pre">Object.equals(other)</span></code>.
 However many classes do not implement those functions correctly, and inconsistent hashing is
-very bad for persistence, it could cause data loss.
-In default configuration HTreeMap uses generic key serializer and relies on those methods as well,
-however it throws an <code class="docutils literal"><span class="pre">IllegalArgumentException</span></code>, if inconsistent hashing is detected (for example <code class="docutils literal"><span class="pre">byte[]</span></code>
+very bad for persistence, as it could cause data loss.
+By default, configuration HTreeMap uses a generic key serializer and relies on those methods as well.
+However, it throws an <code class="docutils literal"><span class="pre">IllegalArgumentException</span></code> if inconsistent hashing is detected (for example <code class="docutils literal"><span class="pre">byte[]</span></code>
 is used without serializer).</p>
-<p>If specialized Key Serializer is defined, HTreeMap relies on it to provide hash code and equality check
+<p>If the specialized Key Serializer is defined, HTreeMap relies on it to provide hash code and equality check
 for keys. For example <code class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY</span></code> uses  <code class="docutils literal"><span class="pre">java.util.Arrays.hashCode(byte[])</span></code> to generate hash code.
 This way you can use primitive arrays directly as a key/value without a wrapper.
-Bypassing wrappers such as <code class="docutils literal"><span class="pre">String</span></code> improves performance:</p>
+Bypassing wrappers such as <code class="docutils literal"><span class="pre">String</span></code>, improves performance:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">keySerializer</span><span class="o">(</span><span class="n">Serializer</span><span class="o">.</span><span class="na">BYTE_ARRAY</span><span class="o">)</span>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>Other parameter is <strong>size counter</strong>. By default HTreeMap does not keep
-track of its size, calling <code class="docutils literal"><span class="pre">map.size()</span></code> requires linear scan to count
-all entries. You can enable size counter, in that case
+<p>Another parameter is the <strong>size counter</strong>. By default HTreeMap does not keep
+track of its size and calling <code class="docutils literal"><span class="pre">map.size()</span></code> requires a linear scan to count
+all entries. You can enable size counter and in that case
 <code class="docutils literal"><span class="pre">map.size()</span></code> is instant, but there is some overhead on inserts.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">counterEnable</span><span class="o">()</span>
@@ -234,8 +232,8 @@ all entries. You can enable size counter, in that case
 </pre></div>
 </div>
 <p>And finally some sugar. There is <strong>value creator</strong>, a function to create
-value if existing value is not found. Newly created value is inserted
-into map. This way <code class="docutils literal"><span class="pre">map.get(key)</span></code> never returns null. This is mainly
+a value if the existing value is not found. A newly created value is inserted
+into the map. This way <code class="docutils literal"><span class="pre">map.get(key)</span></code> never returns null. This is mainly
 useful for various generators and caches.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;map&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">valueCreator</span><span class="o">(</span><span class="k">new</span> <span class="n">Fun</span><span class="o">.</span><span class="na">Function1</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
@@ -247,7 +245,7 @@ useful for various generators and caches.</p>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>or more readable version in Java 8:</p>
+<p>Or a more readable version in Java 8:</p>
 <div class="code java highlight-python"><div class="highlight"><pre>HTreeMap&lt;String,Long&gt; map = db.hashMapCreate(&quot;map&quot;)
         .valueCreator((key)-&gt; 1111L)
         .makeOrGet();
@@ -265,13 +263,13 @@ map.get(&quot;bb&quot;); // 1111L
 <p><code class="docutils literal"><span class="pre">HTreeMap</span></code> offers optional entry expiration if some conditions are
 met. Entry can expire if:</p>
 <ul class="simple">
-<li>Number of entries in map would exceed maximal size</li>
-<li>Entry exist in map longer time than expiration period is. The
-expiration period could be since last modification or since last read
+<li>The number of entries in a map would exceed the maximal size</li>
+<li>An entry exists in the map longer time than the expiration period is. The
+expiration period could be since the last modification or since the last read
 access.</li>
 <li>Disk/memory space consumed by Map is bigger then some limit in GB.</li>
 </ul>
-<p>There is shortcut in <code class="docutils literal"><span class="pre">DBMaker</span></code> to quickly use <code class="docutils literal"><span class="pre">HTreeMap</span></code> as off-heap
+<p>There is a shortcut in <code class="docutils literal"><span class="pre">DBMaker</span></code> to quickly use <code class="docutils literal"><span class="pre">HTreeMap</span></code> as an off-heap
 cache with memory size limit:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="c1">// Off-heap map with max size 16GB</span>
 <span class="n">Map</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">DBMaker</span>
@@ -284,14 +282,14 @@ cache with memory size limit:</p>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>It is also possible to limit maximal size of map:</p>
+<p>It is also possible to limit the maximal size of a map:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;cache&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">expireMaxSize</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>And finally you can set expiration time since last modification or since
-last access.</p>
+<p>And finally you can set an expiration time since the last modification or since
+the last access.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="c1">// remove entries 1H after their last modification, or 10 minutes after last get()</span>
 <span class="n">HTreeMap</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;cache&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">expireAfterAccess</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">)</span>
@@ -305,12 +303,12 @@ last access.</p>
 </div>
 <div class="section" id="binding-and-overflow">
 <h2>Binding and overflow<a class="headerlink" href="#binding-and-overflow" title="Permalink to this headline">¶</a></h2>
-<p>Maps in MapDB supports call back notification on insert, update and removal.
-There is <code class="docutils literal"><span class="pre">Bind</span></code> class (TODO link to chapter) which links two collections together and keeps them synchronized.
-There are several ways to associate collections, it is described in separate chapter (TODO link).</p>
-<p>Specific for <code class="docutils literal"><span class="pre">HTreeMap</span></code> is expiration overflow. For cache one can keep most recently used
-entries in memory for faster access. After entry expires it is moved to slower storage on disk.</p>
-<p>To create overflow you need two maps. One on-disk and one in-memory. You bind them together with
+<p>Maps in MapDB support call back notification on insert, update and removal.
+There is <code class="docutils literal"><span class="pre">Bind</span></code> class (TODO link to chapter), which links two collections together and keeps them synchronized.
+There are several ways to associate collections but this is described in a separate chapter (TODO link).</p>
+<p>Specific for <code class="docutils literal"><span class="pre">HTreeMap</span></code> is the expiration overflow. It is possible tokeep the most recently used
+entries in memory for faster access. After the entry expires, it is moved to a slower storage on disk.</p>
+<p>To create overflow you need two maps. One on-disk and one in-memory. You bind them together with the
 <code class="docutils literal"><span class="pre">.expireOverflow(onDisk,</span> <span class="pre">true)</span></code> parameter in builder:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">dbDisk</span> <span class="o">=</span> <span class="n">DBMaker</span>
         <span class="o">.</span><span class="na">fileDB</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>
@@ -337,17 +335,17 @@ entries in memory for faster access. After entry expires it is moved to slower s
 </pre></div>
 </div>
 <p>Once binding is established, every entry removed from <code class="docutils literal"><span class="pre">inMemory</span></code> map will be added to <code class="docutils literal"><span class="pre">onDisk</span></code> map.
-This applies to expired entries, but also entries removed using <code class="docutils literal"><span class="pre">map.remove()</span></code> method.
-To completely remove entry from both maps one must first remove from <code class="docutils literal"><span class="pre">inMemory</span></code> then from <code class="docutils literal"><span class="pre">onDisk</span></code>:</p>
+This applies to expired entries, but also entries removed using the <code class="docutils literal"><span class="pre">map.remove()</span></code> method.
+To completely remove entry from both maps, one must first remove from <code class="docutils literal"><span class="pre">inMemory</span></code> and then from <code class="docutils literal"><span class="pre">onDisk</span></code>:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="c1">//first remove from inMemory</span>
 <span class="n">inMemory</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
 <span class="c1">//key will be moved to onDisk after deletion by modification listener, remove from onDisk</span>
 <span class="n">onDisk</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
 </pre></div>
 </div>
-<p>If <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> is called, one might expect null, and than check <code class="docutils literal"><span class="pre">onDisk</span></code>. However to make things simpler
-<code class="docutils literal"><span class="pre">inMemory</span></code> has value creator. So <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> returns values from both <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code>.
-If value is not found, it checks second map and adds its value into <code class="docutils literal"><span class="pre">inMemory</span></code>.</p>
+<p>If the <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> is called, one might expect null, and than check <code class="docutils literal"><span class="pre">onDisk</span></code>. However to make things simpler
+<code class="docutils literal"><span class="pre">inMemory</span></code> has a value creator. So <code class="docutils literal"><span class="pre">inMemory.get(key)</span></code> returns values from both <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code>.
+If value is not found, it checks the second map and adds its value into <code class="docutils literal"><span class="pre">inMemory</span></code>.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;one&quot;</span><span class="o">);</span>    <span class="c1">//onDisk has content, inMemory is empty</span>
 <span class="n">inMemory</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>        <span class="c1">//&gt; 0</span>
 <span class="c1">// get method will not find value inMemory, and will get value from onDisk</span>
@@ -356,14 +354,14 @@ If value is not found, it checks second map and adds its value into <code class=
 <span class="n">inMemory</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>        <span class="c1">//&gt; 1</span>
 </pre></div>
 </div>
-<p>Get and removal synchronizes two collections in cyclic way. Entry gets moved into <code class="docutils literal"><span class="pre">onDisk</span></code> when its deleted from <code class="docutils literal"><span class="pre">inMemory</span></code>.
-And <code class="docutils literal"><span class="pre">inMemory</span></code> gets populated from <code class="docutils literal"><span class="pre">onDisk</span></code> when get does find value. This creates consistency problem,
-which map is authoritative? Which contains the &#8216;real&#8217; data?</p>
-<p>MapDB offers three alternatives. Method <code class="docutils literal"><span class="pre">.expireOverflow(onDisk,</span> <span class="pre">true)</span></code> takes boolean parameter to control
-how expiration behaves. With <code class="docutils literal"><span class="pre">false</span></code> expiration uses <code class="docutils literal"><span class="pre">map.put(key,value)</span></code> to insert data to inDisk.
+<p>Get and removal synchronizes two collections in a cyclic way. The entry gets moved into <code class="docutils literal"><span class="pre">onDisk</span></code> when its deleted from <code class="docutils literal"><span class="pre">inMemory</span></code>.
+And <code class="docutils literal"><span class="pre">inMemory</span></code> gets populated from <code class="docutils literal"><span class="pre">onDisk</span></code> when get method does not find a value in-memory. This creates a consistency problem,
+as to which map is authoritative? Which contains the &#8216;real&#8217; data?</p>
+<p>MapDB offers three alternatives. The method <code class="docutils literal"><span class="pre">.expireOverflow(onDisk,</span> <span class="pre">true)</span></code> takes a boolean parameter to control
+how expiration behaves. With <code class="docutils literal"><span class="pre">false</span></code> expiration it uses <code class="docutils literal"><span class="pre">map.put(key,value)</span></code> to insert data to inDisk.
 With <code class="docutils literal"><span class="pre">true</span></code> it uses <code class="docutils literal"><span class="pre">map.putIfAbsent(key,value</span></code>, so no existing value gets overwritten.</p>
-<p>First option is <code class="docutils literal"><span class="pre">true</span></code>. It mean that <code class="docutils literal"><span class="pre">inMemory</span></code> is authoritative and <code class="docutils literal"><span class="pre">onDisk</span></code> content will get
-overwritten once data expires from memory and overflows to disk:</p>
+<p>The first option is <code class="docutils literal"><span class="pre">true</span></code>. It means that <code class="docutils literal"><span class="pre">inMemory</span></code> is authoritative and <code class="docutils literal"><span class="pre">onDisk</span></code> content will get
+overwritten once the data expires from memory and overflows to disk:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">inMemory</span> <span class="o">=</span> <span class="n">dbMemory</span>
         <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;inMemory&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">expireOverflow</span><span class="o">(</span><span class="n">onDisk</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span> <span class="c1">// &lt;&lt;&lt; true here</span>
@@ -380,8 +378,8 @@ overwritten once data expires from memory and overflows to disk:</p>
 <span class="n">inMemory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>    <span class="c1">//&gt; &quot;one&quot;</span>
 </pre></div>
 </div>
-<p>With <code class="docutils literal"><span class="pre">false</span></code> the data added into <code class="docutils literal"><span class="pre">inMemory</span></code> are not considered authoritative. OnDisk content will never get
-overwritten. This also adds performance bonus on expiration if values are the same, since on-disk values
+<p>With <code class="docutils literal"><span class="pre">false</span></code>, the data added into <code class="docutils literal"><span class="pre">inMemory</span></code> are not considered authoritative. OnDisk content will never get
+overwritten. This also adds a performance bonus on expiration if the values are the same, since on-disk values
 are not overwritten by equal values.</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">inMemory</span> <span class="o">=</span> <span class="n">dbMemory</span>
         <span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;inMemory&quot;</span><span class="o">)</span>
@@ -407,14 +405,14 @@ are not overwritten by equal values.</p>
 </div>
 <p>There is a question into which collection new data should be inserted. It depends how much you value your data.
 If it caches some external source (such as SQL), I would insert data into <code class="docutils literal"><span class="pre">inMemory</span></code> and let them hoover in air.
-In this case data might be inconsistent after crash/shutdown. It is better to drop cache content and
-repopulate it from primary store.</p>
-<p>If content of cache is valuable (is primary content, or too high cost to repopulate from SQL)
+In this case data might be inconsistent after crash/shutdown. It is better to drop the cache content and
+repopulate it from the primary store.</p>
+<p>If thee content of the cache is valuable (is primary content, or too high cost to repopulate from SQL)
 one should insert data to <code class="docutils literal"><span class="pre">onDisk</span></code>.
 Disk store can be protected by transaction with periodic commit.
-In this case only small time interval of data would be lost.</p>
-<p>Inserts are simple, but updates create consistency problem. If key-value pair changes one collection might contain
-older value. So on updates it is recommended to update BOTH <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code> collections:</p>
+In this case only a small time interval of data would be lost.</p>
+<p>Inserts are simple, but updates create a consistency problem. If the key-value pair changes, one collection might contain
+an older value. So on updates it is recommended to update BOTH <code class="docutils literal"><span class="pre">inMemory</span></code> and <code class="docutils literal"><span class="pre">onDisk</span></code> collections:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="c1">//put value to on disk</span>
 <span class="n">onDisk</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;one&quot;</span><span class="o">);</span>
 <span class="c1">//in memory gets updated from on disk, no problem here</span>
@@ -430,16 +428,17 @@ older value. So on updates it is recommended to update BOTH <code class="docutil
 <span class="n">inMemory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">&quot;uno&quot;</span><span class="o">);</span>
 </pre></div>
 </div>
+<p>The third option is to use listeners and <code class="docutils literal"><span class="pre">Bind</span></code> utilities yourself.</p>
 </div>
 <div class="section" id="concurrent-scalability">
 <h2>Concurrent scalability<a class="headerlink" href="#concurrent-scalability" title="Permalink to this headline">¶</a></h2>
-<p>HTreeMap scales concurrently by using 16 separate segment, each with its own <code class="docutils literal"><span class="pre">ReadWriteLock</span></code>.
+<p>HTreeMap scales concurrently by using 16 separate segments, each with its own <code class="docutils literal"><span class="pre">ReadWriteLock</span></code>.
 Each segment has its own independent state, hash tree and also expiration queue.
 But all segments still share underlying storage and are limited by its performance.</p>
-<p>There is option to shard HTreeMap. Each separate segment can get its own storage, so no shared
-state exist between segments. This way one get linear concurrent scalability which corresponds
+<p>There is an option to shard HTreeMap. Each separate segment can get its own storage, so no shared
+state exist between segments. This way one can get linear concurrent scalability which corresponds
 to 16 segments. TODO benchmarks.</p>
-<p>Trade off in this case is higher memory consumption. There are 16 different stores, each with its own
+<p>Trade off in this case is a higher memory consumption. There are 16 different stores, each with its own
 memory allocator and unused blocks. TODO memory benchmarks.
 But each store can be compacted separately. TODO add compaction doc for this</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">DBMaker</span>
@@ -452,19 +451,19 @@ But each store can be compacted separately. TODO add compaction doc for this</p>
 </div>
 <div class="section" id="compared-to-btreemap">
 <h2>Compared to BTreeMap<a class="headerlink" href="#compared-to-btreemap" title="Permalink to this headline">¶</a></h2>
-<p><cite>HTreeMap</cite> has major advantage over <cite>BTreeMap</cite> with large keys. Unlike
-BTreeMap it only stores hash codes in tree nodes.
-BTreeMap deserializes tree nodes together with their keys on each lookup.
-Simple <code class="docutils literal"><span class="pre">BTreeMap.get(key)</span></code> could deserialize houndreds of keys.</p>
+<p><cite>HTreeMap</cite> has a major advantage over <cite>BTreeMap</cite> with large keys. Unlike
+BTreeMap, it only stores hash codes in tree nodes.
+BTreeMap deserializes tree nodes, together with their keys, on each lookup.
+A simple <code class="docutils literal"><span class="pre">BTreeMap.get(key)</span></code> could deserialize houndreds of keys.</p>
 <p>TODO link to performance test, compare with BTreeMap</p>
-<p>On other side HTreeMap has limited concurrency factor to 16, so with
+<p>On the other side HTreeMap has a limited concurrency factor to 16, so with
 writes it wont scale over 4 CPU cores. It uses read-write locks, so read
-operations are not affected. However in practice disk IO is more likely
+operations are not affected. However, in practice the disk IO is more likely
 to be bottleneck. TODO benchmarks</p>
 <p>HTreeMap can be easily sharded by segments. For in-memory map it might have better
 concurrent scalability.</p>
-<p>HTreeMap is simpler than BTreeMap. It has more predictable performance over long time
-and does not get fragmented after frequent deletes.
+<p>HTreeMap is simpler than BTreeMap. It has more predictable performance over a long period of time
+and it does not get fragmented after frequent deletes.
 HTreeMap also offers expiration.
 BTreeMap pays tax in some cases for its complex lock-free design.</p>
 </div>
@@ -483,7 +482,7 @@ BTreeMap pays tax in some cases for its complex lock-free design.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="internals.html" title="MapDB internals"
+          <a href="secondary-collections.html" title="Secondary Collections"
              >next</a> |</li>
         <li class="right" >
           <a href="btreemap.html" title="BTreeMap"
@@ -491,7 +490,7 @@ BTreeMap pays tax in some cases for its complex lock-free design.</p>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

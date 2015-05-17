@@ -162,7 +162,7 @@ MapDB does things like serialization on background, so it is not always possible
 <h2>Long - UUID map<a class="headerlink" href="#long-uuid-map" title="Permalink to this headline">¶</a></h2>
 <p>First benchmark tests <code class="docutils literal"><span class="pre">Map&lt;Long,UUID&gt;</span></code> map. It chooses small entry size (24 bytes), since its size affect performance.</p>
 <p>TODO metrics</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-single-thread.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-single-thread.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-single-thread.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-single-thread.png" />
 <p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> is about 8x faster than MapDB. Map size is 10 million items,
 so there is practically zero GC overhead. With larger sizes <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code>
 performance degrades due to GC overhead and MapDB will eventually become faster.</p>
@@ -170,23 +170,23 @@ performance degrades due to GC overhead and MapDB will eventually become faster.
 <p>TODO chart of size scalability</p>
 <p>TODO chart of memory usage depending on collection size</p>
 <p>Chart bellow shows performance of <code class="docutils literal"><span class="pre">BTreeMap</span></code> from MapDB with number of threads on quad core CPU with 8 virtual cores.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.BTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.BTreeMap-scalability.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_BTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_BTreeMap-scalability.png" />
 <p>And this is multi-threaded performance for <code class="docutils literal"><span class="pre">HTreeMap</span></code> (HashMap). There is bug in segment hashing,
 so it wont scale over 2 threads.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.HTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryLongTest-org.mapdb.HTreeMap-scalability.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_HTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_HTreeMap-scalability.png" />
 </div>
 <div class="section" id="id1">
 <h2>Long - UUID map<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Second benchmark tests <code class="docutils literal"><span class="pre">Map&lt;String,String&gt;</span></code> with key and value size 32 bytes.
 This is unfortunate situation for MapDB since deserialization overhead is high.</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-single-thread.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-single-thread.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-single-thread.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-single-thread.png" />
 <p>MapDB 2.0 was all about optimizing deserialization costs and it pays of.
 Please notice performance difference between MapDB 1.0 and 2.0 collections.</p>
 <p>Also <code class="docutils literal"><span class="pre">HTreeMap</span></code> is surprisingly fast compared to <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code>.
 String hashing probably adds fixed overhead.</p>
 <p>And here is multi-threaded performance with String keys and values</p>
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.BTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.BTreeMap-scalability.png" />
-<img alt="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.HTreeMap-scalability.png" src="_images/org.mapdb.benchmarks.InMemoryStringTest-org.mapdb.HTreeMap-scalability.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_BTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_BTreeMap-scalability.png" />
+<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_HTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_HTreeMap-scalability.png" />
 <p>TODO BTreeMap external values</p>
 <p>TODO BTreeMap node size</p>
 </div>

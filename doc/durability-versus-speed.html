@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
-    <link rel="next" title="DB and DBMaker" href="db-and-dbmaker.html" />
-    <link rel="prev" title="MapDB" href="overview.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
+    <link rel="next" title="Caches" href="caches.html" />
+    <link rel="prev" title="DB and DBMaker" href="db-and-dbmaker.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -97,15 +97,15 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="db-and-dbmaker.html" title="DB and DBMaker"
+          <a href="caches.html" title="Caches"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="overview.html" title="MapDB"
+          <a href="db-and-dbmaker.html" title="DB and DBMaker"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -121,11 +121,11 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="overview.html"
-                        title="previous chapter">MapDB</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="db-and-dbmaker.html"
-                        title="next chapter">DB and DBMaker</a></p>
+                        title="previous chapter">DB and DBMaker</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="caches.html"
+                        title="next chapter">Caches</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -161,72 +161,73 @@ durability and speed. You may choose consistency, disk access patterns,
 commit type, flush type and so on.</p>
 <div class="section" id="transactions-disabled">
 <h2>Transactions disabled<a class="headerlink" href="#transactions-disabled" title="Permalink to this headline">¶</a></h2>
-<p>If process dies in middle of write, storage files might become
-inconsistent. For example pointer was updated with new location, where
-new data were not written yet. For this MapBD storage is protected by
-write-ahead-log (WAL) which replies commits in atomic fashion. WAL is
-reliable and simple, and is used by many databases such as Posgresql or
-Mysql.</p>
+<p>If a process dies in the middle of write, storage files might become
+inconsistent. For example the pointer was updated with a new location,
+but new data were not written yet. For this MapBD storage is protected by
+write-ahead-log (WAL) which applies commits in atomic fashion. WAL is
+reliable and simple, and is used by many databases, such as Posgresql or
+MySQL.</p>
 <p>However WAL is slow, data has to be copied and synced multiple times.
 You may optionally disable WAL by disabling transactions:
 <code class="docutils literal"><span class="pre">DBMaker.transactionDisable()</span></code>. In this case you <strong>must</strong> correctly
-close store before JVM shutdown, or you loose all your data. You may
-also use shutdown hook to close database before JVM exits, however this
-does not protect your data if JVM crashes or is killed:</p>
-<div class="code java highlight-python"><div class="highlight"><pre>DB db = DBMaker
-  .transactionDisable()
-  .closeOnJvmShutdown()
-  .make()
+close the store before JVM shutdown, or you loose all your data. You may
+also use a shutdown hook to close the database automatically before JVM exits,
+however this does not protect your data if JVM crashes or is killed:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+        <span class="o">.</span><span class="na">memoryDB</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">transactionDisable</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">closeOnJvmShutdown</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">make</span><span class="o">();</span>
 </pre></div>
 </div>
-<p>Transaction disable (also called direct mode) will apply all changes
+<p>Transaction disable (also called direct mode) will apply all the changes
 directly into storage file. Combine this with in-memory store or mmap
-files and you get very fast storage. Typical use is in scenario where
-data does not have to be persisted between JVM restarts or can be easily
+files and you get very fast storage. Typical use is in a scenario where
+the data does not have to be persisted between JVM restarts or can be easily
 recreated: off-heap caches.</p>
-<p>Other important usage is for initial data import. Transactions and
-no-transactions share the same storage format (except WAL) so one can
-import data very fast with transactions disabled. Once import is
-finished, store gets reopened with transactions enabled.</p>
+<p>Other important usage is for the initial data import. Transactions and
+no-transactions share the same storage format (except optional write-ahead-log),
+so one can import data very quickly with transactions disabled. Once the import is
+finished, the store is reopened with transactions enabled.</p>
 <p>With transactions disabled you loose rollback capability,
 <code class="docutils literal"><span class="pre">db.rollback()</span></code> will throw an exception. <code class="docutils literal"><span class="pre">db.commit()</span></code> will have
-nothing to commit (all data are already stored), so it does next best
-thing: Commit tries to flush all write caches and synchronizes storage
+nothing to commit (all data are already stored), so it does the next best
+thing: Commit tries to flush all the write caches and synchronizes the storage
 files. So if you call <code class="docutils literal"><span class="pre">db.commit()</span></code> and do not make any more writes,
 your store should be safe (no data loss) in case of JVM crash.</p>
 </div>
 <div class="section" id="memory-mapped-files-mmap">
 <h2>Memory mapped files (mmap)<a class="headerlink" href="#memory-mapped-files-mmap" title="Permalink to this headline">¶</a></h2>
 <p>MapDB was designed from ground to take advantage of mmap files. However
-mmap files are limited to 2GB by addressing limit 32bit JVM. Mmap have
-lot of nasty effects on 32bit JVM, so by default we use slower and safer
-disk access mode called Random-Access-File (RAF).</p>
-<p>Mmap files are much faster compared to RAF. Exact speed bonus depends on
-operating system and disk case management, but is typically between 10%
+mmap files are limited to 4GB by addressing limit on 32bit JVM. Mmap have a
+lot of nasty effects on 32bit JVM (it might crash if addressing limit is exceeded),
+so by default we use a slower and safer disk access mode called Random-Access-File (RAF).</p>
+<p>Mmap files are much faster compared to RAF. The exact speed bonus depends on
+the operating system and disk case management, but is typically between 10%
 and 300%.</p>
 <p>Memory mapped files are activated with <code class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></code>
 setting.</p>
-<p>One can also activate mmap files only if 64bit platform is detected:
+<p>One can also activate mmap files only if a 64bit platform is detected:
 <code class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></code>.</p>
-<p>Mmap files are highly dependent on operating system. For example on
-Windows you can not delete mmap file while it is locked by JVM. If
-Windows JVM dies without closing mmap file, you have to restart Windows
-to release file lock.</p>
+<p>Mmap files are highly dependent on the operating system. For example, on
+Windows you cannot delete a mmap file while it is locked by JVM. If
+Windows JVM dies without closing the mmap file, you have to restart Windows
+to release the file lock.</p>
 </div>
 <div class="section" id="crc32-checksums">
 <h2>CRC32 checksums<a class="headerlink" href="#crc32-checksums" title="Permalink to this headline">¶</a></h2>
 <p>You may want to protect your data from disk corruption. MapDB optionally
-supports CRC32 checksums. In this case each record stores extra 4 bytes
-which contains its CRC32 checksum. If data are somehow modified or
-corrupted (file system or storage error), next read will fail with an
-exception. This gives early warning and prevents db from returning wrong
+supports CRC32 checksums. In this case, each record stores an extra 4 bytes
+which contains its CRC32 checksum. If the data are somehow modified or
+corrupted (file system or storage error), the next read will fail with an
+exception. This gives an early warning and prevents db from returning the wrong
 data.</p>
 <p>CRC32 checksum has to be calculated on each put/modify/get operation so
 this option has some performance overhead. Write-ahead-log uses CRC32
 checksum by default.</p>
 <p>Checksum is activated by this setting: <code class="docutils literal"><span class="pre">DBMaker.checksumEnable()</span></code>. It
-affect storage format, so once activate you always have to reopen store
-with this setting. Also checksum can not be latter activate once store
+affects the storage format, so once activated you always have to reopen the store
+with this setting. Also checksum can not be latter activated once the store
 was created without it.</p>
 <p>TODO: CRC32 serializer link</p>
 <p>TODO: WAL and CRC32 disable</p>
@@ -248,15 +249,15 @@ was created without it.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="db-and-dbmaker.html" title="DB and DBMaker"
+          <a href="caches.html" title="Caches"
              >next</a> |</li>
         <li class="right" >
-          <a href="overview.html" title="MapDB"
+          <a href="db-and-dbmaker.html" title="DB and DBMaker"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

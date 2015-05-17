@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>MapDB &mdash; MapDB</title>
+    <title>Foreword &mdash; MapDB</title>
     
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
     <link rel="next" title="Getting started" href="getting-started.html" />
-    <link rel="prev" title="MapDB documentation" href="index.html" />
+    <link rel="prev" title="MapDB Manual" href="index.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -100,19 +100,19 @@
           <a href="getting-started.html" title="Getting started"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="MapDB documentation"
+          <a href="index.html" title="MapDB Manual"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">MapDB documentation</a></p>
+                        title="previous chapter">MapDB Manual</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="getting-started.html"
                         title="next chapter">Getting started</a></p>
@@ -144,32 +144,21 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="mapdb">
-<h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is embedded database engine for java. It provides java collections backed by on-disk or in-memory storage.
-It has great performance and many configuration options. Its not limited by garbage collector and in-memory
-collections outperform their on-heap counterparts such as <code class="docutils literal"><span class="pre">java.util.HashMap</span></code>. MapDB has tiny overhead
-and excellent vertical scalability. It runs from Android phone to multi CPU server with several terabyte stores.</p>
-<p>MapDB is old project. It started in 2001 under name JDBM. Originally it was storage engine for astronomical application.
-Over years it evolved, got new features and better performance. It started as a hobby project, and eventually turned
-into full time paid job, however it retains its qualities:  carefully crafted compact and quality code.
-Current MapDB 2.0 is 5th generation of this project.</p>
-<p>MapDB followed different evolution than other database engine. Rather than db engine it could be better described
-as alternative memory model for java. There are several components: storage engines, memory allocator, serialization, trees,
-caches... Those can be used together, or independently, swapped, wrapped etc. MapDB has very modular and flexible design
-so it is very easy to implement your own things such as RAID or in-memory cache with on-disk overflow.</p>
-<p>Compared to others MapDB also handles serialization differently. It uses traditional objects to represent btree nodes
-or other data model parts. This means that traditional heap based collections or data models
-can be easily refactored to use MapDB. This also fits well with GC preference for short-lived objects and
-has surprising performance. And finally in one mode MapDB does not use binary storage and serialization,
-all data can stays on-heap and MapDB behaves same way as other heap base collections (including performance)</p>
-<p>MapDB also has concurrent design in sense that it allows multiple threads to write (and read) data in parallel. Default configuration
-scales linearly to 4 CPU cores (parallel updates). However with different configuration (and trade-offs) it scales well even on 20+ cores.</p>
-<p>And finally MapDB has very little overhead (and consequently great performance). It was originally designed to run on 486 CPUs and it retained
-much of its qualities. Internal logic is represented using primitive variables, there is almost zero trash for GC.
-And unlike other dbs it does not have block page layer, updates and reads require almost zero copy. And finally
-its serialization lifecycle takes good advantage of JVM qualities, so its performance can be compared to low level engines written in C
-(MapDB is pure java).</p>
+  <div class="section" id="foreword">
+<h1>Foreword<a class="headerlink" href="#foreword" title="Permalink to this headline">¶</a></h1>
+<p>MapDB is an embedded database engine for java. It provides collections backed by on-disk or in-memory storage.
+It is flexible, simple and free under Apache 2 license. MapDB is extremely fast, as in-memory mode
+rivals on-heap <code class="docutils literal"><span class="pre">java.util</span></code> collections and on-disk mode outperforms databases written in C. And it has several
+configuration options from regular ACID transactions to very fast direct storage.</p>
+<p>MapDB started in 2001 under the name JDBM. The current MapDB2 is its 5th generation.
+It evolved as a db engine focused around Java. It is pure-java, implements Maps, has only single 500KB jar,
+and runs everywhere, including Android and JDK6.
+Also, its serialization lifecycle and separate memory allocator
+makes it easy to port existing data models (such as collections) to database engine,
+outside of Garbage Collector influence.</p>
+<p>This manual is a work in progress and it will be completed together with the MapDB 2.0.0 release.
+I hope you will find it useful. I would be very happy to accept
+<a class="reference external" href="https://github.com/jankotek/mapdb-site/tree/master/doc">pull requests</a></p>
 </div>
 
 
@@ -188,12 +177,12 @@ its serialization lifecycle takes good advantage of JVM qualities, so its perfor
           <a href="getting-started.html" title="Getting started"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="MapDB documentation"
+          <a href="index.html" title="MapDB Manual"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

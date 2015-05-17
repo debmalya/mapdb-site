@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB documentation" href="index.html" />
+    <link rel="up" title="MapDB Manual" href="index.html" />
     <link rel="next" title="Transactions" href="transactions.html" />
-    <link rel="prev" title="Queues" href="queues.html" />
+    <link rel="prev" title="HTreeMap" href="htreemap.html" />
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -100,12 +100,12 @@
           <a href="transactions.html" title="Transactions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="queues.html" title="Queues"
+          <a href="htreemap.html" title="HTreeMap"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -120,8 +120,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="queues.html"
-                        title="previous chapter">Queues</a></p>
+  <p class="topless"><a href="htreemap.html"
+                        title="previous chapter">HTreeMap</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="transactions.html"
                         title="next chapter">Transactions</a></p>
@@ -155,71 +155,71 @@
             
   <div class="section" id="secondary-collections">
 <h1>Secondary Collections<a class="headerlink" href="#secondary-collections" title="Permalink to this headline">¶</a></h1>
-<p>Rational databases have very good system of primary and secondary
+<p>Rational databases have a very good system of primary and secondary
 indexes, tables and views. It has clear benefits for extensibility,
-clarity and robustness. On other side it has limitations for scalability
+clarity and robustness. On the other hand, it has limitations for scalability
 and performance. MapDBs Secondary Collections are <em>poor man`s</em> SQL
-tables. It brings most benefits without sacrificing flexibility.</p>
-<p>Secondary Collections are very simple and flexible way to access and
-expand primary collections. Primary collection is authoritative source
-of data, and is modified by user. Secondary collection contains records
-derived from primary. Secondary is bind to primary and updated by
-listener when primary collection is modified. Secondary should not be
-modified directly by user.</p>
+tables. It brings the most benefits without sacrificing flexibility.</p>
+<p>Secondary Collections are a very simple and flexible way to access and
+expand primary collections. Primary collection is an authoritative source
+of data, and is modified by the user. Secondary collection contains records
+derived from the primary. Secondary is bind to primary and updated by a
+listener, when the primary collection is modified. The secondary should not be
+modified directly by a user.</p>
 <p>Secondary Collections are typically used in three ways:</p>
 <ul class="simple">
 <li>Secondary Keys (indexes) to efficiently access records in primary
 collection.</li>
 <li>Secondary Values to expand primary collection, while keeping primary
 small and fast.</li>
-<li>Aggregation to groups. For example to list all high-income customers.</li>
+<li>Aggregation to groups. For example in order to list all high-income customers.</li>
 </ul>
-<p>Primary Collection is typically stored in MapDB. The requirement is that
-it provides <a class="reference external" href="/apidocs/org/mapdb/Bind.MapWithModificationListener.html">modification
+<p>The Primary Collection is typically stored in MapDB. The requirement is that
+it provides <a class="reference external" href="http://www.mapdb.org/apidocs/org/mapdb/Bind.MapWithModificationListener.html">modification
 listener</a>
 triggered on entry update, insert or removal. There is no such
-requirement for Secondary Collection. Secondary may be stored in MapDB,
-but it can also be usual Java Collection such as java.util.TreeSet.</p>
-<p>Primary and Secondary collection are bind together. There is
+requirement for the Secondary Collection. The Secondary may be stored in MapDB,
+but it can also be a usual Java Collection such as java.util.TreeSet.</p>
+<p>Primary and Secondary collections are bind together. There is
 <a class="reference external" href="http://www.mapdb.org/apidocs/org/mapdb/Bind.html">Bind</a> class with
-static methods to establish binding. Binding adds modification listener
-to primary collection and changes secondary collection accordingly. It
-also removes old entries from secondary if primary entry gets deleted or
+static methods to establish binding. Binding adds a modification listener
+to the primary collection and changes secondary collection accordingly. It
+also removes old entries from the secondary, if the primary entry gets deleted or
 modified.</p>
 <p>Bind relation is not persistent, so binding needs to be restored every
-time store is reopened. If secondary collections is empty when binded,
-entire primary is traversed and secondary is filled accordingly.</p>
+time the store is reopened. If the secondary collections is empty when binded,
+then the entire primary is traversed and the secondary is filled accordingly.</p>
 <div class="section" id="consistency">
 <h2>Consistency<a class="headerlink" href="#consistency" title="Permalink to this headline">¶</a></h2>
-<p>Consistency between primary and secondary collections is on
-&#8216;best-effort&#8217; basis. Two concurrent threads might observe secondary
-contains old values while primary was already updated. Also if secondary
-is on heap, while primary is in transactional store which gets rolled
-back, secondary will become inconsistent with primary (its changes were
-not rolled back.</p>
-<p>Secondary collection is updated in <a class="reference external" href="https://en.wikipedia.org/wiki/Serializability">serializable
+<p>The consistency between primary and secondary collections are on a
+&#8216;best-effort&#8217; basis. The secondary map might contain an old value,
+while the primary map was already updated. Also if two maps are part of two different transactions,
+and one transaction get rolled back but second transaction is commited,
+the secondary map will become inconsistent with the primary
+(its changes were not rolled back.</p>
+<p>The secondary collection is updated in <a class="reference external" href="https://en.wikipedia.org/wiki/Serializability">serializable
 fashion</a>. This means
-that if two concurrent thread update primary, secondary collection is
+that if two concurrent threads update primary, the secondary collection is
 updated with &#8216;winner&#8217;. TODO verify this is true, update this paragraph
 after <a class="reference external" href="https://github.com/jankotek/MapDB/issues/226">issue</a> is
 closed.</p>
 <p>There are some best practices for Secondary Collections to handle this:</p>
 <ul class="simple">
 <li>Secondary Collections must be thread safe. Either use MapDB or
-<code class="docutils literal"><span class="pre">java.util.concurrent.*</span></code> collections. Other (but not optimal)
+<code class="docutils literal"><span class="pre">java.util.concurrent.*</span></code> collections. Another
 option is to use <code class="docutils literal"><span class="pre">Collections.synchronized*()</span></code> wrappers.</li>
-<li>When using concurrent transactions, do not mix collections from
-multiple transactions. If primary gets rollback, secondary will not
+<li>When using concurrent transactions, do not mix the collections from
+multiple transactions. If the primary gets rollback, the secondary will not
 be updated if its not within the same transaction.</li>
-<li>Keep binding minimal. It should only transform one value into other,
+<li>Keep binding minimal. It should only transform one value into the other,
 without dependency on third collections.</li>
 </ul>
 </div>
 <div class="section" id="performance">
 <h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
-<p>To import large dataset, you should not enable binding until primary
-collection has finished its import. Also there might be more efficient
-way to pre-fill secondary collection (for example with data pump).</p>
+<p>To import a large dataset, you should not enable binding until the primary
+collection has finished its import. Also, there might be a more efficient
+way to pre-fill the secondary collection (for example with a data pump).</p>
 </div>
 </div>
 
@@ -239,12 +239,12 @@ way to pre-fill secondary collection (for example with data pump).</p>
           <a href="transactions.html" title="Transactions"
              >next</a> |</li>
         <li class="right" >
-          <a href="queues.html" title="Queues"
+          <a href="htreemap.html" title="HTreeMap"
              >previous</a> |</li>
         <li><a href="../index.html">Home</a>&nbsp;|</li>
         <li><a href="../contents.html">Documentation</a> &raquo;</li>
 
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB documentation</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
