@@ -212,6 +212,9 @@ MapDB might refuse to open storage, with exception that never version should be 
 This store can not be opened with normal mapdb.</p>
 <p>10) Disable parity bit checks. Stor was created by patched MapDB. For extra performance some checksums were disabled.
 This store can not be opened with normal mapdb.</p>
+<ol class="arabic simple" start="11">
+<li>Block encryption enabled</li>
+</ol>
 </div>
 <div class="section" id="storedirect">
 <h2>StoreDirect<a class="headerlink" href="#storedirect" title="Permalink to this headline">¶</a></h2>
@@ -244,10 +247,10 @@ is very likely corrupted and MapDB should fail to open it. See <code class="docu
 <ul class="simple">
 <li>index value</li>
 </ul>
-<p>End of page:</p>
+<p>Start of page:</p>
 <ul class="simple">
-<li>one value before last is <strong>pointer to next index page</strong>, Parity 16</li>
-<li>last value in page is <strong>checksum of all values</strong> on page (add all values)</li>
+<li>first value is <strong>pointer to next index page</strong>, Parity 16</li>
+<li>second value in page is <strong>checksum of all values</strong> on page (add all values)</li>
 </ul>
 </div>
 <div class="section" id="index-value">
