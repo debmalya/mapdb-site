@@ -180,20 +180,22 @@
 <h2>Parity<a class="headerlink" href="#parity" title="Permalink to this headline">¶</a></h2>
 <p>MapDB uses parity bits to check storage pointers for corruption.
 Offsets are usually aligned to multiples of 8, so lower bits are used for parity checks and other flags.</p>
-<p>One important requirement is that zero value is not valid parity value.</p>
+<p>One important requirement is that zeroes is not valid parity value (0 produces non zero parity bits).</p>
 <div class="section" id="parity-1">
 <h3>Parity 1<a class="headerlink" href="#parity-1" title="Permalink to this headline">¶</a></h3>
-<p>Used for multiples of two, lowest bit stores parity information. It is calculated as number of bits set,
+<p>Used for values where last bit is unused, lowest bit stores parity information. It is calculated as number of bits set,
 lowest bit is than set so total number of non-zero bits is odd:</p>
 <div class="code java highlight-python"><div class="highlight"><pre><span class="n">val</span> <span class="o">|</span> <span class="p">((</span><span class="n">Long</span><span class="o">.</span><span class="n">bitCount</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Methods: <code class="docutils literal"><span class="pre">DataIO.parity1set()</span></code> and <code class="docutils literal"><span class="pre">DataIO.parity1get()</span></code></p>
+<p>TODO document other parity methods, for now see DataIO class</p>
 </div>
 </div>
 <div class="section" id="feature-bitmap-header">
 <h2>Feature bitmap header<a class="headerlink" href="#feature-bitmap-header" title="Permalink to this headline">¶</a></h2>
-<p>Feature bitmap is 64bits stored in header. It indicates features storage was created with.
+<p>Feature bitmap is 64bits stored in header at offset 8 (after file header and version).
+It indicates features storage was created with.
 Some of those affect storage format (compression, checksums) and must be enabled to make store readable.
 Some slots are not yet used and are reserved for future features. If such unknown bit is set,
 MapDB might refuse to open storage, with exception that never version should be used</p>
@@ -215,18 +217,20 @@ This store can not be opened with normal mapdb.</p>
 <ol class="arabic simple" start="11">
 <li>Block encryption enabled</li>
 </ol>
+<p>TODO declare range which is backward compatible in read-only mode.</p>
 </div>
 <div class="section" id="storedirect">
 <h2>StoreDirect<a class="headerlink" href="#storedirect" title="Permalink to this headline">¶</a></h2>
-<p>StoreDirect uses update in place. It keeps track of space freed by record deletion and reuses it.
+<p>StoreDirect uses update in place. It keeps track of free space released by record deletion and reuses it.
 It has zero protection from crash, all updates are written directly into store.
-It has fast writes, but data corruption is almost guaranteed in case JVM crashes during write.
-StoreDirect uses checksums as passive protection to return incorrect data after corruption.</p>
+Write operations are very fast, but data corruption is almost guaranteed when JVM crashes.
+StoreDirect uses checksums as passive protection not to return incorrect data after corruption.
+Internal data corruption should be detected reasonably fast.</p>
 <p>StoreDirect allocates space in &#8216;pages&#8217; of size 1MB. Operations such as <code class="docutils literal"><span class="pre">readLong</span></code>, <code class="docutils literal"><span class="pre">readByte[]</span></code>
 must be aligned so they do not cross page boundaries.</p>
 <div class="section" id="head">
 <h3>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h3>
-<p>Header is composed by number of 8 byte longs:</p>
+<p>Header in StoreDirect format is composed by number of 8 byte longs:</p>
 <p>0) <strong>header</strong> and <strong>head checksum</strong>. Checksum is CRC of entire HEAD and is recalculated on
 every sync/close. Invalid checksum means that store was not closed correctly,
 is very likely corrupted and MapDB should fail to open it. See <code class="docutils literal"><span class="pre">StoreDirect.headChecksum()</span></code></p>
@@ -243,15 +247,18 @@ is very likely corrupted and MapDB should fail to open it. See <code class="docu
 <div class="section" id="index-page">
 <h3>Index page<a class="headerlink" href="#index-page" title="Permalink to this headline">¶</a></h3>
 <p>Linked list of pages. It starts at <strong>index page registry</strong>.</p>
-<p>Composed of series of 8 byte values, most of page repeats:</p>
-<ul class="simple">
-<li>index value</li>
+<p>Index page contains at start:</p>
+<ul>
+<li><p class="first">first value is <strong>pointer to next index page</strong>, Parity 16</p>
+</li>
+<li><dl class="first docutils">
+<dt>second value in page is <strong>checksum of all values</strong> on page (add all values)</dt>
+<dd><p class="first last">TODO checksum is different</p>
+</dd>
+</dl>
+</li>
 </ul>
-<p>Start of page:</p>
-<ul class="simple">
-<li>first value is <strong>pointer to next index page</strong>, Parity 16</li>
-<li>second value in page is <strong>checksum of all values</strong> on page (add all values)</li>
-</ul>
+<p>Rest of the index page is filled with index values.</p>
 </div>
 <div class="section" id="index-value">
 <h3>Index Value<a class="headerlink" href="#index-value" title="Permalink to this headline">¶</a></h3>
@@ -271,13 +278,21 @@ Use <code class="docutils literal"><span class="pre">val&amp;MOFFSET</span></cod
 <h3>Linked records<a class="headerlink" href="#linked-records" title="Permalink to this headline">¶</a></h3>
 <p>Maximal record size is 64KB (16bits). To store larger records StoreDirect links multiple records into single one.
 Linked records starts with Index Value where Linked Record is indicates by a bit. If this bit is not set, entire record
-is reserved for record data. If Linked bit is set, than first 8 bytes store offset and size to link to next parts.</p>
+is reserved for record data. If Linked bit is set, than first 8 bytes store Record Link with offset and size of the next part.</p>
 <p>Structure of Record Link is similar to Index Value. Except parity is 3.</p>
-<ul class="simple">
-<li><strong>bite 49-64</strong> - 16 bite record size of next link. Use <code class="docutils literal"><span class="pre">val&gt;&gt;48</span></code> to get it</li>
-<li><strong>bite 5-48</strong> - 48 bite offset of next record alligned to 16 bytes. Use <code class="docutils literal"><span class="pre">val&amp;MOFFSET</span></code> to get it</li>
-<li><strong>bite 4</strong> - true if next record is linked, false if next record is last and not linked (is tail of linked record). Use <code class="docutils literal"><span class="pre">val&amp;MLINKED</span></code></li>
-<li><strong>bite 1-3</strong> - parity bits</li>
+<ul>
+<li><p class="first"><strong>bite 49-64</strong> - 16 bite record size of next link. Use <code class="docutils literal"><span class="pre">val&gt;&gt;48</span></code> to get it</p>
+</li>
+<li><p class="first"><strong>bite 5-48</strong> - 48 bite offset of next record alligned to 16 bytes. Use <code class="docutils literal"><span class="pre">val&amp;MOFFSET</span></code> to get it</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>bite 4</strong> - true if next record is linked, false if next record is last and not linked (is tail of linked record).</dt>
+<dd><p class="first last">Use <code class="docutils literal"><span class="pre">val&amp;MLINKED</span></code></p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>bite 1-3</strong> - parity bits</p>
+</li>
 </ul>
 <p>Tail of linked record (last part) does not have 8-byte Record Link at beginning.</p>
 </div>
@@ -285,19 +300,21 @@ is reserved for record data. If Linked bit is set, than first 8 bytes store offs
 <h3>Long Stack<a class="headerlink" href="#long-stack" title="Permalink to this headline">¶</a></h3>
 <p>Long Stack is linked queue of longs stored as part of storage. It supports two operations: put and take, longs are
 returned in FIFO order. StoreDirect uses this structure to keep track of free space. Space allocation involves
-taking long from stack. There are more stack, one to keep track of free recids. For space usage there are in total
-<code class="docutils literal"><span class="pre">64K</span> <span class="pre">/</span> <span class="pre">16</span> <span class="pre">=</span> <span class="pre">4096</span></code> Long Stacks (maximal non-linked record size is 64K and records are aligned to 16 bytes).</p>
+taking long from stack.
+There are more stacks, each size has its own stack, there is also stack to keep track of free recids.
+For space usage there are in total <code class="docutils literal"><span class="pre">64K</span> <span class="pre">/</span> <span class="pre">16</span> <span class="pre">=</span> <span class="pre">4096</span></code> Long Stacks
+(maximal non-linked record size is 64K and records are aligned to 16 bytes).</p>
 <p>Long stack is organized similar way as linked record. It is stored in chunks, each chunks contains multiple long
 values and link to next chunk. Chunks size varies. Long values are stored in bidirectional-packed form, to make
-unpacking possible in both directions.  Single value occupies from 2 bytes to 9 bytes. TODO explain bidi-packing.</p>
+unpacking possible in both directions.  Single value occupies from 2 bytes to 9 bytes.
+TODO explain bidi-packing, for now see DataIO class.</p>
 <p>Each Long Stack is identified by master pointer, which points to its last chunk. Master Pointer for each Long Stack
-is stored in head of storage file at its reserved offset. Head chunk is not linked directly, one has to fully
+is stored in head of storage file at its reserved offset (zero page). Head chunk is not linked directly, one has to fully
 traverse Long Stack to get to head.</p>
 <p>Structure of Long Stack Chunk is as follow:</p>
 <ul class="simple">
-<li><strong>byte 1-4</strong> optional checksum of this chunk</li>
-<li><strong>byte 5-6</strong> total size of this chunk.</li>
-<li><strong>byte 7-12</strong> pointer to previous chunk in this long stack. Parity 4, parity is shared with total size at byte 5-6.</li>
+<li><strong>byte 1-2</strong> total size of this chunk.</li>
+<li><strong>byte 3-8</strong> pointer to previous chunk in this long stack. Parity 4, parity is shared with total size at byte 1-2.</li>
 <li>rest of chunk is filled with bidi-packed longs with parity 1</li>
 </ul>
 <p>Master Link structure:</p>
@@ -324,7 +341,8 @@ traverse Long Stack to get to head.</p>
 </div>
 <div class="section" id="write-ahead-log">
 <h2>Write Ahead Log<a class="headerlink" href="#write-ahead-log" title="Permalink to this headline">¶</a></h2>
-<p>WAL protects storage from data corruption if transactions are enabled. Technically it is sequence of instructions written to append-only file. Each
+<p>WAL protects storage from data corruption if transactions are enabled.
+Technically it is sequence of instructions written to append-only file. Each
 instruction says something like: &#8216;write this data at this offset&#8217;. TODO explain WAL.</p>
 <p>WAL is stored in sequence of files.</p>
 <div class="section" id="wal-lifecycle">
@@ -333,10 +351,10 @@ instruction says something like: &#8216;write this data at this offset&#8217;. T
 <li>open (or create) WAL</li>
 <li>replay if unwritten data exists (described in separate section)</li>
 <li>start new file</li>
-<li>write instruction as they come</li>
+<li>write instructions as they come</li>
 <li>on commit start new file</li>
-<li>sync old file, once sync is done exit commit</li>
-<li>once log is full replay all files</li>
+<li>sync old file. Once sync is done, exit commit (it is blocking operation, until data are safe)</li>
+<li>once log is full, replay all files</li>
 <li>discard logs and start over</li>
 </ul>
 </div>
@@ -371,6 +389,8 @@ checksum to verify instruction.</p>
 <dd><p class="first last">TODO checksum for record inst</p>
 </dd>
 </dl>
+</li>
+<li><p class="first">TODO write two bytes.</p>
 </li>
 </ol>
 </div>
