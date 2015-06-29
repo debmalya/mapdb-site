@@ -113,7 +113,8 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
-<li><a class="reference internal" href="#version-2-0-alpha3-2015-07-16">Version 2.0-alpha3 (2015-07-16)</a></li>
+<li><a class="reference internal" href="#version-2-0-beta1-2015-06-31">Version 2.0-beta1 (2015-06-31)</a></li>
+<li><a class="reference internal" href="#version-2-0-alpha3-2015-06-16">Version 2.0-alpha3 (2015-06-16)</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#changelog-for-1-x-releases">Changelog for 1.X releases</a><ul>
@@ -180,8 +181,19 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="version-2-0-alpha3-2015-07-16">
-<h2>Version 2.0-alpha3 (2015-07-16)<a class="headerlink" href="#version-2-0-alpha3-2015-07-16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-2-0-beta1-2015-06-31">
+<h2>Version 2.0-beta1 (2015-06-31)<a class="headerlink" href="#version-2-0-beta1-2015-06-31" title="Permalink to this headline">¶</a></h2>
+<p>Storage format and API freeze. Fixed concurrent race conditions and crashes. Storage format has changed since Alpha3.</p>
+<p>List of possible problems:</p>
+<ul class="simple">
+<li>Crash recovery for Write-Ahead-Log and compaction is not completely verified. Data should be safe, but recovery might require user intervention to delete some old files etc.</li>
+<li>MMap files could <a class="reference external" href="https://github.com/jankotek/mapdb/issues/442">cause JVM to crash</a>. Older 1.0 branch also has this bug, it should be fixed in two weeks in 1.0.8 and 2.0-beta2.</li>
+<li>AppendOnly store does not have compaction. It also needs more testing for crash recovery.</li>
+<li>Several performance optimizations are disabled. Stability over speed is preferred. Many parts could be 4x faster, but those optimizations are postponed to 2.1 release. However 2.0 is still much faster compared to 1.0 release.</li>
+</ul>
+</div>
+<div class="section" id="version-2-0-alpha3-2015-06-16">
+<h2>Version 2.0-alpha3 (2015-06-16)<a class="headerlink" href="#version-2-0-alpha3-2015-06-16" title="Permalink to this headline">¶</a></h2>
 <p>Last unstable version before beta release.</p>
 </div>
 </div>
