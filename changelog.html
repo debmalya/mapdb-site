@@ -203,7 +203,8 @@ when DB is closed.</p>
 <ul class="simple">
 <li>Race condition between  <code class="docutils literal"><span class="pre">StoreDirect.put()</span></code> and <code class="docutils literal"><span class="pre">StoreDirect.compact()</span></code> is now fixed,
 for details see <a class="reference external" href="https://github.com/jankotek/mapdb/issues/542">Issue 542</a>. As result
-StoreDirect is now exclusively locked during compaction. With transaction disabled data can not be read or updated.
+StoreDirect is now exclusively locked during compaction. With transaction disabled data can not be read or updated,
+while compaction is running.
 Performance improvement should be in next release.</li>
 <li>Build script now produces separate jar file with package renamed to <code class="docutils literal"><span class="pre">org.mapdb20</span></code> and Maven name changed to
 <code class="docutils literal"><span class="pre">mapdb-renamed</span></code>. This should make it easy to use multiple versions in single JVM and migrate data between them.</li>
