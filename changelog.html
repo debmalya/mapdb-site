@@ -113,11 +113,13 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#version-2-0-beta2-2015-07-09">Version 2.0-beta2 (2015-07-09)</a></li>
 <li><a class="reference internal" href="#version-2-0-beta1-2015-06-31">Version 2.0-beta1 (2015-06-31)</a></li>
 <li><a class="reference internal" href="#version-2-0-alpha3-2015-06-16">Version 2.0-alpha3 (2015-06-16)</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#changelog-for-1-x-releases">Changelog for 1.X releases</a><ul>
+<li><a class="reference internal" href="#version-1-0-8-2015-07-09">Version 1.0.8 (2015-07-09)</a></li>
 <li><a class="reference internal" href="#version-1-0-7-2015-02-19">Version 1.0.7 (2015-02-19)</a></li>
 <li><a class="reference internal" href="#version-1-0-6-2014-08-07">Version 1.0.6 (2014-08-07)</a></li>
 <li><a class="reference internal" href="#version-1-0-5-2014-07-15">Version 1.0.5 (2014-07-15)</a></li>
@@ -181,6 +183,36 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-0-beta2-2015-07-09">
+<h2>Version 2.0-beta2 (2015-07-09)<a class="headerlink" href="#version-2-0-beta2-2015-07-09" title="Permalink to this headline">¶</a></h2>
+<p>Lot of bugfixing. Cleaner Hack for mmap files is disabled now. It is recommended <strong>not to use mmap files on Windows
+for now, until we do proper investigation</strong>.
+This release also provides <code class="docutils literal"><span class="pre">mapdb-renamed</span></code> maven package, with package name renamed to <code class="docutils literal"><span class="pre">org.mapdb20</span></code></p>
+<p>Improved crash recovery for Write Ahead Log and Append Only stores. In some cases MapDB would not replay log,
+on start after JVM crash. This could potentially lead to data corruption. Crash recovery is still not perfect
+and will need future improvements.</p>
+<p>Memory mapped files could cause JVM crash, for details see <a class="reference external" href="https://github.com/jankotek/mapdb/issues/442">Issue 442</a>.
+Crash would happen if write to mapped <code class="docutils literal"><span class="pre">ByteBuffer</span></code> would fail for some reasons (empty disk space).
+It could also happen if unmapped buffer was accessed.</p>
+<p>There were number of changes to solve this issue. Most importantly now <strong>MapDB 2.0 now has cleaner hack
+disabled by default</strong>. File handles are not released until Garbage Collection occur. This might
+cause file handle leaks. On Windows it prevents compaction and commits, since old file is locked and can not be renamed.
+There is new option <code class="docutils literal"><span class="pre">DBMaker.fileMmapCleanerHackEnable()</span></code> to enable Cleaner Hack and release file handle
+when DB is closed.</p>
+<p>Other changes:</p>
+<ul class="simple">
+<li>Race condition between  <code class="docutils literal"><span class="pre">StoreDirect.put()</span></code> and <code class="docutils literal"><span class="pre">StoreDirect.compact()</span></code> is now fixed,
+for details see <a class="reference external" href="https://github.com/jankotek/mapdb/issues/542">Issue 542</a>. As result
+StoreDirect is now exclusively locked during compaction. With transaction disabled data can not be read or updated.
+Performance improvement should be in next release.</li>
+<li>Build script now produces separate jar file with package renamed to <code class="docutils literal"><span class="pre">org.mapdb20</span></code> and Maven name changed to
+<code class="docutils literal"><span class="pre">mapdb-renamed</span></code>. This should make it easy to use multiple versions in single JVM and migrate data between them.</li>
+<li><code class="docutils literal"><span class="pre">Serializer.JAVA</span></code> serializer did not work. Fixed #536.</li>
+<li><code class="docutils literal"><span class="pre">Bind.histogram()</span></code> would not recreate empty secondary set. Fix #453.</li>
+<li>HTreeMap: fix #538, NullPointerException when <code class="docutils literal"><span class="pre">HTreeMap.get()</span></code> was called with non existing key while overflow was enabled</li>
+<li>Fix custom serializers ignored on map creation #540</li>
+</ul>
+</div>
 <div class="section" id="version-2-0-beta1-2015-06-31">
 <h2>Version 2.0-beta1 (2015-06-31)<a class="headerlink" href="#version-2-0-beta1-2015-06-31" title="Permalink to this headline">¶</a></h2>
 <p>Storage format and API freeze. Fixed concurrent race conditions and crashes. Storage format has changed since Alpha3.
@@ -200,6 +232,38 @@ More details about this release in the <a class="reference external" href="http:
 </div>
 <div class="section" id="changelog-for-1-x-releases">
 <h1>Changelog for 1.X releases<a class="headerlink" href="#changelog-for-1-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-0-8-2015-07-09">
+<h2>Version 1.0.8 (2015-07-09)<a class="headerlink" href="#version-1-0-8-2015-07-09" title="Permalink to this headline">¶</a></h2>
+<p>Fixed several bugs.</p>
+<p>Changes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Memory Mapped files could cause JVM crash (<code class="docutils literal"><span class="pre">~StubRoutines::jlong_disjoint_arraycopy</span></code>).
+For details see <a class="reference external" href="https://github.com/jankotek/mapdb/issues/442">Issue 442</a>.
+This was linked to ByteBuffer Cleaner Hack which unmaps buffer when file is closed,
+rather than waiting to Garbage Collection. Cleaner Hack was disabled by default in 2.0.
+In 1.0 it is left enabled for compatibility reason. There is new setting
+<code class="docutils literal"><span class="pre">DBMaker.mmapFileCleanerHackDisable()</span></code> to disable it, in case you experience problems.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/452">#452</a>: <code class="docutils literal"><span class="pre">pumpSource()</span></code> would fails with empty iterator</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/453">#453</a>: <code class="docutils literal"><span class="pre">Bind.histogram()</span></code> does not recreate content if secondary collection is empty</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/362">#362</a>: failing unit tests on Windows</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/517">#517</a>: DB: non serializable serializer could leave name catalog in semi-locked state</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/513">#513</a>: Atomic.Var: store does not allow <code class="docutils literal"><span class="pre">null</span></code> values. Change initial value from <cite>null</cite> to empty string <cite>&#8220;&#8221;</cite>.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/523">#523</a>: Read-only mmap file not unmapped after close.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/MapDB/issues/534">#534</a>: BTreeMap: IndexOutOfBoundsException under concurrent access</li>
+<li><code class="docutils literal"><span class="pre">mapdb-renamed</span></code> was update to 1.0.8. There is script to make release semi-automated</li>
+</ul>
+</div></blockquote>
+<p>Open issues</p>
+<blockquote>
+<div><ul class="simple">
+<li>there are reported isses with data corruption in Write-Ahead-Log.
+Most notably <a class="reference external" href="https://github.com/jankotek/MapDB/issues/509">#509</a> and <a class="reference external" href="https://github.com/jankotek/MapDB/issues/515">#515</a>.
+I can not reproduce it yet, but working on fixing those.</li>
+<li>List of <a class="reference external" href="https://github.com/jankotek/mapdb/labels/1.0">open issues in 1.0 branch</a>.</li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="version-1-0-7-2015-02-19">
 <h2>Version 1.0.7 (2015-02-19)<a class="headerlink" href="#version-1-0-7-2015-02-19" title="Permalink to this headline">¶</a></h2>
 <p>Fixed bugs in Write-Ahead-Log and <code class="docutils literal"><span class="pre">HTreeMap</span></code> entry expiration.</p>

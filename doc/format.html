@@ -231,15 +231,24 @@ must be aligned so they do not cross page boundaries.</p>
 <div class="section" id="head">
 <h3>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h3>
 <p>Header in StoreDirect format is composed by number of 8 byte longs:</p>
-<p>0) <strong>header</strong> and <strong>head checksum</strong>. Checksum is CRC of entire HEAD and is recalculated on
-every sync/close. Invalid checksum means that store was not closed correctly,
+<ol class="arabic" start="0">
+<li><dl class="first docutils">
+<dt><strong>header</strong> and <strong>head checksum</strong>. Checksum is CRC of entire HEAD and is recalculated on</dt>
+<dd><p class="first last">every sync/close. Invalid checksum means that store was not closed correctly,
 is very likely corrupted and MapDB should fail to open it. See <code class="docutils literal"><span class="pre">StoreDirect.headChecksum()</span></code></p>
-<ol class="arabic simple">
-<li>bit field indicating <strong>format features</strong>. IE what type of checksums are enabled, compression enabled etc...</li>
-<li><strong>store size</strong> pointer to last allocated page inside store. Parity 16.</li>
-<li><strong>max recid</strong> maximal allocated recid. Shifted &lt;&lt;&lt;3 for parity 3</li>
-<li><strong>index page registry</strong> points to page with list of index pages. Parity 16.</li>
-<li><strong>free recids</strong> longs stack</li>
+</dd>
+</dl>
+</li>
+<li><p class="first">bit field indicating <strong>format features</strong>. IE what type of checksums are enabled, compression enabled etc...</p>
+</li>
+<li><p class="first"><strong>store size</strong> pointer to last allocated page inside store. Parity 16.</p>
+</li>
+<li><p class="first"><strong>max recid</strong> maximal allocated recid. Shifted &lt;&lt;&lt;3 for parity 3</p>
+</li>
+<li><p class="first"><strong>index page registry</strong> points to page with list of index pages. Parity 16.</p>
+</li>
+<li><p class="first"><strong>free recids</strong> longs stack</p>
+</li>
 </ol>
 <p>TODO free longstacks</p>
 <p>TODO rest of zero page is filled by recids</p>
