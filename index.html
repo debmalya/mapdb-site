@@ -151,14 +151,13 @@
             
   <div class="section" id="mapdb">
 <h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is embedded database engine. It provides java collections backed by disk or memory database store.
-MapDB has excellent performance comparable to <cite>java.util.HashMap</cite> and other collections, but is not limited by GC.
-It is also very flexible engine with many storage backend, cache algorithms,  and so on.
-And finally MapDB is pure-java single 400K JAR and only depends on JRE 6+ or Android 2.1+.</p>
-<p>MapDB development is sponsored by <a class="reference external" href="http://codefutures.com/">CodeFutures Corporation</a>.
-It is a leading supplier of database performance
-tools that reduce the time and effort required to develop database applications and dramatically increase deployed database
-scalability and performance. MapDB author works for CodeFutures on <a class="reference external" href="http://codefutures.com/agildata/">next generation distributed database</a>.</p>
+<p>MapDB is embedded database engine. It provides Maps and other collections backed by disk or memory database store.
+It offers excellent performance comparable to java collections, but is not limited by Garbage Collection overhead.
+It is also full database engine with storage backends, transactions, cache algorithms, expiration and many other options.
+MapDB is very easy to use. It is pure-java single 500K JAR and only depends on JRE 6+ or Android 2.1+.
+It is also very flexible, it exposes many low level optimizations, without sacrificing usability,</p>
+<p>MapDB is free as a beer under <strong>Apache 2 license</strong> with no strings attached. There is active community on
+<a class="reference external" href="https://github.com/jankotek/mapdb">Github</a>. MapDB is sponsored by <a class="reference external" href="mailto:jan&#37;&#52;&#48;kotek&#46;net">consulting services</a>.</p>
 <div class="section" id="news">
 <h2>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -197,8 +196,16 @@ Fixed transaction log replay after unclean shutdown.</li>
 <div class="code xml highlight-python"><div class="highlight"><pre>&lt;dependency&gt;
    &lt;groupId&gt;org.mapdb&lt;/groupId&gt;
    &lt;artifactId&gt;mapdb&lt;/artifactId&gt;
-   &lt;version&gt;1.0.7&lt;/version&gt;
+   &lt;version&gt;1.0.8&lt;/version&gt;
 &lt;/dependency&gt;
+</pre></div>
+</div>
+<p>There is also newer and faster 2.0-beta (replace X with current version):</p>
+<div class="code xml highlight-python"><div class="highlight"><pre>&lt;dependency&gt;
+   &lt;groupId&gt;org.mapdb&lt;/groupId&gt;
+   &lt;artifactId&gt;mapdb&lt;/artifactId&gt;
+   &lt;version&gt;2.0-betaX&lt;/version&gt;
+&lt;/dependency
 </pre></div>
 </div>
 <p>And simple in-memory example:</p>
@@ -264,12 +271,13 @@ db.close();
 </li>
 </ul>
 </div>
-<p>For general questions there is <a class="reference external" href="https://groups.google.com/forum/#!forum/mapdb">mailing list</a>. You may subscribe without GMail account by <a class="reference external" href="mailto:mapdb+subscribe&#37;&#52;&#48;googlegroups&#46;com">sending email</a>.</p>
-<p>Bug reports are hosted on <a class="reference external" href="https://github.com/jankotek/MapDB/issues">Github</a>.</p>
-<p>Finally last option is to <a class="reference external" href="mailto:jan(at)kotek&#46;net">contact me directly</a>. Unless you mark your mail as private,
-I reserve right to forward technical questions and answers into mailing-list.</p>
-<p>I usually respond to non-paying users within a few days. Paid support and consulting is provided by
-<a class="reference external" href="http://codefutures.com/mapdb">CodeFutures</a> (or contact me directly).</p>
+<p>For general questions there is <a class="reference external" href="https://groups.google.com/forum/#!forum/mapdb">mailing list</a>.
+You may subscribe without GMail account by <a class="reference external" href="mailto:mapdb+subscribe&#37;&#52;&#48;googlegroups&#46;com">sending email</a>.</p>
+<p>Bug reports are hosted on <a class="reference external" href="https://github.com/jankotek/mapdb/issues">Github</a>.</p>
+<p>Finally there are <a class="reference external" href="mailto:jan&#37;&#52;&#48;kotek&#46;net">consulting services</a> for MapDB.</p>
+<p>I usually respond to non-paying users within a few days via email.
+Paid customers get faster response times with optional video-conferences.
+I am located in Europe, but usually work late evenings.</p>
 </div>
 </div>
 
