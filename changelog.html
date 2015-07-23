@@ -113,6 +113,8 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#version-2-0-beta3-2015-07-23">Version 2.0-beta3 (2015-07-23)</a></li>
+<li><a class="reference internal" href="#changes">Changes</a></li>
 <li><a class="reference internal" href="#version-2-0-beta2-2015-07-09">Version 2.0-beta2 (2015-07-09)</a></li>
 <li><a class="reference internal" href="#version-2-0-beta1-2015-06-31">Version 2.0-beta1 (2015-06-31)</a></li>
 <li><a class="reference internal" href="#version-2-0-alpha3-2015-06-16">Version 2.0-alpha3 (2015-06-16)</a></li>
@@ -183,6 +185,22 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-0-beta3-2015-07-23">
+<h2>Version 2.0-beta3 (2015-07-23)<a class="headerlink" href="#version-2-0-beta3-2015-07-23" title="Permalink to this headline">¶</a></h2>
+<p>Bug fix in Write Ahead Log. Added file locking. Crash recovery improved but still needs more testing.
+Not sure if disk compaction and commits works on Windows with mmap files.</p>
+</div>
+<div class="section" id="changes">
+<h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed issue in Write-Ahead-Log. Single record modified by many commit would not be persisted after full replay.</li>
+<li>Added file locking to prevent multiple processes opening the same store. By default it uses <code class="docutils literal"><span class="pre">FileChannel.lock()</span></code>
+There are two new options: <code class="docutils literal"><span class="pre">DBMaker.fileLockDisable()</span></code> to disable locking, and ``</li>
+<li>many new stress tests</li>
+<li>Fixed: StoreAppend.get() throws <code class="docutils literal"><span class="pre">NullPointerException</span></code> with transaction disabled.</li>
+<li>More changes into mmap files. Improve handling in case of low-disk space.</li>
+</ul>
+</div>
 <div class="section" id="version-2-0-beta2-2015-07-09">
 <h2>Version 2.0-beta2 (2015-07-09)<a class="headerlink" href="#version-2-0-beta2-2015-07-09" title="Permalink to this headline">¶</a></h2>
 <p>Lot of bugfixing. Cleaner Hack for mmap files is disabled now. It is recommended <strong>not to use mmap files on Windows
