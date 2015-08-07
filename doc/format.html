@@ -136,6 +136,7 @@
 <li><a class="reference internal" href="#instructions">Instructions</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#backup-format">Backup format</a></li>
 </ul>
 </li>
 </ul>
@@ -433,6 +434,37 @@ to make space for parity bits at end.</p>
 <li>Current transaction is invalid. Rollback all changes since end of previous transaction. Start new transaction</li>
 </ol>
 </div>
+</div>
+<div class="section" id="backup-format">
+<h2>Backup format<a class="headerlink" href="#backup-format" title="Permalink to this headline">¶</a></h2>
+<p>This format is used for backups. Header contains metadata such as timestamp and checksums.
+Payload is stream of recids and binary data.
+There are two major usages: full backups and incremental backups. Both usages
+share the same format.</p>
+<p>This definition operates with &#8216;timestamp&#8217;, but definition here is slightly modified.
+In here timestamp is number of milliseconds since epoch, but it could also be
+last backup timestamp plus one, whatever is higher.</p>
+<p>Backup format has following header:</p>
+<ol class="arabic simple">
+<li>2 bytes of file header</li>
+<li>2 bytes of version info</li>
+<li>4 bytes of CRC32 checksum of entire file starting at 8th byte. Can be optionally zero, if backup checksum is disabled</li>
+<li>8 bytes of Feature Flags</li>
+<li>8 bytes is file size, or zero if this file was not closed yet. This could serve as file seal to ensure correct sync.</li>
+<li>8 bytes timestamp of time when backup was taken</li>
+<li>8 bytes timestamp of previous backup if this is incremental backup, or zero if this is full backup</li>
+</ol>
+<p>Header is 40 bytes long. It is followed by stream of recids and data:</p>
+<ol class="arabic simple">
+<li>recid in packed form. Parity 3+shift, or parity 16+shift if checksums are enabled. It is zero at EOF</li>
+<li>size of record plus one. Zero value indicates null record. Parity 1+shift, or parity 16+shuft if checksums are enabled.</li>
+<li>followed by record data of size. Checksum is part of data, so it is not needed here, even if checksums are enabled</li>
+</ol>
+<p>End of file is indicated by two things:</p>
+<ol class="arabic simple">
+<li>there is file size field in header</li>
+<li>last recid is zero.</li>
+</ol>
 </div>
 </div>
 
