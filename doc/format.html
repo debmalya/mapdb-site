@@ -27,6 +27,7 @@
     <link rel="up" title="MapDB Manual" href="index.html" />
     <link rel="next" title="Frequently Asked Questions" href="../faq.html" />
     <link rel="prev" title="Concurrency" href="concurrency.html" />
+  
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -73,6 +74,16 @@
   ga('send', 'pageview');
 
 </script>
+
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.post-list-style-disc {list-style-type: disc;}
+    ul.post-list-style-none {list-style-type: none;}
+    ul.post-list-style-circle {list-style-type: circle;}
+  </style>
 
   </head>
   <body role="document">
@@ -455,9 +466,10 @@ last backup timestamp plus one, whatever is higher.</p>
 <li>8 bytes timestamp of previous backup if this is incremental backup, or zero if this is full backup</li>
 </ol>
 <p>Header is 40 bytes long. It is followed by stream of recids and data:</p>
-<ol class="arabic simple">
-<li>recid in packed form. Parity 3+shift, or parity 16+shift if checksums are enabled. It is zero at EOF</li>
-<li>size of record plus one. Zero value indicates null record. Parity 1+shift, or parity 16+shuft if checksums are enabled.</li>
+<p>1) recid in packed form. Parity 3+shift, or parity 16+shift if checksums are enabled. It is zero at EOF
+`
+2) size of record plus one. Zero value indicates null record. Parity 1+shift, or parity 16+shift if checksums are enabled.</p>
+<ol class="arabic simple" start="3">
 <li>followed by record data of size. Checksum is part of data, so it is not needed here, even if checksums are enabled</li>
 </ol>
 <p>End of file is indicated by two things:</p>
@@ -468,6 +480,10 @@ last backup timestamp plus one, whatever is higher.</p>
 </div>
 </div>
 
+  <div class="section">
+  
+  
+  </div>
 
           </div>
         </div>

@@ -27,6 +27,7 @@
     <link rel="up" title="Contents" href="contents.html" />
     <link rel="next" title="MapDB Manual" href="doc/index.html" />
     <link rel="prev" title="Features" href="features.html" />
+  
  
     <style type="text/css">
       table.right { float: right; margin-left: 20px; }
@@ -74,6 +75,16 @@
 
 </script>
 
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.post-list-style-disc {list-style-type: disc;}
+    ul.post-list-style-none {list-style-type: none;}
+    ul.post-list-style-circle {list-style-type: circle;}
+  </style>
+
   </head>
   <body role="document">
 <div class="pageheader">
@@ -118,6 +129,7 @@
 <li><a class="reference internal" href="#openstreet-map-import">OpenStreet map import</a></li>
 <li><a class="reference internal" href="#opentripplanner">OpenTripPlanner</a></li>
 <li><a class="reference internal" href="#norconex">Norconex</a></li>
+<li><a class="reference internal" href="#bliss">bliss</a></li>
 </ul>
 </li>
 </ul>
@@ -208,8 +220,29 @@ for its street and public transport schedule import step.</p>
 <p>I am glad to have discovered this ultra-fast Java Map implementation that scales linearly, is not limited by JVM memory, and persists to disk as you write to it.  For an embedded key/value storage solution, MapDB tops the list for being so efficient and easy to use. It has been used as the default URL storage mechanism for Norconex Collectors for a few years now.</p>
 <p>Pascal Essiembre - President at <a class="reference external" href="http://www.norconex.com">Norconex</a></p>
 </div>
+<div class="section" id="bliss">
+<h2>bliss<a class="headerlink" href="#bliss" title="Permalink to this headline">¶</a></h2>
+<p>Our app uses MapDB as a key-value store. We originally started with JDBM
+back in 2009 and made the port to MapDB in 2015.</p>
+<p>The main reason I chose MapDB is because I dislike the impedance mismatch
+of trying to force a Java object graph into a relational database. Not
+having any particular need for a relational database, I decided a key-value
+store storing Java objects is a nicer fit. MapDB appears very performant
+under highly concurrent loads. I like how the dependencies are basically
+zero, and the code itself is very concise, which helps when you are trying
+to work out how it works.</p>
+<p>Our application is downloadable software, and MapDB is used to write to the
+user&#8217;s local hard drive. We have around 500,000 installations, so we know
+that MapDB works well on a wide variety of OSes and hardware, from desktops
+to NASes and music servers.</p>
+<p>Dan Gravell - <a class="reference external" href="http://www.blisshq.com/">bliss</a></p>
+</div>
 </div>
 
+  <div class="section">
+  
+  
+  </div>
 
           </div>
         </div>

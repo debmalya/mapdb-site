@@ -6,27 +6,24 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Foreword &mdash; MapDB</title>
+    <title>Posts by Jan Kotek &mdash; MapDB</title>
     
-    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
+        URL_ROOT:    '../../',
         VERSION:     '2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="MapDB" href="../index.html" />
-    <link rel="up" title="MapDB Manual" href="index.html" />
-    <link rel="next" title="Getting started" href="getting-started.html" />
-    <link rel="prev" title="MapDB Manual" href="index.html" />
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../../index.html" />
   
  
     <style type="text/css">
@@ -76,6 +73,8 @@
 </script>
 
   
+  <link rel="alternate" type="application/atom+xml"  href="../../blog/atom.xml" title="News">
+  
   
   <style type="text/css">
     ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
@@ -89,14 +88,14 @@
   <body role="document">
 <div class="pageheader">
   <ul>
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="getting-started.html">Intro</a></li>
-    <li><a href="index.html">Docs</a></li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../doc/getting-started.html">Intro</a></li>
+    <li><a href="../../doc/index.html">Docs</a></li>
     <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
   </ul>
   <div>
-    <a href="../index.html">
-      <img src="../_static/logo.png" alt="MapDB" />
+    <a href="../../index.html">
+      <img src="../../_static/logo.png" alt="MapDB" />
     </a>
   </div>
 </div>
@@ -105,38 +104,18 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="getting-started.html" title="Getting started"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="MapDB Manual"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Home</a>&nbsp;|</li>
-        <li><a href="../contents.html">Documentation</a> &raquo;</li>
-
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
+        <li><a href="../../index.html">Home</a>&nbsp;|</li>
+        <li><a href="../../contents.html">Documentation</a> &raquo;</li>
+ 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">MapDB Manual</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="getting-started.html"
-                        title="next chapter">Getting started</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/doc/foreword.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
+    <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -155,27 +134,60 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="foreword">
-<h1>Foreword<a class="headerlink" href="#foreword" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is an embedded database engine for java. It provides collections backed by on-disk or in-memory storage.
-It is flexible, simple and free under Apache 2 license. MapDB is extremely fast, as in-memory mode
-rivals on-heap <code class="docutils literal"><span class="pre">java.util</span></code> collections and on-disk mode outperforms databases written in C. And it has several
-configuration options from regular ACID transactions to very fast direct storage.</p>
-<p>MapDB started in 2001 under the name JDBM. The current MapDB2 is its 5th generation.
-It evolved as a db engine focused around Java. It is pure-java, implements all tricky interfaces
-such as <code class="docutils literal"><span class="pre">ConcurrentNavigableMap</span></code>, has only single 500KB jar,
-and runs everywhere, including Android and JDK6.
-Also, its serialization lifecycle and separate memory allocator
-makes it easy to port existing data models (such as collections) to database engine,
-outside of Garbage Collector influence.</p>
-<p>This manual is a work in progress and it will be completed together with the MapDB 2.0.0 release.
-I hope you will find it useful. I would be very happy to accept
-<a class="reference external" href="https://github.com/jankotek/mapdb-site/tree/master/doc">pull requests</a></p>
-</div>
-
   <div class="section">
+
+    <h1>
+      
+      Posts by
+      
+      <a href="http://www.kotek.net">Jan Kotek</a>
+      
+    </h1>
+    
+    
+
+    <div class="section">
+      <h2><a href="../../changelog.html#beta5-released-2015-08-12">2.0 beta5 released (2015-08-12)</a></h2>
+
+      <ul class="ablog-archive">
+      <li>
+      
+        Aug 12, 2015
+      
+      </li>
+        
+
   
+  <li>Author:
+    
+      
+      <a href="#">Jan Kotek</a>
+      
+    </li>
   
+
+  
+
+  
+
+  
+
+  
+  <li>Tag:
+    
+      
+      <a href="../tag/release.html">release</a>
+      
+    </li>
+  
+  </ul>
+      <p>Added incremental backups. Less fragmentation. Custom class loaders.</p>
+
+      <p><a href="../../changelog.html">Read more ...</a></p>
+      <hr>
+    </div>
+    
+    
   </div>
 
           </div>
@@ -187,18 +199,11 @@ I hope you will find it useful. I would be very happy to accept
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="getting-started.html" title="Getting started"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="MapDB Manual"
-             >previous</a> |</li>
-        <li><a href="../index.html">Home</a>&nbsp;|</li>
-        <li><a href="../contents.html">Documentation</a> &raquo;</li>
-
-          <li class="nav-item nav-item-1"><a href="index.html" >MapDB Manual</a> &raquo;</li> 
+        <li><a href="../../index.html">Home</a>&nbsp;|</li>
+        <li><a href="../../contents.html">Documentation</a> &raquo;</li>
+ 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
