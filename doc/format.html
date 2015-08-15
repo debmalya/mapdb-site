@@ -148,6 +148,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#backup-format">Backup format</a></li>
+<li><a class="reference internal" href="#archive-format">Archive format</a></li>
 </ul>
 </li>
 </ul>
@@ -477,6 +478,32 @@ last backup timestamp plus one, whatever is higher.</p>
 <li>there is file size field in header</li>
 <li>last recid is zero.</li>
 </ol>
+</div>
+<div class="section" id="archive-format">
+<h2>Archive format<a class="headerlink" href="#archive-format" title="Permalink to this headline">¶</a></h2>
+<p>Archive format is readonly space efficient format. Unlike backups it can be still queried.
+It does not preserve RECID layout, so it can not be used for direct backups,
+but must be created using Data Pump.</p>
+<p>Non-index is special type of storage format which does not have index table. There is no mapping
+between recid and physical offset in file. Recid if also the physical offset within file.
+This format is very space efficient, but readonly. It can be created using Data Pump.</p>
+<ol class="arabic simple">
+<li>2 bytes of file header</li>
+<li>2 bytes of version info</li>
+<li>4 bytes of CRC32 checksum of entire file starting at 8th byte. Can be optionally zero.</li>
+<li>8 bytes of Feature Flags</li>
+<li>8 bytes of file size. Parity 4+shift</li>
+<li>8x8 bytes reserved for future use</li>
+</ol>
+<ol class="arabic simple" start="6">
+<li>7x8 bytes for reserved recids. Those recids are required, so this is tiny version of index table. Value is offset, parity4+shift</li>
+</ol>
+<p>This is followed by physical records.
+Each record starts with packed record size (parity1+shift),
+Actual record size is size-1, zero size in this case indicates null record,
+size 1 indicates empty record (zero len).
+Packed size is followed by record data.</p>
+<p>There is no EOF mark.</p>
 </div>
 </div>
 
