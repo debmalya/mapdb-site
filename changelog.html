@@ -124,6 +124,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#beta6-released-2015-08-18">2.0-beta6 released (2015-08-18)</a></li>
 <li><a class="reference internal" href="#beta5-released-2015-08-12">2.0 beta5 released (2015-08-12)</a></li>
 <li><a class="reference internal" href="#version-2-0-beta4-2015-08-03">Version 2.0-beta4 (2015-08-03)</a></li>
 <li><a class="reference internal" href="#version-2-0-beta3-2015-07-23">Version 2.0-beta3 (2015-07-23)</a></li>
@@ -197,6 +198,38 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta6-released-2015-08-18">
+<h2>2.0-beta6 released (2015-08-18)<a class="headerlink" href="#beta6-released-2015-08-18" title="Permalink to this headline">¶</a></h2>
+<p>There is <strong>storage format change</strong>: array hashing has changed. If you use any array such as <code class="docutils literal"><span class="pre">Object[]</span></code>, <code class="docutils literal"><span class="pre">byte[]</span></code>,
+<code class="docutils literal"><span class="pre">long[]</span></code>, etc... as key in <code class="docutils literal"><span class="pre">HashMap</span></code> it is not readable in new version.</p>
+<p>Hashing in Java is broken. <code class="docutils literal"><span class="pre">Arrays.hash()</span></code> and <code class="docutils literal"><span class="pre">String.hashCode()</span></code> returns too many collisions.
+This version replaces Java hashing with XXHash and other improved algorithms.</p>
+<p>This version also fixes number of bugs. <code class="docutils literal"><span class="pre">BTreeMap</span></code> with <code class="docutils literal"><span class="pre">valuesOutsideNodesEnable()</span></code> had storage space leak,
+now it uses much less space and is faster with updates.</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>Hash code calculation has changed in: <code class="docutils literal"><span class="pre">Serializer.OBJECT_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.BYTE_ARRAY_NOSIZE</span></code>,
+<code class="docutils literal"><span class="pre">Serializer.CHAR_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.INT_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.LONG_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.DOUBLE_ARRAY</span></code>,
+<code class="docutils literal"><span class="pre">Serializer.FLOAT_ARRAY</span></code>, <code class="docutils literal"><span class="pre">Serializer.SHORT_ARRAY</span></code> and <code class="docutils literal"><span class="pre">Serializer.RECID_ARRAY</span></code>,</li>
+<li>Hash did not changed in <code class="docutils literal"><span class="pre">Serializer.STRING</span></code>, it still uses <code class="docutils literal"><span class="pre">String.hashCode()</span></code>. But this
+hash is broken and for HashMap Key Serializer one should use new <code class="docutils literal"><span class="pre">Serializer.STRING_XXHASH</span></code></li>
+<li>XXHash64 hash from LZ4-Java project was integrated into MapDB (Volume, DataIO, UnsafeStuff...). Will be fully utilized in next release</li>
+<li>Some serializers now use Hash Seed. That is better protection from Hash Collision attack.</li>
+<li>There is new experimental <code class="docutils literal"><span class="pre">StoreArchive</span></code>. It is faster, uses less space, but only readonly storage.
+Its not finished, and next release WILL change its storage format. For details checkout
+<a class="reference external" href="https://github.com/jankotek/mapdb/issues/93">bug report</a></li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/mapdb/issues/403">#403</a>. BTreeMap: storage space leak with valuesOutsideNodesEnable()
+Old external values were not deleted on update and removal from BTreeMap. Now this case is much faster on updates</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/mapdb/issues/430">#430</a>. Fun: Fun.filter should use the comparator of the filtered set.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/mapdb/issues/546">#546</a>. Rewrote persistent Serializers in <code class="docutils literal"><span class="pre">DB</span></code>. Fixed some warnings.</li>
+<li>Added <code class="docutils literal"><span class="pre">Store.fileLoad()</span></code> to pre-cache file content of mmap files</li>
+<li>Added <code class="docutils literal"><span class="pre">DBMaker.CC()</span></code> to access Compiler Config at runtime.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/mapdb/issues/385">#385</a>. Untrusted serializers are now limited and can not read beyong record size.</li>
+<li>Fixed <a class="reference external" href="https://github.com/jankotek/mapdb/issues/556">#556</a>. CircularQueue fails to take 1 element if queue is of size 4 and not full.</li>
+<li>Started work on BTreeMap online compaction, no working code yet. See
+<a class="reference external" href="https://github.com/jankotek/mapdb/issues/545">#545</a> and <a class="reference external" href="https://github.com/jankotek/mapdb/issues/97">#97</a></li>
+</ul>
+</div>
 <div class="section" id="beta5-released-2015-08-12">
 <h2>2.0 beta5 released (2015-08-12)<a class="headerlink" href="#beta5-released-2015-08-12" title="Permalink to this headline">¶</a></h2>
 <p>Added incremental backups. Less fragmentation. Custom class loaders.</p>
