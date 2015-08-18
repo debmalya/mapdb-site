@@ -273,6 +273,10 @@ to enable them on 32bit systems.</li>
 Use <code class="docutils literal"><span class="pre">DBMaker.cacheHashTableEnable()</span></code></li>
 <li>MapDB does not run compaction on the background. You need to call
 <code class="docutils literal"><span class="pre">DB.compact()</span></code> from time to time.</li>
+<li>MapDB file storage can be only opened by one user at time.
+File lock should prevent file being used multiple times.
+But if file lock fails to prevent it, the file will become corrupted when opened (and written into)
+by multiple users.</li>
 </ul>
 </div>
 </div>
