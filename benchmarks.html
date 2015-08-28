@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Benchmarks &mdash; MapDB</title>
+    <title>In-memory benchmarks &mdash; MapDB</title>
     
     <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -123,10 +123,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Benchmarks</a><ul>
-<li><a class="reference internal" href="#long-uuid-map">Long - UUID map</a></li>
-<li><a class="reference internal" href="#id1">Long - UUID map</a></li>
-<li><a class="reference internal" href="#on-disk">On Disk</a></li>
+<li><a class="reference internal" href="#">In-memory benchmarks</a><ul>
+<li><a class="reference internal" href="#maps">Maps</a></li>
+<li><a class="reference internal" href="#memory-usage">Memory usage</a></li>
+<li><a class="reference internal" href="#random-updates">Random updates</a></li>
+<li><a class="reference internal" href="#random-gets">Random gets</a></li>
 </ul>
 </li>
 </ul>
@@ -165,47 +166,77 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="benchmarks">
-<h1>Benchmarks<a class="headerlink" href="#benchmarks" title="Permalink to this headline">¶</a></h1>
-<p>Goal for MapDB is to have speed comparable to <code class="docutils literal"><span class="pre">java.util.concurrent</span></code> collections such <code class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></code>.
-MapDB does things like serialization on background, so it is not always possible, but its very close.</p>
-<p>This benchmark compares various <code class="docutils literal"><span class="pre">Map</span></code> implementations. Benchmark sources are available in
-<a class="reference external" href="https://github.com/jankotek/mapdb-benchmarks">Github repo</a>.</p>
-<div class="section" id="long-uuid-map">
-<h2>Long - UUID map<a class="headerlink" href="#long-uuid-map" title="Permalink to this headline">¶</a></h2>
-<p>First benchmark tests <code class="docutils literal"><span class="pre">Map&lt;Long,UUID&gt;</span></code> map. It chooses small entry size (24 bytes), since its size affect performance.</p>
-<p>TODO metrics</p>
-<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-single-thread.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-single-thread.png" />
-<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> is about 8x faster than MapDB. Map size is 10 million items,
-so there is practically zero GC overhead. With larger sizes <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code>
-performance degrades due to GC overhead and MapDB will eventually become faster.</p>
-<p>Also MapDB uses compression, so it consumes much less memory.</p>
-<p>TODO chart of size scalability</p>
-<p>TODO chart of memory usage depending on collection size</p>
-<p>Chart bellow shows performance of <code class="docutils literal"><span class="pre">BTreeMap</span></code> from MapDB with number of threads on quad core CPU with 8 virtual cores.</p>
-<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_BTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_BTreeMap-scalability.png" />
-<p>And this is multi-threaded performance for <code class="docutils literal"><span class="pre">HTreeMap</span></code> (HashMap). There is bug in segment hashing,
-so it wont scale over 2 threads.</p>
-<img alt="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_HTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryLongTest-org_mapdb_HTreeMap-scalability.png" />
+  <div class="section" id="in-memory-benchmarks">
+<h1>In-memory benchmarks<a class="headerlink" href="#in-memory-benchmarks" title="Permalink to this headline">¶</a></h1>
+<p>MapDB provides more advanced alternative to Java Collections.
+This benchmarks compares various <cite>Map</cite> implementations.
+Its purpose is to show MapDB as reasonable alternative to Java Collections for some cases.</p>
+<p>MapDB supports many features, uses less space and does serialization.
+Despite that it has performance comparable to Java Collections; sometimes it is faster,
+sometimes it is &#8220;only&#8221; 10 times slower. Also current MapDB 2.0 release is not fastest,
+it is initial naive implementation, we plan performance optimisations in 2.1 release.</p>
+<p>This benchmarks tries to be objective.
+It is used for performance regression testing and MapDB development depends on its precision.
+Java Collections suffer greatly from Garbage Collection overhead, we made sure this is not a case here.
+MapDB maps scale to terabytes without a hiccup.
+It would be easy to show MapDB as much faster, by increasing Map size.</p>
+<p>Benchmark source is in <a class="reference external" href="https://github.com/jankotek/mapdb-benchmarks">Github repo</a>.
+Please send Pull Request if you have improvements.
+All test ran on 64bit JDK7.</p>
+<div class="section" id="maps">
+<h2>Maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
+<p>There are six maps in test. All tests work on Map with 100 million entries, <code class="docutils literal"><span class="pre">Long</span></code> key and <code class="docutils literal"><span class="pre">UUID</span></code> value.</p>
+<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> is regular concurrent <code class="docutils literal"><span class="pre">HashMap</span></code> bundled with Java.</p>
+<p><code class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></code> is concurrent version of <code class="docutils literal"><span class="pre">java.util.TreeMap</span></code> bundled with Java.</p>
+<p><code class="docutils literal"><span class="pre">HTreeMap</span></code> is concurrent <code class="docutils literal"><span class="pre">HashMap</span></code> implementation from MapDB. It is optimized for bigger keys and large number of entries.
+It has some nice features such as entry expiration with TTL or maximal size</p>
+<p><code class="docutils literal"><span class="pre">BTreeMap</span></code> is concurrent <code class="docutils literal"><span class="pre">TreeMap</span></code> implementation from MapDB. It is optimized for minimal space usage and for small keys.
+It has specialized keys (for example <code class="docutils literal"><span class="pre">Long</span></code> key is stored as primitive <code class="docutils literal"><span class="pre">long</span></code>) and other nice features.</p>
+<p>MapDB works in two modes. <code class="docutils literal"><span class="pre">heap</span></code> mode does not use serialization. Everything is stored on heap, as object instances.
+Heap mode is affected by Garbage Collector. This mode is usually faster for smaller sets.</p>
+<p><code class="docutils literal"><span class="pre">offheap</span></code> mode serializes all data into in-memory binary store. It is not affected by Garbage Collector.
+It is better for large maps, it runs just fine with 500GB store size.</p>
 </div>
-<div class="section" id="id1">
-<h2>Long - UUID map<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Second benchmark tests <code class="docutils literal"><span class="pre">Map&lt;String,String&gt;</span></code> with key and value size 32 bytes.
-This is unfortunate situation for MapDB since deserialization overhead is high.</p>
-<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-single-thread.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-single-thread.png" />
-<p>MapDB 2.0 was all about optimizing deserialization costs and it pays of.
-Please notice performance difference between MapDB 1.0 and 2.0 collections.</p>
-<p>Also <code class="docutils literal"><span class="pre">HTreeMap</span></code> is surprisingly fast compared to <code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code>.
-String hashing probably adds fixed overhead.</p>
-<p>And here is multi-threaded performance with String keys and values</p>
-<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_BTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_BTreeMap-scalability.png" />
-<img alt="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_HTreeMap-scalability.png" src="_images/org_mapdb_benchmarks_InMemoryStringTest-org_mapdb_HTreeMap-scalability.png" />
-<p>TODO BTreeMap external values</p>
-<p>TODO BTreeMap node size</p>
+<div class="section" id="memory-usage">
+<h2>Memory usage<a class="headerlink" href="#memory-usage" title="Permalink to this headline">¶</a></h2>
+<p>This graph show how much entries Map can fit into 1GB of heap memory.
+JVM starts with 1GB maximal heap size (<cite>-Xmx1G</cite>).
+Entries are added into <cite>Map&lt;Long,UUID&gt;</cite> until JVM terminates with <cite>OutOfMemoryException</cite>.
+Key is 8-byte`java.util.Long` number, value is 16-byte <cite>java.util.UUID</cite> number
+Small objects were chosen to better illustrate space overhead of internal Map structures (nodes, hash table..)</p>
+<p class="centered">
+<strong><strong>Number of entries inserted into Map with 1GB heap, before JVM runs out of memory (higher is better)</strong></strong></p><img alt="_images/InMemorySpaceUsage.png" src="_images/InMemorySpaceUsage.png" />
+<p>Offheap BTreeMap has very impressive result thanks to Key Delta Compression. It serializes key array by only storing
+differences between neighbour keys. There is no trick here, just lot of optimizations.
+Delta Compression have almost zero overhead and Map is modifiable with reasonable performance.
+Also similar technique is here for Strings, Arrays etc,
+We could save another 20% of space by using read-only Archive storage.</p>
+<p class="centered">
+<strong><strong>Same graph, but without BTreeMap_offheap</strong></strong></p><img alt="_images/InMemorySpaceUsage2.png" src="_images/InMemorySpaceUsage2.png" />
+<p>This chart has BTreeMap_offheap removed to better illustrate difference between remaining five collections.</p>
+<p><code class="docutils literal"><span class="pre">HTreeMap_heap</span></code> is not so good thanks to its expandable hash table. In decompressed heap form it takes lot of space.
+But in compacted form <code class="docutils literal"><span class="pre">HTreeMap_offheap</span></code> take a lot less space.</p>
+<p><code class="docutils literal"><span class="pre">BTreeMap_heap</span></code> is bit more space efficient compared to Java Collections.
+It stores keys in primitive form (<code class="docutils literal"><span class="pre">long</span></code> versus <code class="docutils literal"><span class="pre">Long</span></code>) and that requires less pointers.</p>
 </div>
-<div class="section" id="on-disk">
-<h2>On Disk<a class="headerlink" href="#on-disk" title="Permalink to this headline">¶</a></h2>
-<p>TODO: On disk benchmarks Will be added soon...</p>
+<div class="section" id="random-updates">
+<h2>Random updates<a class="headerlink" href="#random-updates" title="Permalink to this headline">¶</a></h2>
+<p class="centered">
+<strong><strong>Time to update 100M random keys on Map with 100M entries (smaller is better)</strong></strong></p><img alt="_images/InMemoryUpdate.png" src="_images/InMemoryUpdate.png" />
+<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> in this case rocks.</p>
+<p><code class="docutils literal"><span class="pre">BTreeMap_heap</span></code> takes advantage of its specialized keys. Binary search in primitive form is more efficient
+and there is no surprise it outperforms <code class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></code>.</p>
+<p>Another surprise is reasonable performance of both offheap collections.
+They are doing (de)serialization on top of everything and it shows how optimized MapDB code is.</p>
+</div>
+<div class="section" id="random-gets">
+<h2>Random gets<a class="headerlink" href="#random-gets" title="Permalink to this headline">¶</a></h2>
+<p class="centered">
+<strong><strong>Time to get 100M random keys on Map with 100M entries (smaller is better)</strong></strong></p><img alt="_images/InMemoryGet.png" src="_images/InMemoryGet.png" />
+<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> rocks again.</p>
+<p><code class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></code> seems bit slower compared to MapDB heap collections. SkipList is not CPU cache friendly.</p>
+<p>Another surprise is reasonable performance of both offheap collections.
+They are doing deserialization on top of everything and it shows how optimized MapDB code is.</p>
 </div>
 </div>
 
