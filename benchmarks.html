@@ -189,7 +189,7 @@ All test ran on 64bit JDK8.</p>
 <p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> is regular concurrent <code class="docutils literal"><span class="pre">HashMap</span></code> bundled with Java.</p>
 <p><code class="docutils literal"><span class="pre">ConcurrentSkipListMap</span></code> is concurrent version of <code class="docutils literal"><span class="pre">java.util.TreeMap</span></code> bundled with Java.</p>
 <p><code class="docutils literal"><span class="pre">HTreeMap</span></code> is concurrent <code class="docutils literal"><span class="pre">HashMap</span></code> implementation from MapDB. It is optimized for bigger keys and large number of entries.
-It has some nice features such as entry expiration with TTL or maximal size</p>
+It has some nice features such as entry expiration with TTL or maximal size.</p>
 <p><code class="docutils literal"><span class="pre">BTreeMap</span></code> is concurrent <code class="docutils literal"><span class="pre">TreeMap</span></code> implementation from MapDB. It is optimized for minimal space usage and for small keys.
 It has specialized keys (for example <code class="docutils literal"><span class="pre">Long</span></code> key is stored as primitive <code class="docutils literal"><span class="pre">long</span></code>) and other nice features.</p>
 <p>MapDB works in two modes. <code class="docutils literal"><span class="pre">heap</span></code> mode does not use serialization. Everything is stored on heap, as object instances.
@@ -209,7 +209,7 @@ Small objects were chosen to better illustrate space overhead of internal Map st
 <p>Offheap BTreeMap has very impressive result thanks to Key Delta Compression. It serializes key array by only storing
 differences between neighbour keys. There is no trick here, just lot of optimizations.
 Delta Compression have almost zero overhead and Map is modifiable with reasonable performance.
-Also similar technique is here for Strings, Arrays etc,
+Also similar technique is here for Strings, Arrays...
 We could save another 20% of space by using read-only Archive storage.</p>
 <p class="centered">
 <strong><strong>The same graph, but without BTreeMap_offheap</strong></strong></p><img alt="_images/InMemorySpaceUsage2.png" src="_images/InMemorySpaceUsage2.png" />
