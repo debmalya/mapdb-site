@@ -246,7 +246,7 @@ must be aligned so they do not cross page boundaries.</p>
 <p>Header in StoreDirect format is composed by number of 8 byte longs:</p>
 <ol class="arabic" start="0">
 <li><dl class="first docutils">
-<dt><strong>header</strong> and <strong>head checksum</strong>. Checksum is CRC of entire HEAD and is recalculated on</dt>
+<dt><strong>header</strong> and <strong>head checksum</strong>. Checksum is XXHash of entire head (from offset 8) and is recalculated on</dt>
 <dd><p class="first last">every sync/close. Invalid checksum means that store was not closed correctly,
 is very likely corrupted and MapDB should fail to open it. See <code class="docutils literal"><span class="pre">StoreDirect.headChecksum()</span></code></p>
 </dd>
@@ -402,7 +402,7 @@ checksum to verify instruction.</p>
 </li>
 <li><dl class="first docutils">
 <dt><strong>write byte[]</strong>. Is followed by 2 bytes size, 6 byte offset and data itself.</dt>
-<dd><p class="first last">Checksum is <code class="docutils literal"><span class="pre">(bit</span> <span class="pre">parity</span> <span class="pre">from</span> <span class="pre">9</span> <span class="pre">bytes</span> <span class="pre">+</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">sum(byte[]))&amp;31</span></code></p>
+<dd><p class="first last">Checksum is <code class="docutils literal"><span class="pre">(bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">size</span> <span class="pre">+</span> <span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">+</span> <span class="pre">1</span> <span class="pre">)&amp;31</span></code></p>
 </dd>
 </dl>
 </li>
