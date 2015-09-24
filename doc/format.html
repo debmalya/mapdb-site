@@ -255,9 +255,9 @@ is very likely corrupted and MapDB should fail to open it. See <code class="docu
 </li>
 <li><p class="first">bit field indicating <strong>format features</strong>. IE what type of checksums are enabled, compression enabled etc...</p>
 </li>
-<li><p class="first"><strong>store size</strong> pointer to last allocated page inside store. Parity 16.</p>
+<li><p class="first"><strong>store size</strong> pointer to last allocated page inside store. Parity 4.</p>
 </li>
-<li><p class="first"><strong>max recid</strong> maximal allocated recid. Shifted &lt;&lt;&lt;3 for parity 3</p>
+<li><p class="first"><strong>max recid</strong> maximal allocated recid. Parity 4 with shift.</p>
 </li>
 <li><p class="first"><strong>index page registry</strong> points to page with list of index pages. Parity 16.</p>
 </li>
