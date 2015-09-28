@@ -125,6 +125,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#beta8-released-2015-09-28">2.0-beta8 released (2015-09-28)</a></li>
 <li><a class="reference internal" href="#beta7-released-2015-09-18">2.0-beta7 released (2015-09-18)</a></li>
 <li><a class="reference internal" href="#beta6-released-2015-08-18">2.0-beta6 released (2015-08-18)</a></li>
 <li><a class="reference internal" href="#beta5-released-2015-08-12">2.0 beta5 released (2015-08-12)</a></li>
@@ -200,6 +201,16 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta8-released-2015-09-28">
+<h2>2.0-beta8 released (2015-09-28)<a class="headerlink" href="#beta8-released-2015-09-28" title="Permalink to this headline">¶</a></h2>
+<p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta7</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>Breaking storage format change</li>
+<li>Fixed random data corruption which was affecting Titan and other users.</li>
+<li>Fixed RandomAccessFile to always fully read <code class="docutils literal"><span class="pre">byte[]</span></code></li>
+</ul>
+</div>
 <div class="section" id="beta7-released-2015-09-18">
 <h2>2.0-beta7 released (2015-09-18)<a class="headerlink" href="#beta7-released-2015-09-18" title="Permalink to this headline">¶</a></h2>
 <p>There is <strong>storage format change</strong>: <code class="docutils literal"><span class="pre">TreeSet</span></code> has different format. And <code class="docutils literal"><span class="pre">byte[]</span></code> used as key in BTreeMap
