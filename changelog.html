@@ -125,6 +125,8 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#beta10-released-2015-10-30">2.0-beta10 released (2015-10-30)</a></li>
+<li><a class="reference internal" href="#beta9-released-2015-10-30">2.0-beta9 released (2015-10-30)</a></li>
 <li><a class="reference internal" href="#beta8-released-2015-09-28">2.0-beta8 released (2015-09-28)</a></li>
 <li><a class="reference internal" href="#beta7-released-2015-09-18">2.0-beta7 released (2015-09-18)</a></li>
 <li><a class="reference internal" href="#beta6-released-2015-08-18">2.0-beta6 released (2015-08-18)</a></li>
@@ -201,6 +203,27 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta10-released-2015-10-30">
+<h2>2.0-beta10 released (2015-10-30)<a class="headerlink" href="#beta10-released-2015-10-30" title="Permalink to this headline">¶</a></h2>
+<p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta8 and previous versions.</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>Write Ahead Log was refactored into dedicated class. <code class="docutils literal"><span class="pre">StoreWAL</span></code> and <code class="docutils literal"><span class="pre">StoreAppend</span></code> now share this component.</li>
+<li>WAL rewritten, now uses checksums</li>
+<li>WAL has soft replay, commits will be faster once this feature is fully enabled.</li>
+<li><cite>StoreWAL`</cite> and <code class="docutils literal"><span class="pre">StoreAppend</span></code> now passes crash resistance test (<code class="docutils literal"><span class="pre">kill</span> <span class="pre">-9</span></code>).</li>
+<li>Fixed unit tests on Windows</li>
+<li>Updated maven plugins and automated release script.</li>
+<li>4 new release flavours (mapdb-renamed, mapdb-noassert, mapdb-nounsafe, mapdb-debug)</li>
+<li><code class="docutils literal"><span class="pre">StoreDirect</span></code> long stack uses better compression for longs.</li>
+<li><code class="docutils literal"><span class="pre">StoreDirect</span></code> improved memory allocator</li>
+<li>Fix #583. HTreeMap valueCreator was used, even if value existed.</li>
+</ul>
+</div>
+<div class="section" id="beta9-released-2015-10-30">
+<h2>2.0-beta9 released (2015-10-30)<a class="headerlink" href="#beta9-released-2015-10-30" title="Permalink to this headline">¶</a></h2>
+<p>This release does not exist, number was used to test release script.</p>
+</div>
 <div class="section" id="beta8-released-2015-09-28">
 <h2>2.0-beta8 released (2015-09-28)<a class="headerlink" href="#beta8-released-2015-09-28" title="Permalink to this headline">¶</a></h2>
 <p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta7</p>

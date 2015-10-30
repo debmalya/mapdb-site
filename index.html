@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>MapDB &mdash; MapDB</title>
+    <title>MapDB: Database Engine &mdash; MapDB</title>
     
     <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -120,9 +120,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">MapDB</a><ul>
+<li><a class="reference internal" href="#">MapDB: Database Engine</a><ul>
 <li><a class="reference internal" href="#news">News</a></li>
-<li><a class="reference internal" href="#what-for">What for?</a></li>
 <li><a class="reference internal" href="#get-started">Get started</a></li>
 <li><a class="reference internal" href="#documentation">Documentation</a></li>
 <li><a class="reference internal" href="#support">Support</a></li>
@@ -161,18 +160,26 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="mapdb">
-<h1>MapDB<a class="headerlink" href="#mapdb" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is an embedded database engine. It provides Maps and other collections backed by disk or memory storage.
-It offers excellent performance comparable to java collections, but is not limited by GC overhead.
-It is also a full database engine with storage backends, transactions, cache algorithms, expiration and many other options.
-MapDB is very easy to use. It is a pure-java 500K JAR and only depends on JRE 6+ or Android 2.1+.
-It is also very flexible, it exposes many low level optimizations, without sacrificing usability,</p>
-<p>MapDB is free under <strong>Apache 2 license</strong> with no strings attached. There is active community on
-<a class="reference external" href="https://github.com/jankotek/mapdb">Github</a>. MapDB is sponsored by <a class="reference external" href="http://www.kotek.net/consulting/">consulting services</a>.</p>
+  <div class="section" id="mapdb-database-engine">
+<h1>MapDB: Database Engine<a class="headerlink" href="#mapdb-database-engine" title="Permalink to this headline">¶</a></h1>
+<p>MapDB is an embedded database engine for Java.
+It provides Maps and other collections backed by disk or off-heap memory storage.
+MapDB is free under Apache License.</p>
+<p>MapDB is not a database, but an engine. It is not complete solution, but set of building blocks
+such as: memory allocators, caches, storages, indexes, transaction wrappers, serializers etc.
+This gives MapDB lot of flexibility and space for performance optimizations.
+Ever wanted off-heap cache with limited size and with disk overflow after expiry? Now its easy.</p>
+<p>MapDB also has very user friendly API. In many cases it is drop-in replacement for existing Java classes,
+for example on-heap Map can be replaced with off-heap Map, with just 20 characters.
+It is a pure-java 500K JAR with no dependencies.</p>
+<p>There is active community on <a class="reference external" href="https://github.com/jankotek/mapdb">Github</a>. MapDB is sponsored by
+<a class="reference external" href="http://www.kotek.net/consulting/">consulting services</a>.</p>
 <div class="section" id="news">
 <h2>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h2>
 <ul class="post-list-style-circle">
+<li><p class="first">Oct 30 - <a class="reference internal" href="changelog.html"><em>2.0-beta10 released (2015-10-30)</em></a></p>
+<p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta8 and previous versions.</p>
+</li>
 <li><p class="first">Sep 28 - <a class="reference internal" href="changelog.html"><em>2.0-beta8 released (2015-09-28)</em></a></p>
 <p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta7</p>
 </li>
@@ -188,31 +195,10 @@ has format change due to changed comparator.</p>
 <p>Added incremental backups. Less fragmentation. Custom class loaders.</p>
 </li>
 </ul>
-<ul class="simple">
-<li>2015-08-03 <a class="reference external" href="http://www.mapdb.org/changelog.html#version-2-0-beta4-2015-08-03">MapDB 2.0-beta4</a> released.
-Improvements in crash recovery. Reworked HTreeMap expiration based on store size. Add store allocation options.</li>
-<li>2015-07-23 <a class="reference external" href="http://www.mapdb.org/changelog.html#version-2-0-beta3-2015-07-23">MapDB 2.0-beta3</a> released.
-Improve crash recovery. Add file locking.</li>
-<li>2015-07-09 <a class="reference external" href="http://www.mapdb.org/changelog.html#version-2-0-beta2-2015-07-09">MapDB 2.0-beta2</a> and
-<a class="reference external" href="http://www.mapdb.org/changelog.html#version-1-0-8-2015-07-09">MapDB 1.0.8</a> released.
-Fixed JVM crash with mmap files enabled and other bugs.</li>
-<li>2015-06-29 <a class="reference external" href="http://www.mapdb.org/changelog.html">MapDB 2.0-beta1 released</a>.
-Format and API freeze for MapDB 2.0.</li>
-</ul>
 <p>Follow news on <a class="reference external" href="http://www.mapdb.org/news.xml">RSS</a> |
 <a class="reference external" href="https://groups.google.com/forum/?fromgroups#!forum/mapdb-news">Mail-List</a>
 | <a class="reference external" href="http://twitter.com/MapDBnews">Twitter</a></p>
-</div>
-<div class="section" id="what-for">
-<h2>What for?<a class="headerlink" href="#what-for" title="Permalink to this headline">¶</a></h2>
-<p>MapDB is great in following situations: TODO links to doc</p>
-<ul class="simple">
-<li>In-memory cache with expiration based on time-to-live or maximal size, Redis or EZCache replacement</li>
-<li>Huge indexes</li>
-<li>Persistent data model</li>
-<li>Alternative memory model if you are limited by GC</li>
-</ul>
-<p>MapDB is used by number of companies, checkout <a class="reference internal" href="success.html"><em>Who is using MapDB</em></a></p>
+<p>MapDB is used by number of projects, checkout <a class="reference internal" href="success.html"><em>Who is using MapDB</em></a></p>
 </div>
 <div class="section" id="get-started">
 <h2>Get started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
@@ -298,7 +284,7 @@ There is also free documentation and forums:</p>
 You may subscribe without GMail account by <a class="reference external" href="mailto:mapdb+subscribe&#37;&#52;&#48;googlegroups&#46;com">sending email</a>.</p>
 <p>Bug reports are hosted on <a class="reference external" href="https://github.com/jankotek/mapdb/issues">Github</a>.</p>
 <p>I usually respond to non-paying users within a few days via email.
-Paid customers get faster response times with optional video-conferences.
+Paying customers get faster response times with optional video-conferences.
 I am located in Europe, but usually work late evenings.</p>
 </div>
 </div>

@@ -416,13 +416,15 @@ checksum to verify instruction.</p>
 <li><p class="first"><strong>skip single byte</strong>. Skip single byte in WAL. Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></p>
 </li>
 <li><dl class="first docutils">
-<dt><strong>record</strong>. Is followed by 6 bytes recid, than 4 bytes record size and an record data.</dt>
-<dd><p class="first last">Is used in Record format. Size==-2 is tombstone, size==-1 is null record
+<dt><strong>record</strong>. Is followed by packed recid, than packed record size and an record data.</dt>
+<dd><p class="first last">Real size is +1, 0 indicates null record
 TODO checksum for record inst</p>
 </dd>
 </dl>
 </li>
-<li><p class="first">TODO write two bytes.</p>
+<li><p class="first"><strong>tombstone</strong>. Is followed ba packed recid. . Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></p>
+</li>
+<li><p class="first"><strong>preallocate</strong>. Is followed ba packed recid. . Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></p>
 </li>
 </ol>
 </div>
