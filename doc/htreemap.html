@@ -289,7 +289,7 @@ cache with memory size limit:</p>
 </pre></div>
 </div>
 <p>This equals to <code class="docutils literal"><span class="pre">expireStoreSize</span></code> param:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">createHashMap</span><span class="o">(</span><span class="s">&quot;cache&quot;</span><span class="o">)</span>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">HTreeMap</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;cache&quot;</span><span class="o">)</span>
         <span class="o">.</span><span class="na">expireStoreSize</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
@@ -302,10 +302,11 @@ cache with memory size limit:</p>
 </div>
 <p>And finally you can set an expiration time since the last modification or since
 the last access.</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="c1">// remove entries 1H after their last modification, or 10 minutes after last get()</span>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// remove entries 1 after their last modification,</span>
+<span class="c1">// or 10 minutes after last get()</span>
 <span class="n">HTreeMap</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">hashMapCreate</span><span class="o">(</span><span class="s">&quot;cache&quot;</span><span class="o">)</span>
-        <span class="o">.</span><span class="na">expireAfterAccess</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">)</span>
-        <span class="o">.</span><span class="na">expireAfterWrite</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expireAfterWrite</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">expireAfterAccess</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">)</span>
         <span class="o">.</span><span class="na">makeOrGet</span><span class="o">();</span>
 </pre></div>
 </div>
