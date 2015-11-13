@@ -249,7 +249,8 @@ Operations which require a consistent state (taking snapshot, commit or close) s
 <span class="n">db</span><span class="o">.</span><span class="na">consistencyLock</span><span class="o">().</span><span class="na">readLock</span><span class="o">().</span><span class="na">lock</span><span class="o">();</span> <span class="c1">//note readLock</span>
 <span class="k">try</span><span class="o">{</span>
     <span class="n">a</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
-    <span class="c1">// if snapshot or commit would happen here, two counters would be inconsistent</span>
+    <span class="c1">// &#39;a&#39; is incremented, &#39;b&#39; not yet. If commit or rollback would happen here</span>
+    <span class="c1">// data stored on disk would become inconsistent.</span>
     <span class="n">b</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
 <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
     <span class="n">db</span><span class="o">.</span><span class="na">consistencyLock</span><span class="o">().</span><span class="na">readLock</span><span class="o">().</span><span class="na">unlock</span><span class="o">();</span>
