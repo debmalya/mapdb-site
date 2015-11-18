@@ -177,6 +177,9 @@ It is a pure-java 500K JAR with no dependencies.</p>
 <div class="section" id="news">
 <h2>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h2>
 <ul class="post-list-style-circle">
+<li><p class="first">Nov 18 - <a class="reference internal" href="changelog.html"><em>2.0-beta11 released (2015-11-18)</em></a></p>
+<p>There are no breaking changes. Fixed data corruption bug and concurrency issue in <code class="docutils literal"><span class="pre">StoreAppend</span></code></p>
+</li>
 <li><p class="first">Oct 30 - <a class="reference internal" href="changelog.html"><em>2.0-beta10 released (2015-10-30)</em></a></p>
 <p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta8 and previous versions.</p>
 </li>
@@ -190,9 +193,6 @@ has format change due to changed comparator.</p>
 <li><p class="first">Aug 18 - <a class="reference internal" href="changelog.html"><em>2.0-beta6 released (2015-08-18)</em></a></p>
 <p>There is <strong>storage format change</strong>: array hashing has changed. If you use any array such as <code class="docutils literal"><span class="pre">Object[]</span></code>, <code class="docutils literal"><span class="pre">byte[]</span></code>,
 <code class="docutils literal"><span class="pre">long[]</span></code>, etc... as key in <code class="docutils literal"><span class="pre">HashMap</span></code> it is not readable in new version.</p>
-</li>
-<li><p class="first">Aug 12 - <a class="reference internal" href="changelog.html"><em>2.0 beta5 released (2015-08-12)</em></a></p>
-<p>Added incremental backups. Less fragmentation. Custom class loaders.</p>
 </li>
 </ul>
 <p>Follow news on <a class="reference external" href="http://www.mapdb.org/news.xml">RSS</a> |
