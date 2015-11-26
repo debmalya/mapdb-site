@@ -125,6 +125,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog for 2.X releases</a><ul>
+<li><a class="reference internal" href="#beta12-released-2015-11-26">2.0-beta12 released (2015-11-26)</a></li>
 <li><a class="reference internal" href="#beta11-released-2015-11-18">2.0-beta11 released (2015-11-18)</a></li>
 <li><a class="reference internal" href="#beta10-released-2015-10-30">2.0-beta10 released (2015-10-30)</a></li>
 <li><a class="reference internal" href="#beta9-released-2015-10-30">2.0-beta9 released (2015-10-30)</a></li>
@@ -204,6 +205,17 @@
             
   <div class="section" id="changelog-for-2-x-releases">
 <h1>Changelog for 2.X releases<a class="headerlink" href="#changelog-for-2-x-releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta12-released-2015-11-26">
+<h2>2.0-beta12 released (2015-11-26)<a class="headerlink" href="#beta12-released-2015-11-26" title="Permalink to this headline">¶</a></h2>
+<p>There are no breaking changes. Fixed data corruption in large stores.</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>Fix <a class="reference external" href="https://github.com/jankotek/mapdb/issues/635">#635</a>: Commit on large store could cause data corruption in index table.</li>
+<li>Fix <a class="reference external" href="https://github.com/jankotek/mapdb/issues/634">#634</a>: Empty commit with Append store would log warning and could cause data corruption</li>
+<li>Fix <a class="reference external" href="https://github.com/jankotek/mapdb/issues/633">#633</a>: Compaction on large store fails. (thanks Matthew Schirmer for fixing it)</li>
+<li>DBMaker: add <code class="docutils literal"><span class="pre">fileMmapPreclearDisable()</span></code> option to speedup growth of memory mapped files.</li>
+</ul>
+</div>
 <div class="section" id="beta11-released-2015-11-18">
 <h2>2.0-beta11 released (2015-11-18)<a class="headerlink" href="#beta11-released-2015-11-18" title="Permalink to this headline">¶</a></h2>
 <p>There are no breaking changes. Fixed data corruption bug and concurrency issue in <code class="docutils literal"><span class="pre">StoreAppend</span></code></p>
