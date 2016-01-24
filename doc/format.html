@@ -120,74 +120,11 @@
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Appendix: Storage formats</a><ul>
-<li><a class="reference internal" href="#parity">Parity</a><ul>
-<li><a class="reference internal" href="#parity-1">Parity 1</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#feature-bitmap-header">Feature bitmap header</a></li>
-<li><a class="reference internal" href="#storedirect">StoreDirect</a><ul>
-<li><a class="reference internal" href="#head">Head</a></li>
-<li><a class="reference internal" href="#index-page">Index page</a></li>
-<li><a class="reference internal" href="#index-value">Index Value</a></li>
-<li><a class="reference internal" href="#linked-records">Linked records</a></li>
-<li><a class="reference internal" href="#long-stack">Long Stack</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#write-ahead-log">Write Ahead Log</a><ul>
-<li><a class="reference internal" href="#wal-lifecycle">WAL lifecycle</a></li>
-<li><a class="reference internal" href="#wal-file-format">WAL file format</a></li>
-<li><a class="reference internal" href="#wal-instructions">WAL Instructions</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#append-only-store">Append Only Store</a><ul>
-<li><a class="reference internal" href="#instructions">Instructions</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#backup-format">Backup format</a></li>
-<li><a class="reference internal" href="#archive-format">Archive format</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="concurrency.html"
-                        title="previous chapter">Concurrency</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../faq.html"
-                        title="next chapter">Frequently Asked Questions</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/doc/format.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-
     <div class="document">
-      <div class="documentwrapper">
+    <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
-            
+            <div class="body" role="main">
+                
   <div class="section" id="appendix-storage-formats">
 <h1>Appendix: Storage formats<a class="headerlink" href="#appendix-storage-formats" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="parity">
@@ -515,10 +452,39 @@ Packed size is followed by record data.</p>
   
   </div>
 
-          </div>
+
+                <div id="disqus_thread"></div>
+                <script>
+
+if(window.location.href.indexOf('/blog/')>-1){
+
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//mapdb.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+}
+</script>
+
+            </div>
         </div>
-      </div>
-      <div class="clearer"></div>
+    </div>
+
+    <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>

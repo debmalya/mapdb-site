@@ -110,53 +110,11 @@
  
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Unit testing multi-threaded code with Thread Weaver</a><ul>
-<li><a class="reference internal" href="#out-fork-maven-repo">Out fork &amp; Maven repo</a></li>
-<li><a class="reference internal" href="#practical-experience-with-thread-weaver">Practical experience with Thread Weaver</a><ul>
-<li><a class="reference internal" href="#false-positives">False positives</a></li>
-<li><a class="reference internal" href="#timeout-issues">Timeout issues</a></li>
-<li><a class="reference internal" href="#no-recursive-instrumentation">No recursive instrumentation</a></li>
-<li><a class="reference internal" href="#it-freezes">It freezes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#alternatives">Alternatives</a></li>
-<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
-</ul>
-
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/blog/thread_weaver.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-
     <div class="document">
-      <div class="documentwrapper">
+    <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
-            
+            <div class="body" role="main">
+                
   <div class="section" id="unit-testing-multi-threaded-code-with-thread-weaver">
 <h1>Unit testing multi-threaded code with Thread Weaver<a class="headerlink" href="#unit-testing-multi-threaded-code-with-thread-weaver" title="Permalink to this headline">¶</a></h1>
 <p>MapDB uses <a class="reference external" href="https://github.com/google/thread-weaver">Thread Weaver</a> for verifying multi-threaded code.
@@ -341,10 +299,39 @@ It needs lot of baby sitting, does not work for complex code and does not produc
   
   </div>
 
-          </div>
+
+                <div id="disqus_thread"></div>
+                <script>
+
+if(window.location.href.indexOf('/blog/')>-1){
+
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//mapdb.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+}
+</script>
+
+            </div>
         </div>
-      </div>
-      <div class="clearer"></div>
+    </div>
+
+    <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
