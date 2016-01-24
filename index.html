@@ -177,6 +177,12 @@ It is a pure-java 500K JAR with no dependencies.</p>
 <div class="section" id="news">
 <h2>News<a class="headerlink" href="#news" title="Permalink to this headline">¶</a></h2>
 <ul class="post-list-style-circle">
+<li><p class="first">Jan 24 - <a class="reference internal" href="blog/thread_weaver.html"><em>Unit testing multi-threaded code with Thread Weaver</em></a></p>
+<p>MapDB uses <a class="reference external" href="https://github.com/google/thread-weaver">Thread Weaver</a> for verifying multi-threaded code.
+It was written by Google developers and has pretty impressive feature. Thread Weaver executes
+code in multiple threads, adds breakpoints into each thread, and pauses thread  execution, until other thread progresses.
+In theory that should catch all race conditions, because all possible combinations of delays are executed and verified.</p>
+</li>
 <li><p class="first">Jan 13 - <a class="reference internal" href="blog/mapdb3.html"><em>MapDB 3.0</em></a></p>
 <p>I will start with the bad news. Current 2.0 branch needs major redesign. It has bugs, concurrency issues and is slow. I decided to start work on new 3.0 branch. First milestone with HTreeMap will be released in a few days, stable version will be out on March.</p>
 </li>
@@ -190,9 +196,6 @@ I like them for reduced memory usage and improved performance. Primitive collect
 </li>
 <li><p class="first">Nov 18 - <a class="reference internal" href="changelog.html"><em>2.0-beta11 released (2015-11-18)</em></a></p>
 <p>There are no breaking changes. Fixed data corruption bug and concurrency issue in <code class="docutils literal"><span class="pre">StoreAppend</span></code></p>
-</li>
-<li><p class="first">Oct 30 - <a class="reference internal" href="changelog.html"><em>2.0-beta10 released (2015-10-30)</em></a></p>
-<p>There is <strong>breaking storage format change</strong>. This version will fail to open store created by 2.0-beta8 and previous versions.</p>
 </li>
 </ul>
 <p>Follow news on <a class="reference external" href="http://www.mapdb.org/news.xml">RSS</a> |
