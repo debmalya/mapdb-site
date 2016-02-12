@@ -15,7 +15,7 @@
     <author>
       <name>Jan Kotek</name>
     </author>
-    <content type="html">&lt;p&gt;MapDB 3.0 milestone 2 was released today. M1 had basic storage and HTreeMap,
+    <content type="html">&lt;p&gt;MapDB 3.0 milestone 2 was released today.
 M2 adds BTreeMap, Data Pump and new faster SortedTableMap.&lt;/p&gt;
 </content>
   </entry>
