@@ -47,6 +47,30 @@ In theory that should catch all race conditions, because all possible combinatio
 </content>
   </entry>
   <entry xml:base="http://www.mapdb.org/blog/atom.xml">
+    <title type="text">Version 1.0.9 released (2016-02-21)</title>
+    <id>http://www.mapdb.org/changelog.html#version-1-0-9-released-2016-02-21</id>
+    <updated>2015-11-26T00:00:00Z</updated>
+    <published>2015-11-26T00:00:00Z</published>
+    <link href="http://www.mapdb.org/changelog.html#version-1-0-9-released-2016-02-21" />
+    <author>
+      <name>Jan Kotek</name>
+    </author>
+    <content type="html">&lt;p&gt;No breaking changes. Fixed some minor issues. Probably last 1.0 release, 3.0 is coming soon.&lt;/p&gt;
+</content>
+  </entry>
+  <entry xml:base="http://www.mapdb.org/blog/atom.xml">
+    <title type="text">2.0-beta13 released (2016-02-21)</title>
+    <id>http://www.mapdb.org/changelog.html#beta13-released-2016-02-21</id>
+    <updated>2015-11-26T00:00:00Z</updated>
+    <published>2015-11-26T00:00:00Z</published>
+    <link href="http://www.mapdb.org/changelog.html#beta13-released-2016-02-21" />
+    <author>
+      <name>Jan Kotek</name>
+    </author>
+    <content type="html">&lt;p&gt;Fixed some minor issues. Probably last 2.0 release, 3.0 is coming soon.&lt;/p&gt;
+</content>
+  </entry>
+  <entry xml:base="http://www.mapdb.org/blog/atom.xml">
     <title type="text">2.0-beta12 released (2015-11-26)</title>
     <id>http://www.mapdb.org/changelog.html#beta12-released-2015-11-26</id>
     <updated>2015-11-26T00:00:00Z</updated>
