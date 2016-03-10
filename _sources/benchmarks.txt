@@ -1,102 +1,76 @@
 In-memory benchmarks
 ======================
 
-MapDB provides more advanced alternative to Java Collections.
-This benchmarks compares various `Map` implementations.
-Its purpose is to show MapDB as reasonable alternative to Java Collections for some cases.
-
-MapDB supports many features, uses less space and does serialization.
-Despite that it has performance comparable to Java Collections; sometimes it is faster,
-sometimes it is "only" 10 times slower. Also current MapDB 2.0 release is not fastest,
-it is initial naive implementation, we plan performance optimisations in 2.1 release.
-
-This benchmarks tries to be objective.
-It is used for performance regression testing and MapDB development depends on its precision.
-Java Collections suffer greatly from Garbage Collection overhead, we made sure this is not a case here.
-MapDB maps scale to terabytes without a hiccup.
-It would be easy to show MapDB as much faster, by increasing Map size.
+This benchmark compares different Map implementations. We try to keep this test fair, no trick or extra tuning.
+Also dataset is small with no GC overhead.
 
 Benchmark source is in `Github repo <https://github.com/jankotek/mapdb-benchmarks>`_.
 Please send Pull Request if you have improvements.
-All tests ran on 64bit JDK8.
+All tests ran on Linux with 64bit JDK8.
 
 Maps
-~~~~~~~~~~~~~~
+--------------
 
-There are six maps in test. All tests work on Map with 100 million entries, ``Long`` key and ``UUID`` value.
+There are six maps in this test. All tests work on Map with 10 million entries to minimize GC overhead,
+Key is 8-byte long, value is 16-byte UUID.
+Small objects were chosen to better illustrate overhead of internal Map structures (nodes, hash table..)
 
-``ConcurrentHashMap`` is regular concurrent ``HashMap`` bundled with Java.
+HTreeMap is concurrent HashMap implementation from MapDB. It is optimized for bigger keys and large number of entries.
+It has some extra features such as entry expiration with TTL or maximal size.
 
-``ConcurrentSkipListMap`` is concurrent version of ``java.util.TreeMap`` bundled with Java.
+BTreeMap is concurrent TreeMap implementation from MapDB. It is optimized for minimal space usage and for small keys.
+It has features to redoce memory and space usage.
 
-``HTreeMap`` is concurrent ``HashMap`` implementation from MapDB. It is optimized for bigger keys and large number of entries.
-It has some nice features such as entry expiration with TTL or maximal size.
+MapDB serializes all data into in-memory binary store backed by ``byte[]``. This storage is not limited by GC
+ and ``DirectByteBuffer`` version was tested on half-terabyte of memory.
 
-``BTreeMap`` is concurrent ``TreeMap`` implementation from MapDB. It is optimized for minimal space usage and for small keys.
-It has specialized keys (for example ``Long`` key is stored as primitive ``long``) and other nice features.
-
-MapDB works in two modes. ``heap`` mode does not use serialization. Everything is stored on heap, as object instances.
-Heap mode is affected by Garbage Collector. This mode is usually faster for smaller sets.
-
-``offheap`` mode serializes all data into in-memory binary store. It is not affected by Garbage Collector.
-It is better for large maps, it runs just fine with 500GB store size.
-
+There is also ``_heap`` mode where MapDB  stores all data on-heap using pointers and object instances.
+There is no serialization involved.
+This mode is usually faster for smaller sets, but is limited by Garbage Collection.
 
 Memory usage
 ~~~~~~~~~~~~~~
 
-This graph show how much entries Map can fit into 1GB of heap memory.
-JVM starts with 1GB maximal heap size (`-Xmx1G`).
-Entries are added into `Map<Long,UUID>` until JVM terminates with `OutOfMemoryException`.
-Key is 8-byte`java.util.Long` number, value is 16-byte `java.util.UUID` number
-Small objects were chosen to better illustrate space overhead of internal Map structures (nodes, hash table..)
+This chart shows how much entries ``Map<Long,UUID>`` can fit into 5GB of heap memory.
+JVM starts with 5GB maximal heap size (``-Xmx5G``), entries are added  until JVM terminates with ``OutOfMemoryException``.
 
-.. centered:: **Number of entries inserted into Map with 1GB heap, before JVM runs out of memory (higher is better)**
-.. image:: res/InMemorySpaceUsage.png
+.. centered:: **Number of entries inserted into Map with 5GB heap, before JVM runs out of memory (higher is better)**
+.. image:: target/charts/maps_memory_usage.png
 
+ConcurrentHashMap and ConcurrentSkipListMap are bundled with Java. Their both consume about the same amount of memory.
 
-Offheap BTreeMap has very impressive result thanks to Key Delta Compression. It serializes key array by only storing
-differences between neighbour keys. There is no trick here, just lot of optimizations.
-Delta Compression have almost zero overhead and Map is modifiable with reasonable performance.
-Also similar technique is here for Strings, Arrays...
-We could save another 20% of space by using read-only Archive storage.
+BTreeMap should have in theory very good space usage. However underlying store is too fragmented after frequent updates,
+this bug should be solved soon. ``BTreeMap_pump`` shows best case for BTreeMap, with no fragmentation.
 
-.. centered:: **The same graph, but without BTreeMap_offheap**
-.. image:: res/InMemorySpaceUsage2.png
+``BTreeMap_heap`` is on-heap version of BTreeMap. It uses specialized node representation
+(``Long[]`` and ``UUID[]`` are internally stored in ``long[]``) and that makes it space efficient.
 
-This chart has BTreeMap_offheap removed to better illustrate difference between remaining five collections.
+HTreeMap is not yet optimized for space usage, no surprise here.
 
-``HTreeMap_heap`` is not so good thanks to its expandable hash table. In decompressed heap form it takes lot of space.
-But in compacted form ``HTreeMap_offheap`` take a lot less space.
+SortedTableMap is very space efficient after compaction.
 
-``BTreeMap_heap`` is bit more space efficient compared to Java Collections.
-It stores keys in primitive form (``long`` versus ``Long``) and that requires less pointers.
 
 Random updates
 ~~~~~~~~~~~~~~~~~
 
 .. centered:: **Time to update 100M random keys on Map with 100M entries (smaller is better)**
-.. image:: res/InMemoryUpdate.png
+.. image:: target/charts/maps_update.png
 
-``ConcurrentHashMap`` in this case rocks.
+``ConcurrentHashMap`` in this case rocks .
 
-``BTreeMap_heap`` takes advantage of its specialized keys. Binary search in primitive form is more efficient
-and there is no surprise it outperforms ``ConcurrentSkipListMap``.
+``HTreeMap`` and ``BTreeMap`` are relatively slow. Optimizations are planned for M4.
 
-Another surprise is reasonable performance of both offheap collections.
-They are doing (de)serialization on top of everything and it shows how optimized MapDB code is.
-
-Random gets
+Random get
 ~~~~~~~~~~~~~~~~~
 
 .. centered:: **Time to get 100M random keys on Map with 100M entries (smaller is better)**
-.. image:: res/InMemoryGet.png
+.. image:: target/charts/maps_get.png
 
 ``ConcurrentHashMap`` rocks again.
 
-``ConcurrentSkipListMap`` seems bit slower compared to MapDB heap collections. SkipList is not CPU cache friendly.
+``BTreeMap_heap`` takes advantage of specialization (it uses ``long[]`` instead of ``Long[]`` in BTree Nodes).
 
-Another surprise is reasonable performance of both offheap collections.
-They are doing deserialization on top of everything and it shows how optimized MapDB code is.
+``HTreeMap`` and ``BTreeMap`` are relatively slow. Optimizations are planned for M4.
+
 
 
