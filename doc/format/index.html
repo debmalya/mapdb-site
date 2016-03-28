@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Storage format &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../../" />
+    <link rel="up" title="MapDB Manual" href="../" />
+    <link rel="prev" title="Collection Layout" href="../layout/" />
+  
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+<!-- google analytics-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42074659-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  <link rel="alternate" type="application/atom+xml"  href="../../blog/atom.xml" title="MapDB Blog">
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.postlist a {font-style: italic;}
+    ul.postlist-style-disc {list-style-type: disc;}
+    ul.postlist-style-none {list-style-type: none;}
+    ul.postlist-style-circle {list-style-type: circle;}
+  </style>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../getting-started/">Intro</a></li>
+    <li><a href="../">Docs</a></li>
+    <li><a href="../../blog/">Blog</a></li>
+    <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
+  </ul>
+  <div>
+    <a href="../../">
+      <img src="../../_static/logo.png" alt="MapDB" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../layout/" title="Collection Layout"
+             accesskey="P">previous</a></li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Storage format</a><ul>
+<li><a class="reference internal" href="#file-operations">File operations</a><ul>
+<li><a class="reference internal" href="#file-create">File Create</a></li>
+<li><a class="reference internal" href="#temporary-file-write-open">Temporary file write open</a></li>
+<li><a class="reference internal" href="#file-rename">File Rename</a></li>
+<li><a class="reference internal" href="#rolling-file">Rolling file</a></li>
+<li><a class="reference internal" href="#file-sync">File sync</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-header">File header</a><ul>
+<li><a class="reference internal" href="#file-type">File type</a></li>
+<li><a class="reference internal" href="#feature-bitfield">Feature bitfield</a></li>
+<li><a class="reference internal" href="#checksum">Checksum</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storedirect">StoreDirect</a><ul>
+<li><a class="reference internal" href="#head">Head</a></li>
+<li><a class="reference internal" href="#index-page">Index page</a></li>
+<li><a class="reference internal" href="#index-value">Index Value</a></li>
+<li><a class="reference internal" href="#linked-records">Linked records</a></li>
+<li><a class="reference internal" href="#long-stack">Long Stack</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#write-ahead-log">Write Ahead Log</a><ul>
+<li><a class="reference internal" href="#wal-lifecycle">WAL lifecycle</a></li>
+<li><a class="reference internal" href="#wal-file-format">WAL file format</a></li>
+<li><a class="reference internal" href="#wal-instructions">WAL Instructions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sorted-table-map">Sorted Table Map</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../layout/"
+                        title="previous chapter">Collection Layout</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/doc/format.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="storage-format">
+<h1>Storage format<a class="headerlink" href="#storage-format" title="Permalink to this headline">¶</a></h1>
+<p>This chapter is storage specification for MapDB files.</p>
+<div class="section" id="file-operations">
+<h2>File operations<a class="headerlink" href="#file-operations" title="Permalink to this headline">¶</a></h2>
+<p>File operations (such as file create, rename or sync) must be atomic and must survive system crash.
+In case of crash there is recovery operation after restart. If file operation did not finished it reverts
+everything into last stable state. That means file operations are atomic (they either succeed or fail without side effects).</p>
+<p>To ensure crash resistance and atomicity MapDB relies on marker files.
+Those are empty files created and deleted using atomic filesystem API.
+Marker files have the same name as main file, but with <code class="docutils literal"><span class="pre">.$X</span></code> suffix.</p>
+<div class="section" id="file-create">
+<h3>File Create<a class="headerlink" href="#file-create" title="Permalink to this headline">¶</a></h3>
+<p>Empty file creation is atomic operation, but populating file with content is not.
+MapDB needs file population to be atomic,  and uses  uses <code class="docutils literal"><span class="pre">.$c</span></code> marker file for that.</p>
+<p>File creation sequence:</p>
+<ol class="arabic simple">
+<li>create marker file with <code class="docutils literal"><span class="pre">File.createNewFile()</span></code></li>
+<li>create empty main file and lock it</li>
+<li>fill main file with content, write checksums</li>
+<li>sync main file</li>
+<li>remove marker file</li>
+</ol>
+<p>In case of recovery, or when file is being opened, follow this sequence:</p>
+<ol class="arabic simple">
+<li>open main file and lock it, fail if main file does not exist</li>
+<li>TODO we should check for pending File Rename operations here</li>
+<li>check if marker file exists, fail if it exists</li>
+</ol>
+<p>In case of failure throw an data corruption exception.</p>
+</div>
+<div class="section" id="temporary-file-write-open">
+<h3>Temporary file write open<a class="headerlink" href="#temporary-file-write-open" title="Permalink to this headline">¶</a></h3>
+<p>Temporary file in MapDB is write-able file without crash protection (usually by write-ahead-log).
+Compared to <em>File Create</em> this file is opened continuously and only closed on system shutdown.
+If file was not closed, it most likely becomes corrupted and MapDB will refuse to reopen in.</p>
+<p><em>File Create</em> sequence is also used for temporary file without crash protection.
+In that case marker file stays while the main file is opened for write.
+If there is an crash, recovery sequence will find marker file, assume that main file was not closed correctly and will refuse to open it.
+In this case main file should be discarded and recreated from original data source.
+Or user can remove marker file and try his luck.</p>
+</div>
+<div class="section" id="file-rename">
+<h3>File Rename<a class="headerlink" href="#file-rename" title="Permalink to this headline">¶</a></h3>
+<p>File rename is used in StoreDirect compaction. Store is recreated in new file, and old file is replaced with new content.
+The &#8216;old file&#8217; is file which is being replaced, it will be deleted before File Rename. The &#8216;new file&#8217;
+replaces old file and has its name changed.</p>
+<p>MapDB needs file move to be atomic, and supported in range variety of platforms. There are following problems:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">java.nio.file.Files#move</span></code> is atomic, but it might fail in some cases</li>
+<li>Opened memory mapped file on Windows can not be renamed. MappedByteBuffer handle is not released until GC or cleaner hack.
+Sometimes handle is not released even after JVM exit, and OS restart is required.</li>
+<li>There should be fallback option, when we can not close file Volume, but copy content between Volumes.</li>
+</ul>
+<p>File rename has following sequence:</p>
+<ul class="simple">
+<li>synchronize and close new file, release its c marker</li>
+<li>create &#8216;c&#8217; marker on old file</li>
+<li>create &#8216;r&#8217; marker on new file</li>
+<li>delete old file</li>
+<li>use <code class="docutils literal"><span class="pre">java.nio.file.Files#move</span></code> in atomic or non-atomic way. But rename operation must be finished and synced to disk.</li>
+<li>delete r marker for new file</li>
+<li>delete c marker on old file</li>
+<li>open old file (with new content)</li>
+</ul>
+<p>TODO this does not work on windows with memory mapped files. We need plan B with Volume copy, without closing them.</p>
+<p>Recovery sequence is simple. If following files exist:</p>
+<ul class="simple">
+<li>c marker for old file</li>
+<li>r marker for new file</li>
+<li>new file (under its name before rename)</li>
+</ul>
+<p>Than discard the old file if present and continue rename sequence from step &#8216;delete old file&#8217;</p>
+</div>
+<div class="section" id="rolling-file">
+<h3>Rolling file<a class="headerlink" href="#rolling-file" title="Permalink to this headline">¶</a></h3>
+<p>Rolling file is a single file, but continuously replaced with new content. To make content replacement atomic,
+the content of file is written into new file, synced and then old file is deleted.
+File name has &#8216;.N&#8217; suffix, where N is sequential number increased with each commit. Rolling file
+is used in <code class="docutils literal"><span class="pre">StoreTrivial</span></code>.</p>
+<p>There is following sequence for updating rolling file with new content. Ther is &#8216;old file&#8217; with original content
+and  number N and &#8216;new file&#8217; with number N+1.</p>
+<ul class="simple">
+<li>Create c marker for new file, fail if it already exists</li>
+<li>Populate new file with content, sync and close</li>
+<li>Remove C marker for new file</li>
+<li>Delete the old file</li>
+</ul>
+<p>And there is following sequence for recovery</p>
+<ul class="simple">
+<li>List all files in parent directory, find file with highest number without C marker, lock and open it.</li>
+<li>Delete any other files and their markers (only files associated with the rolling file, there might be more files with different name)</li>
+</ul>
+</div>
+<div class="section" id="file-sync">
+<h3>File sync<a class="headerlink" href="#file-sync" title="Permalink to this headline">¶</a></h3>
+<p>On commit or close, write cache needs to be flushed to disk, in MapDB this is called sync.
+We also need to detect corrupted files if system crashes in middle of write.</p>
+<p>There are following ways to sync file:</p>
+<ul class="simple">
+<li><strong>&#8216;c&#8217; file marker</strong> (see File Rename).</li>
+<li><strong>File checksum:</strong> Before the file sync is called, checksum of entire file is calculated and written into file header.
+Corruption is detected by matching file checksum from header with file content.
+This is slow because entire file has to be read</li>
+<li><strong>Commit seal:</strong> Uses double file sync, but does not require checksum calculation. First file is synced with zero checksum in file header. Than commit seal
+is written into file header, and file is synced again. Valid commit seal means that file was synced.
+TODO: commit seal is calculated based on file size</li>
+</ul>
+</div>
+</div>
+<div class="section" id="file-header">
+<h2>File header<a class="headerlink" href="#file-header" title="Permalink to this headline">¶</a></h2>
+<p>Every non empty file created by MapDB has 16 byte header. It contains header, file version, bitfield for optional features
+and optional checksum for entire file.</p>
+<p>Bites:</p>
+<ul class="simple">
+<li>0-7 constant value 0x4A</li>
+<li>8-15 type of file generated. I</li>
+<li>16-31 format version number. File will not be opened if format is too high</li>
+<li>32-63 bitfield which identifies optional features used in this format. File will not be opened if unknown bit is set.</li>
+<li>64-127 checksum of entire file.</li>
+</ul>
+<div class="section" id="file-type">
+<h3>File type<a class="headerlink" href="#file-type" title="Permalink to this headline">¶</a></h3>
+<p>can have following values:</p>
+<ul class="simple">
+<li>0 unused</li>
+<li>1 StoreDirect (also shared with StoreWAL)</li>
+<li>2 WriteAheadLog for StoreWAL</li>
+<li>10 SortedTableMap without multiple tables (readonly)</li>
+<li>11 SortedTableMap with multiple tables</li>
+<li>12 WriteAheadLog for SortedTableMap</li>
+</ul>
+</div>
+<div class="section" id="feature-bitfield">
+<h3>Feature bitfield<a class="headerlink" href="#feature-bitfield" title="Permalink to this headline">¶</a></h3>
+<p>has following values. It is 8-byte long, number here is from least significant bit.</p>
+<ul class="simple">
+<li>0 encryption enabled. Its upto user to provide encryption type and password</li>
+<li>1-2 checksum used. 0=no checksum, 1=XXHash, 2=CRC32, 3=user hash.</li>
+<li>TODO more bitfields</li>
+</ul>
+</div>
+<div class="section" id="checksum">
+<h3>Checksum<a class="headerlink" href="#checksum" title="Permalink to this headline">¶</a></h3>
+<p>is either XXHash or CRC32. It is calculated as <code class="docutils literal"><span class="pre">(checksum</span> <span class="pre">from</span> <span class="pre">16th</span> <span class="pre">byte</span> <span class="pre">to</span> <span class="pre">end)+vol.getLong(0)</span></code>.
+If checksum is <code class="docutils literal"><span class="pre">0</span></code> the <code class="docutils literal"><span class="pre">1</span></code> value is used instead. <code class="docutils literal"><span class="pre">0</span></code> indicates checksum is disabled.</p>
+</div>
+</div>
+<div class="section" id="storedirect">
+<h2>StoreDirect<a class="headerlink" href="#storedirect" title="Permalink to this headline">¶</a></h2>
+<p>StoreDirect uses update in place. It keeps track of free space released by record deletion and reuses it.
+It has zero protection from crash, all updates are written directly into store.
+Write operations are very fast, but data corruption is almost guaranteed when JVM crashes.
+StoreDirect uses parity bits as passive protection from returning incorrect data after corruption.
+Internal data corruption should be detected reasonably fast.</p>
+<p>StoreDirect allocates space in &#8216;pages&#8217; of size 1MB. Operations such as <code class="docutils literal"><span class="pre">readLong</span></code>, <code class="docutils literal"><span class="pre">readByte[]</span></code>
+must be aligned so they do not cross page boundaries.</p>
+<div class="section" id="head">
+<h3>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h3>
+<p>Header in StoreDirect format is composed by number of 8-byte longs. Each offset here is multiplied by 8</p>
+<ol class="arabic simple" start="0">
+<li>header and format version from file header <em>TODO chapter link</em></li>
+<li>file checksum from file header <em>TODO chapter link</em></li>
+<li><strong>header checksum</strong> is updated every time header is modified, that can detect corruption quite fast</li>
+<li><strong>data tail</strong> points to end location where data were written to. Beyond this is empty (except index pages). Parity 4 with no shift (data offset is multiple of 16)</li>
+<li><strong>max recid</strong> maximal allocated recid. Parity 4 with shift.</li>
+<li><strong>file tail</strong> file size. Must be multiple of PAGE_SIZE (1MB). Parity 16</li>
+<li>not yet used</li>
+<li>not yet used</li>
+</ol>
+<p>This is followed by Long Stack Master Pointers. Those are used to track free space, unused recids and other information.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">8</span></code> - <strong>Free recid</strong> Long Stack, unused Recids are put here</li>
+<li><code class="docutils literal"><span class="pre">9</span></code> - <strong>Free records 16</strong> - Long Stack with offsets of free records with size 16</li>
+<li><code class="docutils literal"><span class="pre">10</span></code> -  <strong>Free records 32</strong> - Long Stack with offsets of free records with size 32 etc...</li>
+<li>...snip 4095 minus 3 entries...</li>
+<li><code class="docutils literal"><span class="pre">8+4095</span></code> - <strong>Free records 65520</strong> - Long Stack with offsets of free records with size 65520 bytes (maximal unlinked record size).
+4095 = 65520/16 is number of Free records Long Stacks.</li>
+<li><code class="docutils literal"><span class="pre">8+4095+1</span></code>  until <code class="docutils literal"><span class="pre">8+4095+4</span></code> - <strong>Unused long stacks</strong> - Those could be used latter for some other purpose.</li>
+</ul>
+</div>
+<div class="section" id="index-page">
+<h3>Index page<a class="headerlink" href="#index-page" title="Permalink to this headline">¶</a></h3>
+<p>Rest of the zero page (up to offset 1024*1024) is used as Index Page (sometimes its refered as Zero Index Page).
+Offset to next Index Page (First Index Page) is at <code class="docutils literal"><span class="pre">8+4095+4+1</span></code>, Zero Index Page checksum is at <code class="docutils literal"><span class="pre">8+4095+4+2</span></code>.
+First recid value is at <code class="docutils literal"><span class="pre">8+4095+4+3</span></code>.</p>
+<p>Index page starts at <code class="docutils literal"><span class="pre">N*PAGE_SIZE</span></code>, except Zero Index Page which starts at <code class="docutils literal"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">(8+4095</span> <span class="pre">+</span> <span class="pre">4</span> <span class="pre">+</span> <span class="pre">1)</span></code>.
+Index page contains at start:</p>
+<ul>
+<li><p class="first">zero value (offset <code class="docutils literal"><span class="pre">page+0</span></code>) is <strong>pointer to next index page</strong>, Parity 16</p>
+</li>
+<li><dl class="first docutils">
+<dt>first value (offset <code class="docutils literal"><span class="pre">page+8</span></code>) in page is <strong>checksum of all values</strong> on page (add all values)</dt>
+<dd><p class="first last"><em>TODO seed? and not implemented yet</em></p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Rest of the index page is filled with index values.</p>
+</div>
+<div class="section" id="index-value">
+<h3>Index Value<a class="headerlink" href="#index-value" title="Permalink to this headline">¶</a></h3>
+<p>Index value translates Record ID (recid) into offset in file and record size. Position and size of record might
+change as data are updated, that makes index tables necessary. Index Value is 8 byte long with parity 1</p>
+<ul class="simple">
+<li><strong>bite 49-64</strong> - 16 bite record size. Use <code class="docutils literal"><span class="pre">val&gt;&gt;48</span></code> to get it</li>
+<li><strong>bite 5-48</strong> - 48 bite offset, records are aligned to 16 bytes, so last four bites can be used for something else.
+Use <code class="docutils literal"><span class="pre">val&amp;MOFFSET</span></code> to get it</li>
+<li><strong>bite 4</strong> - linked or null, indicates if record is linked (see section TODO link to section). Also <code class="docutils literal"><span class="pre">linked</span> <span class="pre">&amp;&amp;</span> <span class="pre">size==0</span></code> indicates null record. Use <code class="docutils literal"><span class="pre">val&amp;MLINKED</span></code>.</li>
+<li><strong>bite 3</strong> - indicates unused (preallocated or deleted) record. This record is destroyed by compaction. Use <code class="docutils literal"><span class="pre">val&amp;MUNUSED</span></code></li>
+<li><strong>bite 2</strong> - archive flag. Set by every modification, cleared by incremental backup. Use <code class="docutils literal"><span class="pre">val&amp;MARCHIVE</span></code></li>
+<li><strong>bite 1</strong> - parity bit</li>
+</ul>
+</div>
+<div class="section" id="linked-records">
+<h3>Linked records<a class="headerlink" href="#linked-records" title="Permalink to this headline">¶</a></h3>
+<p>Maximal record size is 64KB (16bits). To store larger records StoreDirect links multiple records into single one.
+Linked records starts with Index Value where Linked Record is indicates by a bit. If this bit is not set, entire record
+is reserved for record data. If Linked bit is set, than first 8 bytes store Record Link with offset and size of the next part.</p>
+<p>Structure of Record Link is similar to Index Value. Except parity is 3.</p>
+<ul>
+<li><p class="first"><strong>bite 49-64</strong> - 16 bite record size of next link. Use <code class="docutils literal"><span class="pre">val&gt;&gt;48</span></code> to get it</p>
+</li>
+<li><p class="first"><strong>bite 5-48</strong> - 48 bite offset of next record alligned to 16 bytes. Use <code class="docutils literal"><span class="pre">val&amp;MOFFSET</span></code> to get it</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>bite 4</strong> - true if next record is linked, false if next record is last and not linked (is tail of linked record).</dt>
+<dd><p class="first last">Use <code class="docutils literal"><span class="pre">val&amp;MLINKED</span></code></p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>bite 1-3</strong> - parity bits</p>
+</li>
+</ul>
+<p>Tail of linked record (last part) does not have 8-byte Record Link at beginning.</p>
+</div>
+<div class="section" id="long-stack">
+<h3>Long Stack<a class="headerlink" href="#long-stack" title="Permalink to this headline">¶</a></h3>
+<p>Long Stack is linked queue of longs stored as part of storage. It supports two operations: put and take, longs are
+returned in FIFO order. StoreDirect uses this structure to keep track of free space. Space allocation involves
+taking long from stack.
+There are more stacks, each size has its own stack, there is also stack to keep track of free recids.
+For space usage there are in total <code class="docutils literal"><span class="pre">64K</span> <span class="pre">/</span> <span class="pre">16</span> <span class="pre">=</span> <span class="pre">4096</span></code> Long Stacks
+(maximal non-linked record size is 64K and records are aligned to 16 bytes).</p>
+<p>Long stack is organized similar way as linked record. It is stored in chunks, each chunks contains multiple long
+values and link to next chunk. Chunks size varies. Long values are stored in bidirectional-packed form, to make
+unpacking possible in both directions.  Single value occupies from 2 bytes to 9 bytes.
+TODO explain bidi-packing, for now see DataIO class.</p>
+<p>Each Long Stack is identified by master pointer, which points to its last chunk. Master Pointer for each Long Stack
+is stored in head of storage file at its reserved offset (zero page). Head chunk is not linked directly, one has to fully
+traverse Long Stack to get to head.</p>
+<p>Structure of Long Stack Chunk is as follow:</p>
+<ul class="simple">
+<li><strong>byte 1-2</strong> total size of this chunk.</li>
+<li><strong>byte 3-8</strong> pointer to previous chunk in this long stack. Parity 4, parity is shared with total size at byte 1-2.</li>
+<li>rest of chunk is filled with bidi-packed longs with parity 1</li>
+</ul>
+<p>Master Link structure:</p>
+<ul class="simple">
+<li><strong>byte 1-2</strong> tail pointer, points where long values are ending at current chunk. Its value changes on every take/put.</li>
+<li><strong>byte 3-8</strong> chunk offset, parity 4.</li>
+</ul>
+<p>Adding value to Long Stack goes as follow:</p>
+<ol class="arabic simple">
+<li>check if there is space in current chunk, if not allocate new one and update master pointer</li>
+<li>write packed value at end of current chunk</li>
+<li>update tail pointer in Master Link</li>
+</ol>
+<p>Taking value:</p>
+<ol class="arabic simple">
+<li>check if stack is not empty, return zero if true</li>
+<li>read value from tail and zero out its bits</li>
+<li>update tail pointer in Master Link</li>
+<li>if tail pointer is 0 (empty), delete current chunk and update master pointer to previous page</li>
+</ol>
+</div>
+</div>
+<div class="section" id="write-ahead-log">
+<h2>Write Ahead Log<a class="headerlink" href="#write-ahead-log" title="Permalink to this headline">¶</a></h2>
+<p>WAL protects storage from data corruption if transactions are enabled.
+Technically it is sequence of instructions written to append-only file. Each
+instruction says something like: &#8216;write this data at this offset&#8217;. TODO explain WAL.</p>
+<p>WAL is stored in sequence of files.</p>
+<div class="section" id="wal-lifecycle">
+<h3>WAL lifecycle<a class="headerlink" href="#wal-lifecycle" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>open (or create) WAL</li>
+<li>replay if unwritten data exists (described in separate section)</li>
+<li>start new file</li>
+<li>write instructions as they come</li>
+<li>on commit start new file</li>
+<li>sync old file. Once sync is done, exit commit (it is blocking operation, until data are safe)</li>
+<li>once log is full, replay all files</li>
+<li>discard logs and start over</li>
+</ul>
+</div>
+<div class="section" id="wal-file-format">
+<h3>WAL file format<a class="headerlink" href="#wal-file-format" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>byte 1-4</strong> header and file number</li>
+<li><strong>byte 5-8</strong> CRC32 checksum of entire log file.  TODO perhaps Adler32?</li>
+<li><strong>byte 9-16</strong> Log Seal, written as last data just before sync.</li>
+<li>rest of file are instructions</li>
+<li><strong>end of file</strong> - End Of File instruction</li>
+</ul>
+</div>
+<div class="section" id="wal-instructions">
+<h3>WAL Instructions<a class="headerlink" href="#wal-instructions" title="Permalink to this headline">¶</a></h3>
+<p>Each instruction starts with single byte header. First 3 bits indicate type of instruction. Last 5 bits contain
+checksum to verify instruction.</p>
+<p>Type of instructions:</p>
+<ol class="arabic simple" start="0">
+<li><strong>end of file</strong>. Last instruction of file. Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">parity</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></li>
+<li><strong>write long</strong>. Is followed by 8 bytes value and 6 byte offset. Checksum is <code class="docutils literal"><span class="pre">(bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">15</span> <span class="pre">bytes</span> <span class="pre">+</span> <span class="pre">1)&amp;31</span></code></li>
+<li><strong>write byte[]</strong>. Is followed by 2 bytes size, 6 byte offset and data itself.
+Checksum is <code class="docutils literal"><span class="pre">(bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">size</span> <span class="pre">+</span> <span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">+</span> <span class="pre">1</span> <span class="pre">)&amp;31</span></code></li>
+<li><strong>skip N bytes</strong>. Is followed by 3 bytes value, number of bytes to skip .
+Used so data do not overlap page size. Checksum is <code class="docutils literal"><span class="pre">(bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">3</span> <span class="pre">bytes</span> <span class="pre">+</span> <span class="pre">1)&amp;31</span></code></li>
+<li><strong>skip single byte</strong>. Skip single byte in WAL. Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></li>
+<li><strong>record</strong>. Is followed by packed recid, than packed record size and an record data.
+Real size is +1, 0 indicates null record
+TODO checksum for record inst</li>
+<li><strong>tombstone</strong>. Is followed ba packed recid. . Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></li>
+<li><strong>preallocate</strong>. Is followed ba packed recid. . Checksum is <code class="docutils literal"><span class="pre">bit</span> <span class="pre">count</span> <span class="pre">from</span> <span class="pre">offset</span> <span class="pre">&amp;</span> <span class="pre">31</span></code></li>
+<li><strong>commit</strong>. TODO checksum</li>
+<li><strong>rollback</strong>. TODO checksum</li>
+</ol>
+</div>
+</div>
+<div class="section" id="sorted-table-map">
+<h2>Sorted Table Map<a class="headerlink" href="#sorted-table-map" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">SortedTableMap</span></code> uses its own file format. File is split into page,
+where page size is power of two and maximal page size 1MB.</p>
+</div>
+</div>
+
+  <div class="section">
+  
+  
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../layout/" title="Collection Layout"
+             >previous</a></li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" >MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, jan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

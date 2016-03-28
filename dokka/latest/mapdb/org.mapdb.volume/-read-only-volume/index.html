@@ -249,7 +249,7 @@
 <td>
 <a href="../-volume/get-packed-long.html">getPackedLong</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getPackedLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$getPackedLong(kotlin.Long)/position">position</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code><p>Unpack long value from the Volume. Highest 4 bits reused to indicate number of bytes read from Volume. One can use <code>result &amp; DBUtil.PACK_LONG_RESULT_MASK</code> to remove size; </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getPackedLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$getPackedLong(kotlin.Long)/position">position</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code><p>Unpack long value from the Volume. Highest 4 bits reused to indicate number of bytes read from Volume. One can use <code>result &amp; DataIO.PACK_LONG_RESULT_MASK</code> to remove size; </p>
 </td>
 </tr>
 <tr>
@@ -257,7 +257,6 @@
 <a href="../-volume/hash.html">hash</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hash</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$hash(kotlin.Long, kotlin.Long, kotlin.Long)/off">off</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.Volume$hash(kotlin.Long, kotlin.Long, kotlin.Long)/len">len</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.Volume$hash(kotlin.Long, kotlin.Long, kotlin.Long)/seed">seed</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code><p><p> Calculates XXHash64 from this Volume content. </p>
-<p> This code comes from <a href="#">LZ4-Java</a> created by Adrien Grand. </p>
  </p>
 </td>
 </tr>

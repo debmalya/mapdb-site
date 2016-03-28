@@ -30,6 +30,12 @@ It optionally persist its content into file, in this case it supports rollback a
 <tbody>
 <tr>
 <td>
+<a href="is-closed.html">isClosed</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isClosed</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="is-thread-safe.html">isThreadSafe</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
@@ -83,6 +89,18 @@ It optionally persist its content into file, in this case it supports rollback a
 </tr>
 <tr>
 <td>
+<a href="file-header-check.html">fileHeaderCheck</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fileHeaderCheck</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreTrivial$fileHeaderCheck(kotlin.Long)/header">header</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="file-header-compose.html">fileHeaderCompose</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fileHeaderCompose</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="get.html">get</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreTrivial$get(kotlin.Long, org.mapdb.Serializer((org.mapdb.StoreTrivial.get.R)))/recid">recid</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreTrivial$get(kotlin.Long, org.mapdb.Serializer((org.mapdb.StoreTrivial.get.R)))/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../-serializer/index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">R</span><span class="symbol">?</span></code></td>
@@ -95,15 +113,15 @@ It optionally persist its content into file, in this case it supports rollback a
 </tr>
 <tr>
 <td>
-<a href="is-closed.html">isClosed</a></td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isClosed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
-</tr>
-<tr>
-<td>
 <a href="load-from.html">loadFrom</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">loadFrom</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreTrivial$loadFrom(java.io.InputStream)/inStream">inStream</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><span class="identifier">InputStream</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="load-from-internal.html">loadFromInternal</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">loadFromInternal</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreTrivial$loadFromInternal(java.io.InputStream)/inStream">inStream</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><span class="identifier">InputStream</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>

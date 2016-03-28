@@ -75,9 +75,9 @@ creation time.</p>
 </tr>
 <tr>
 <td>
-<a href="-d-b-util/index.html">DBUtil</a></td>
+<a href="-data-i-o/index.html">DataIO</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">DBUtil</span></code><p>Various IO classes and utilities.. </p>
+<code><span class="keyword">class </span><span class="identifier">DataIO</span></code><p>Various IO classes and utilities.. </p>
 </td>
 </tr>
 <tr>
@@ -188,8 +188,15 @@ creation time.</p>
 <td>
 <a href="-store-direct/index.html">StoreDirect</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">StoreDirect</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store/index.html"><span class="identifier">Store</span></a><span class="symbol">, </span><a href="-store-binary/index.html"><span class="identifier">StoreBinary</span></a></code><p>Store which uses binary storage (file, memory buffer...) and updates records on place.
+<code><span class="keyword">class </span><span class="identifier">StoreDirect</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store-direct-abstract/index.html"><span class="identifier">StoreDirectAbstract</span></a><span class="symbol">, </span><a href="-store-binary/index.html"><span class="identifier">StoreBinary</span></a></code><p>Store which uses binary storage (file, memory buffer...) and updates records on place.
 It has memory allocator, so it reuses space freed by deletes and updates.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-store-direct-abstract/index.html">StoreDirectAbstract</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">StoreDirectAbstract</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store/index.html"><span class="identifier">Store</span></a></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
 </td>
 </tr>
 <tr>
@@ -229,9 +236,23 @@ It optionally persist its content into file, in this case it supports rollback a
 </tr>
 <tr>
 <td>
+<a href="-store-w-a-l/index.html">StoreWAL</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">StoreWAL</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store-direct-abstract/index.html"><span class="identifier">StoreDirectAbstract</span></a><span class="symbol">, </span><a href="-store-tx/index.html"><span class="identifier">StoreTx</span></a></code><p>StoreDirect with write ahead log</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-verifiable/index.html">Verifiable</a></td>
 <td>
 <code><span class="keyword">interface </span><span class="identifier">Verifiable</span></code><p>Class can verify its status and data integrity: collections, Stores...</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-write-ahead-log/index.html">WriteAheadLog</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">WriteAheadLog</span></code><p>WAL shared between StoreWAL </p>
 </td>
 </tr>
 </tbody>

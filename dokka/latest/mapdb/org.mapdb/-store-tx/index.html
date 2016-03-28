@@ -16,6 +16,12 @@
 <tbody>
 <tr>
 <td>
+<a href="../-store/is-closed.html">isClosed</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isClosed</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="../-store/is-thread-safe.html">isThreadSafe</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
@@ -68,12 +74,6 @@
 </tr>
 <tr>
 <td>
-<a href="../-store/is-closed.html">isClosed</a></td>
-<td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isClosed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
-</tr>
-<tr>
-<td>
 <a href="../-store/preallocate.html">preallocate</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">preallocate</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
@@ -106,6 +106,13 @@
 <a href="../-store-trivial-tx/index.html">StoreTrivialTx</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">StoreTrivialTx</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-store-trivial/index.html"><span class="identifier">StoreTrivial</span></a><span class="symbol">, </span><span class="identifier">StoreTx</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-store-w-a-l/index.html">StoreWAL</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">StoreWAL</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-store-direct-abstract/index.html"><span class="identifier">StoreDirectAbstract</span></a><span class="symbol">, </span><span class="identifier">StoreTx</span></code><p>StoreDirect with write ahead log</p>
+</td>
 </tr>
 </tbody>
 </table>

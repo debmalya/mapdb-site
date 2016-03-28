@@ -16,6 +16,12 @@
 <tbody>
 <tr>
 <td>
+<a href="is-closed.html">isClosed</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isClosed</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="is-thread-safe.html">isThreadSafe</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
@@ -54,12 +60,6 @@
 <a href="delete.html">delete</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">delete</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Store$delete(kotlin.Long, org.mapdb.Serializer((org.mapdb.Store.delete.R)))/recid">recid</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Store$delete(kotlin.Long, org.mapdb.Serializer((org.mapdb.Store.delete.R)))/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../-serializer/index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
-</tr>
-<tr>
-<td>
-<a href="is-closed.html">isClosed</a></td>
-<td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isClosed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>
@@ -115,10 +115,9 @@
 </tr>
 <tr>
 <td>
-<a href="../-store-direct/index.html">StoreDirect</a></td>
+<a href="../-store-direct-abstract/index.html">StoreDirectAbstract</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">StoreDirect</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Store</span><span class="symbol">, </span><a href="../-store-binary/index.html"><span class="identifier">StoreBinary</span></a></code><p>Store which uses binary storage (file, memory buffer...) and updates records on place.
-It has memory allocator, so it reuses space freed by deletes and updates.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">StoreDirectAbstract</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Store</span></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
 </td>
 </tr>
 <tr>

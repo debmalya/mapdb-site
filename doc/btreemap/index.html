@@ -256,8 +256,8 @@ And because an array has better memory locality, there is a huge performance inc
 (common prefix compression,single <code class="docutils literal"><span class="pre">byte[]</span></code> with offsets), <code class="docutils literal"><span class="pre">byte[]</span></code>, <code class="docutils literal"><span class="pre">UUID</span></code>, <code class="docutils literal"><span class="pre">Date</span></code> etc.</p>
 <p>This sort of optimization is used automatically. All you have to do is provide the specialized key serializer:
 <code class="docutils literal"><span class="pre">.keySerializer(Serializer.LONG)</span></code>.</p>
-<p>There are several options and implementations to pack keys. Have a look at
-<a class="reference external" href="http://www.mapdb.org/apidocs/org/mapdb/BTreeKeySerializer.html">BTreeKeySerializer</a> for more details.</p>
+<p>There are several options and implementations to pack keys. Have a look at static fields with <code class="docutils literal"><span class="pre">_PACK</span></code> suffix in
+<a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-serializer/index.html">Serializer</a> class for more details.</p>
 <p>TODO this is major feature, document details and add benchmarks</p>
 </div>
 <div class="section" id="data-pump">
