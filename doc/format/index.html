@@ -228,7 +228,7 @@ Or user can remove marker file and try his luck.</p>
 </div>
 <div class="section" id="file-rename">
 <h3>File Rename<a class="headerlink" href="#file-rename" title="Permalink to this headline">¶</a></h3>
-<p>File rename is used in StoreDirect compaction. Store is recreated in new file, and old file is replaced with new content.
+<p>File Rename is used in StoreDirect compaction. Store is recreated in new file, and old file is replaced with new content.
 The &#8216;old file&#8217; is file which is being replaced, it will be deleted before File Rename. The &#8216;new file&#8217;
 replaces old file and has its name changed.</p>
 <p>MapDB needs file move to be atomic, and supported in range variety of platforms. There are following problems:</p>
@@ -518,6 +518,13 @@ TODO checksum for record inst</li>
 <h2>Sorted Table Map<a class="headerlink" href="#sorted-table-map" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">SortedTableMap</span></code> uses its own file format. File is split into page,
 where page size is power of two and maximal page size 1MB.</p>
+<p>Each page has header. Header size is bigger for zero page, because it also contains file header. TODO header size.</p>
+<p>After header there is a series of 4-byte integers.</p>
+<p>First integer is number of nodes on this page (N). It is followed by N*2 integers. First N integers are offsets
+of key arrays for each node. Next N integers are offsets for value arrays for each node. Offsets are relative to page offset.
+The last integer points to end of data, rest of the page after that offset is filled with zeroes.</p>
+<p>Offsets of key array (number i) are stored at: <code class="docutils literal"><span class="pre">PAGE_OFFSET</span> <span class="pre">+</span> <span class="pre">HEAD_SIZE</span> <span class="pre">+</span> <span class="pre">I*4</span></code>.</p>
+<p>Offsets of value array (number i) are stored at: <code class="docutils literal"><span class="pre">PAGE_OFFSET</span> <span class="pre">+</span> <span class="pre">HEAD_SIZE</span> <span class="pre">+</span> <span class="pre">(NODE_COUNT</span> <span class="pre">+</span> <span class="pre">I)</span> <span class="pre">*</span> <span class="pre">4</span></code>.</p>
 </div>
 </div>
 

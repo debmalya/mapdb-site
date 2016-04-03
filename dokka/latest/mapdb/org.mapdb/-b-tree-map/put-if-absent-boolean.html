@@ -30,7 +30,12 @@ except that the action is performed atomically.</p>
 <code>IllegalStateException</code> - if the cache is <a href="#">.isClosed</a><br/>
 <br/>
 <a name="ClassCastException"></a>
-<code>ClassCastException</code> - if the implementation is configured to perform<br/>
+<code>ClassCastException</code> - if the implementation is configured to perform
+runtime-type-checking, and the key or value
+types are incompatible with those that have been
+configured with different serialziers
+TODO link to JCache standard
+TODO credits for javadoc<br/>
 <strong>Return</strong><br/>
 true if a value was set.<br/>
 <br/>
