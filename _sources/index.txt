@@ -17,7 +17,7 @@ Code
     :dedent: 8
 
 MapDB implements Java interfaces such as ``ConcurrentMap`` and is configured by maker pattern. Find out more in
-`quick start → <doc/getting-started/>`_
+`quick start → <doc/quick-start/>`_
 
 
 .. TODO better syntax highlight
@@ -48,11 +48,9 @@ News
    :list-style: circle
    :format: {title} on {date}
 
-Follow news on `RSS <http://www.mapdb.org/blog/atom.xml>`__ ,
+All posts are in `Blog </blog/>`_ and `Changelog </changelog/>`_. Follow news on `RSS <http://www.mapdb.org/blog/atom.xml>`__ ,
 `Mailing list <https://groups.google.com/forum/?fromgroups#!forum/mapdb-news>`__
-or `Twitter <http://twitter.com/MapDBnews>`__
-
-
+or `Twitter <http://twitter.com/MapDBnews>`__.
 
 
 .. toctree::
