@@ -19,7 +19,7 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">StoreDirect</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/readOnly">readOnly</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/allocateStartSize">allocateStartSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></code><p>Store which uses binary storage (file, memory buffer...) and updates records on place.
+<code><span class="identifier">StoreDirect</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isReadOnly">isReadOnly</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/allocateStartSize">allocateStartSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/deleteFilesAfterClose">deleteFilesAfterClose</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksum">checksum</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeader">checksumHeader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span></code><p>Store which uses binary storage (file, memory buffer...) and updates records on place.
 It has memory allocator, so it reuses space freed by deletes and updates.</p>
 </td>
 </tr>
@@ -42,9 +42,9 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 </tr>
 <tr>
 <td>
-<a href="read-only.html">readOnly</a></td>
+<a href="is-read-only.html">isReadOnly</a></td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">readOnly</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">isReadOnly</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>
@@ -57,6 +57,18 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <h3>Inherited Properties</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<a href="../-store-direct-abstract/checksum.html">checksum</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">checksum</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-store-direct-abstract/checksum-header.html">checksumHeader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">checksumHeader</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
 <tr>
 <td>
 <a href="../-store-direct-abstract/closed.html">closed</a></td>
@@ -75,6 +87,12 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <code><span class="keyword">var </span><span class="identifier">dataTail</span><span class="symbol">: </span><span class="identifier">Long</span></code><p>end of last record</p>
 </td>
+</tr>
+<tr>
+<td>
+<a href="../-store-direct-abstract/delete-files-after-close.html">deleteFilesAfterClose</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">deleteFilesAfterClose</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>
@@ -341,6 +359,18 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 </tr>
 <tr>
 <td>
+<a href="../-store-direct-abstract/calculate-checksum.html">calculateChecksum</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">calculateChecksum</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="../-store-direct-abstract/calculate-header-checksum.html">calculateHeaderChecksum</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">calculateHeaderChecksum</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="../-store-direct-abstract/deserialize.html">deserialize</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">deserialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../-serializer/index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/di">di</span><span class="symbol">:</span>&nbsp;<a href="../-data-input2/index.html"><span class="identifier">DataInput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">R</span><span class="symbol">?</span></code></td>
@@ -349,7 +379,7 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <a href="../-store-direct-abstract/file-header-check.html">fileHeaderCheck</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">fileHeaderCheck</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$fileHeaderCheck(kotlin.Long)/header">header</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">fileHeaderCheck</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>
@@ -423,6 +453,12 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">serialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$serialize(org.mapdb.StoreDirectAbstract.serialize.R, org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.serialize.R)))/record">record</span><span class="symbol">:</span>&nbsp;<span class="identifier">R</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$serialize(org.mapdb.StoreDirectAbstract.serialize.R, org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.serialize.R)))/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../-serializer/index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-data-output2/index.html"><span class="identifier">DataOutput2</span></a><span class="symbol">?</span></code></td>
 </tr>
+<tr>
+<td>
+<a href="../-store-direct-abstract/store-header-compose.html">storeHeaderCompose</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">storeHeaderCompose</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
 </tbody>
 </table>
 <h3>Companion Object Functions</h3>
@@ -432,7 +468,7 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <a href="make.html">make</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a>&nbsp;<span class="symbol">=</span>&nbsp;if(file==null) CC.DEFAULT_MEMORY_VOLUME_FACTORY else CC.DEFAULT_FILE_VOLUME_FACTORY<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/readOnly">readOnly</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;4<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long)/allocateStartSize">allocateStartSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span>&nbsp;<span class="symbol">=</span>&nbsp;0L<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">StoreDirect</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a>&nbsp;<span class="symbol">=</span>&nbsp;if(file==null) CC.DEFAULT_MEMORY_VOLUME_FACTORY else CC.DEFAULT_FILE_VOLUME_FACTORY<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isReadOnly">isReadOnly</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;CC.STORE_DIRECT_CONC_SHIFT<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/allocateStartSize">allocateStartSize</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span>&nbsp;<span class="symbol">=</span>&nbsp;0L<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/deleteFilesAfterClose">deleteFilesAfterClose</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksum">checksum</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirect.Companion$make(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Long, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeader">checksumHeader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">StoreDirect</span></code></td>
 </tr>
 </tbody>
 </table>

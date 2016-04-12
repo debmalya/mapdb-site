@@ -8,7 +8,8 @@
 <br/>
 <h1>DBMaker</h1>
 <code><span class="keyword">object </span><span class="identifier">DBMaker</span></code><br/>
-<p>Initializes DB object</p>
+<strong>Author</strong><br/>
+Jan Kotek<br/>
 <br/>
 <br/>
 <h3>Types</h3>
@@ -42,7 +43,9 @@
 <td>
 <a href="heap-d-b.html">heapDB</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">heapDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">heapDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code><p>Creates new in-memory database which stores all data on heap without serialization.
+This mode should be very fast, but data will affect Garbage Collector the same way as traditional Java Collections.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -60,7 +63,16 @@
 <td>
 <a href="memory-d-b.html">memoryDB</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">memoryDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">memoryDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code><p>Creates new in-memory database. Changes are lost after JVM exits.
+This option serializes data into {@code byte[]},
+so they are not affected by Garbage Collector.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="memory-direct-d-b.html">memoryDirectDB</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">memoryDirectDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -79,6 +91,13 @@
 <a href="on-volume.html">onVolume</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">onVolume</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.DBMaker$onVolume(org.mapdb.volume.Volume, kotlin.Boolean)/volume">volume</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.DBMaker$onVolume(org.mapdb.volume.Volume, kotlin.Boolean)/volumeExists">volumeExists</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code></td>
+</tr>
+<tr>
+<td>
+<a href="temp-file-d-b.html">tempFileDB</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">tempFileDB</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-maker/index.html"><span class="identifier">Maker</span></a></code><p>Creates new database in temporary folder. Files are deleted after store was closed</p>
+</td>
 </tr>
 </tbody>
 </table>

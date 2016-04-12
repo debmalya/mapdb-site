@@ -1,7 +1,7 @@
 Support
 =============
 
-MapDB community provides free support via following sites.
+MapDB community provides free support via following sites:
 
 * Issue tracker on `Github <https://www.github.com/jankotek/mapdb/issues/>`_
 * Mailing list at `Google Groups <https://groups.google.com/forum/#!forum/mapdb>`_, subscribe `link <mailto:mapdb-subscribe@googlegroups.com>`_
@@ -10,7 +10,7 @@ MapDB community provides free support via following sites.
 
 Anything with stack trace goes to Issue Tracker.
 Mailing list and Reddit forum are for general questions.
-Documentation for MapDB is `here <http://www.mapdb.org/doc/>`_
+Documentation for MapDB is `here <http://www.mapdb.org/doc/>`_.
 
 Free discovery call
 --------------------------------

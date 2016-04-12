@@ -71,12 +71,6 @@
 <td>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">&gt;</span> <span class="identifier">serializer</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.DB.TreeSetMaker$serializer(org.mapdb.serializer.GroupSerializer((org.mapdb.DB.TreeSetMaker.serializer.A)))/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TreeSetMaker</span><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">&gt;</span></code></td>
 </tr>
-<tr>
-<td>
-<a href="thread-safe-disable.html">threadSafeDisable</a></td>
-<td>
-<code><span class="keyword">fun </span><span class="identifier">threadSafeDisable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TreeSetMaker</span><span class="symbol">&lt;</span><span class="identifier">E</span><span class="symbol">&gt;</span></code></td>
-</tr>
 </tbody>
 </table>
 <h3>Inherited Functions</h3>
@@ -86,19 +80,23 @@
 <td>
 <a href="../-maker/create.html">create</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code><p>Creates new collection if it does not exist, or throw {@link DBException.WrongConfiguration}
+if collection already exists.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="../-maker/create-or-open.html">createOrOpen</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">createOrOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">createOrOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code><p>Create new collection or open existing.</p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="../-maker/make.html">make</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code><p>Create new collection or open existing.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -110,7 +108,9 @@
 <td>
 <a href="../-maker/open.html">open</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">open</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">open</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code><p>Open existing collection, or throw {@link DBException.WrongConfiguration}
+if collection already exists.</p>
+</td>
 </tr>
 </tbody>
 </table>

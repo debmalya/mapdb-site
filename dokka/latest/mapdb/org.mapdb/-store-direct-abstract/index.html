@@ -18,7 +18,7 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">StoreDirectAbstract</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
+<code><span class="identifier">StoreDirectAbstract</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/deleteFilesAfterClose">deleteFilesAfterClose</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksum">checksum</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeader">checksumHeader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
 </td>
 </tr>
 </tbody>
@@ -26,6 +26,18 @@
 <h3>Properties</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<a href="checksum.html">checksum</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">checksum</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="checksum-header.html">checksumHeader</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">checksumHeader</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
 <tr>
 <td>
 <a href="closed.html">closed</a></td>
@@ -44,6 +56,12 @@
 <td>
 <code><span class="keyword">var </span><span class="identifier">dataTail</span><span class="symbol">: </span><span class="identifier">Long</span></code><p>end of last record</p>
 </td>
+</tr>
+<tr>
+<td>
+<a href="delete-files-after-close.html">deleteFilesAfterClose</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">deleteFilesAfterClose</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>
@@ -126,6 +144,17 @@
 </tr>
 </tbody>
 </table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="../-store/is-read-only.html">isReadOnly</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isReadOnly</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+</tbody>
+</table>
 <h3>Functions</h3>
 <table>
 <tbody>
@@ -161,6 +190,18 @@
 </tr>
 <tr>
 <td>
+<a href="calculate-checksum.html">calculateChecksum</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">calculateChecksum</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Long</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="calculate-header-checksum.html">calculateHeaderChecksum</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">calculateHeaderChecksum</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="deserialize.html">deserialize</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">deserialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/serializer">serializer</span><span class="symbol">:</span>&nbsp;<a href="../-serializer/index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">R</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/di">di</span><span class="symbol">:</span>&nbsp;<a href="../-data-input2/index.html"><span class="identifier">DataInput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$deserialize(org.mapdb.Serializer((org.mapdb.StoreDirectAbstract.deserialize.R)), org.mapdb.DataInput2, kotlin.Long)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">R</span><span class="symbol">?</span></code></td>
@@ -169,7 +210,7 @@
 <td>
 <a href="file-header-check.html">fileHeaderCheck</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">fileHeaderCheck</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$fileHeaderCheck(kotlin.Long)/header">header</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">fileHeaderCheck</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>
@@ -272,6 +313,12 @@
 <a href="set-index-val.html">setIndexVal</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">setIndexVal</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$setIndexVal(kotlin.Long, kotlin.Long)/recid">recid</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$setIndexVal(kotlin.Long, kotlin.Long)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="store-header-compose.html">storeHeaderCompose</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">storeHeaderCompose</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
 </tr>
 </tbody>
 </table>

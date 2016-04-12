@@ -50,17 +50,6 @@ creation time.</p>
 </tr>
 <tr>
 <td>
-<a href="-compress-l-z-f/index.html">CompressLZF</a></td>
-<td>
-<code><span class="keyword">class </span><span class="identifier">CompressLZF</span></code><p><p> This class implements the LZF lossless data compression algorithm. LZF is a Lempel-Ziv variant with byte-aligned output, and optimized for speed. </p>
- <p> Safety/Use Notes: </p>
- <ul> <li>Each instance should be used by a single thread only.</li> <li>The data buffers should be smaller than 1 GB.</li> <li>For performance reasons, safety checks on expansion are omitted.</li> <li>Invalid compressed data can cause an ArrayIndexOutOfBoundsException.</li> </ul> <p> The LZF compressed format knows literal runs and back-references: </p>
- <ul> <li>Literal run: directly copy bytes from input to output.</li> <li>Back-reference: copy previous data to output stream, with specified offset from location and length. The length is at least 3 bytes.</li> </ul> <p> The first byte of the compressed stream is the control byte. For literal runs, the highest three bits of the control byte are not set, the the lower bits are the literal run length, and the next bytes are data to copy directly into the output. For back-references, the highest three bits of the control byte are the back-reference length. If all three bits are set, then the back-reference length is stored in the next byte. The lower bits of the control byte combined with the next byte form the offset for the back-reference. </p>
- </p>
-</td>
-</tr>
-<tr>
-<td>
 <a href="-d-b/index.html">DB</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">DB</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a></code><p>A database with easy access to named maps and other collections.</p>
@@ -70,8 +59,7 @@ creation time.</p>
 <td>
 <a href="-d-b-maker/index.html">DBMaker</a></td>
 <td>
-<code><span class="keyword">object </span><span class="identifier">DBMaker</span></code><p>Initializes DB object</p>
-</td>
+<code><span class="keyword">object </span><span class="identifier">DBMaker</span></code></td>
 </tr>
 <tr>
 <td>
@@ -211,6 +199,13 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <a href="-store-on-heap/index.html">StoreOnHeap</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">StoreOnHeap</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store/index.html"><span class="identifier">Store</span></a></code><p>Store which does not use serialization, but puts everything into on-heap Map.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="-store-read-only-wrapper/index.html">StoreReadOnlyWrapper</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">StoreReadOnlyWrapper</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store/index.html"><span class="identifier">Store</span></a></code><p>Wraps Store and throws <code>UnsupportedOperationException("Read-only")</code> on operations which would modify it</p>
 </td>
 </tr>
 <tr>

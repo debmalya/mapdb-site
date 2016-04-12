@@ -22,6 +22,12 @@
 </tr>
 <tr>
 <td>
+<a href="is-read-only.html">isReadOnly</a></td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isReadOnly</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="is-thread-safe.html">isThreadSafe</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
@@ -125,6 +131,13 @@
 <a href="../-store-on-heap/index.html">StoreOnHeap</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">StoreOnHeap</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Store</span></code><p>Store which does not use serialization, but puts everything into on-heap Map.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-store-read-only-wrapper/index.html">StoreReadOnlyWrapper</a></td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">StoreReadOnlyWrapper</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Store</span></code><p>Wraps Store and throws <code>UnsupportedOperationException("Read-only")</code> on operations which would modify it</p>
 </td>
 </tr>
 <tr>

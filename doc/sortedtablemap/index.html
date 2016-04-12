@@ -93,7 +93,7 @@
 <div class="pageheader">
   <ul>
     <li><a href="../../">Home</a></li>
-    <li><a href="../getting-started/">Intro</a></li>
+    <li><a href="../quick-start/">Quick start</a></li>
     <li><a href="../">Docs</a></li>
     <li><a href="../../blog/">Blog</a></li>
       <li><a href="../../support/">Support</a></li>
@@ -121,8 +121,8 @@
           <li class="nav-item nav-item-1"><a href="../" accesskey="U">MapDB Manual</a> &raquo;</li> 
       </ul>
     </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
+<div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+    <div class="sphinxsidebarwrapper">
   <h3><a href="../../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Sorted Table Map</a><ul>
@@ -133,19 +133,6 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../btreemap/"
-                        title="previous chapter">BTreeMap</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../layout/"
-                        title="next chapter">Collection Layout</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/doc/sortedtablemap.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search/" method="get">
@@ -154,13 +141,38 @@
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sitemap">
+    <h3>Site Map</h3>
+    <ul>
+        <li><a href="/support/">Support</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/success/">Who is using MapDB</a></li>
+        <li><a href="/benchmark/">Benchmarks</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="/credits/">Credits</a></li>
+
+        <li><a href="/doc/">Documentation</a><ul>
+            <li><a href="/doc/intro/">Intro</a></li>
+            <li><a href="/doc/quick-start/">Quick start</a></li>
+            <li><a href="/doc/db/">DB and DBMaker</a></li>
+            <li><a href="/doc/htreemap/">HTreeMap</a></li>
+            <li><a href="/doc/btreemap/">BTreeMap</a></li>
+            <li><a href="/doc/sortedtablemap/">Sorted Table Map</a></li>
+        </ul></li>
+    </ul>
+
+    <h3>Links</h3>
+    <ul>
+        <li><a href="https://www.github.com/jankotek/mapdb/">Github</a>
+        <li><a href="https://www.github.com/jankotek/mapdb/issues/">Issue tracker</a>
+        <li><a href="https://groups.google.com/forum/#!forum/mapdb">Mail list</a></li>
+        <li><a href="https://www.reddit.com/r/mapdb">Reddit forum</a></li>
+        <li><a href="https://gitter.im/jankotek/mapdb">Gitter chat</a></li>
+    </ul>
+</div>
+    </div>
+</div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -182,20 +194,20 @@ and periodically merges two maps into new <code class="docutils literal"><span c
 <span class="n">Volume</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">MappedFileVol</span><span class="p">.</span><span class="n">FACTORY</span><span class="p">.</span><span class="n">makeVolume</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
 
 <span class="c1">//open consumer which will feed map with content</span>
-<span class="n">SortedTableMap</span><span class="p">.</span><span class="n">Sink</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span>
+<span class="n">SortedTableMap</span><span class="p">.</span><span class="n">Sink</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">sink</span> <span class="o">=</span>
         <span class="n">SortedTableMap</span><span class="p">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">volume</span><span class="p">,</span>
                 <span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">,</span>
                 <span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span>
-        <span class="p">).</span><span class="n">consumer</span><span class="p">();</span>
+        <span class="p">).</span><span class="n">createFromSink</span><span class="p">();</span>
 
 <span class="c1">//feed content into consumer</span>
 <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">key</span><span class="o">&lt;</span><span class="mi">100000</span><span class="p">;</span> <span class="n">key</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">consumer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">);</span>
+    <span class="n">sink</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="c1">// finally open created map</span>
-<span class="n">SortedTableMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>
+<span class="n">SortedTableMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">sink</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Once file is created, it can be reopened:</p>
@@ -244,7 +256,7 @@ since more entries are loaded to get single entry. Default node size is 32 entri
 <span class="n">Volume</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">MappedFileVol</span><span class="p">.</span><span class="n">FACTORY</span><span class="p">.</span><span class="n">makeVolume</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
 
 <span class="c1">//open consumer which will feed map with content</span>
-<span class="n">SortedTableMap</span><span class="p">.</span><span class="n">Sink</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">consumer</span> <span class="o">=</span>
+<span class="n">SortedTableMap</span><span class="p">.</span><span class="n">Sink</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">sink</span> <span class="o">=</span>
         <span class="n">SortedTableMap</span><span class="p">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">volume</span><span class="p">,</span>
                 <span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">,</span> <span class="c1">// key serializer</span>
@@ -252,15 +264,15 @@ since more entries are loaded to get single entry. Default node size is 32 entri
         <span class="p">)</span>
                 <span class="p">.</span><span class="n">pageSize</span><span class="p">(</span><span class="mi">64</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span> <span class="c1">// set Page Size to 64KB</span>
                 <span class="p">.</span><span class="n">nodeSize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>       <span class="c1">// set Node Size to 8 entries</span>
-                <span class="p">.</span><span class="n">consumer</span><span class="p">();</span>
+                <span class="p">.</span><span class="n">createFromSink</span><span class="p">();</span>
 
 <span class="c1">//feed content into consumer</span>
 <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">key</span><span class="o">&lt;</span><span class="mi">100000</span><span class="p">;</span> <span class="n">key</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">consumer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">);</span>
+    <span class="n">sink</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">+</span><span class="n">key</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="c1">// finally open created map</span>
-<span class="n">SortedTableMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>
+<span class="n">SortedTableMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">sink</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>
 <span class="n">volume</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
 
 <span class="c1">// Existing SortedTableMap can be reopened.</span>

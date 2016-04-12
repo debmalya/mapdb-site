@@ -35,7 +35,6 @@ creation time.</p>
 <td>
 <a href="../org.mapdb/-d-b-maker/index.html">org.mapdb.DBMaker</a></td>
 <td>
-<p>Initializes DB object</p>
 </td>
 </tr>
 <tr>
@@ -78,6 +77,13 @@ creation time.</p>
 <a href="../org.mapdb/-queue-long/index.html">org.mapdb.QueueLong</a></td>
 <td>
 <p>FIFO Queue with option to remove element from middle</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../org.mapdb.volume/-read-only-volume-factory/index.html">org.mapdb.volume.ReadOnlyVolumeFactory</a></td>
+<td>
+<p>Wraps volume factory and returns volume as readonly</p>
 </td>
 </tr>
 <tr>
@@ -134,6 +140,13 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <a href="../org.mapdb/-store-on-heap/index.html">org.mapdb.StoreOnHeap</a></td>
 <td>
 <p>Store which does not use serialization, but puts everything into on-heap Map.</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../org.mapdb/-store-read-only-wrapper/index.html">org.mapdb.StoreReadOnlyWrapper</a></td>
+<td>
+<p>Wraps Store and throws <code>UnsupportedOperationException("Read-only")</code> on operations which would modify it</p>
 </td>
 </tr>
 <tr>

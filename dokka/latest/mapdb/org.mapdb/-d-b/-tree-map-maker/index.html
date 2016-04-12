@@ -63,7 +63,9 @@
 <td>
 <a href="create.html">create</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code><p>Creates new collection if it does not exist, or throw {@link DBException.WrongConfiguration}
+if collection already exists.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -81,7 +83,8 @@
 <td>
 <a href="create-or-open.html">createOrOpen</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">createOrOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">createOrOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code><p>Create new collection or open existing.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -105,13 +108,9 @@
 <td>
 <a href="open.html">open</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">open</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code></td>
-</tr>
-<tr>
-<td>
-<a href="thread-safe-disable.html">threadSafeDisable</a></td>
-<td>
-<code><span class="keyword">fun </span><span class="identifier">threadSafeDisable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">TreeMapMaker</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">open</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../-b-tree-map/index.html"><span class="identifier">BTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code><p>Open existing collection, or throw {@link DBException.WrongConfiguration}
+if collection already exists.</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -134,7 +133,8 @@
 <td>
 <a href="../-maker/make.html">make</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">make</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">E</span></code><p>Create new collection or open existing.</p>
+</td>
 </tr>
 <tr>
 <td>
