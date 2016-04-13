@@ -130,7 +130,9 @@
 <li><a class="reference internal" href="#key-serializers">Key serializers</a></li>
 <li><a class="reference internal" href="#data-pump">Data Pump</a></li>
 <li><a class="reference internal" href="#fragmentation">Fragmentation</a></li>
-<li><a class="reference internal" href="#composite-keys-and-multimaps">Composite keys and multimaps</a></li>
+<li><a class="reference internal" href="#prefix-submaps">Prefix submaps</a></li>
+<li><a class="reference internal" href="#composite-keys-and-tuples">Composite keys and tuples</a></li>
+<li><a class="reference internal" href="#multimap">Multimap</a></li>
 <li><a class="reference internal" href="#compared-to-htreemap">Compared to HTreeMap</a></li>
 </ul>
 </li>
@@ -297,11 +299,98 @@ will be produced as a merge of first two, and will be swapped with the primary.
 <code class="docutils literal"><span class="pre">SSTable</span></code>&#8216;s in Cassandra and other databases works in a similar way.</p>
 <p>TODO provide wrapper to compact/merge BTreeMap content automatically.</p>
 </div>
-<div class="section" id="composite-keys-and-multimaps">
-<h2>Composite keys and multimaps<a class="headerlink" href="#composite-keys-and-multimaps" title="Permalink to this headline">¶</a></h2>
-<p>MapDB 1.0 had tuples that were replaced in 2.0 with <code class="docutils literal"><span class="pre">Object[]</span></code>.</p>
-<p>TODO composite keys</p>
-<p>TODO multimap</p>
+<div class="section" id="prefix-submaps">
+<h2>Prefix submaps<a class="headerlink" href="#prefix-submaps" title="Permalink to this headline">¶</a></h2>
+<p>For array based keys (tuples, Strings, or arrays) MapDB provide prefix submap. It uses
+intervals, so prefix submap is lazy, it does not load all keys. Here as example which uses
+prefix on <code class="docutils literal"><span class="pre">byte[]</span></code> keys:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span>
+        <span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;towns&quot;</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">BYTE_ARRAY</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
+
+<span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;New York&quot;</span><span class="p">.</span><span class="n">getBytes</span><span class="p">(),</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;New Jersey&quot;</span><span class="p">.</span><span class="n">getBytes</span><span class="p">(),</span> <span class="mi">2</span><span class="p">);</span>
+<span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;Boston&quot;</span><span class="p">.</span><span class="n">getBytes</span><span class="p">(),</span> <span class="mi">3</span><span class="p">);</span>
+
+<span class="c1">//get all New* cities</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">newCities</span> <span class="o">=</span> <span class="n">map</span><span class="p">.</span><span class="n">prefixSubMap</span><span class="p">(</span><span class="s">&quot;New&quot;</span><span class="p">.</span><span class="n">getBytes</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>TODO  key serializer must provide <code class="docutils literal"><span class="pre">nextValue</span></code> for prefix submaps. Implement it on more serializers</p>
+</div>
+<div class="section" id="composite-keys-and-tuples">
+<h2>Composite keys and tuples<a class="headerlink" href="#composite-keys-and-tuples" title="Permalink to this headline">¶</a></h2>
+<p>MapDB allows composite keys in form of <code class="docutils literal"><span class="pre">Object[]</span></code>.
+Interval submaps can be used to fetch tuple subcomponents, or to create simple form of multimap.
+Object array is not comparable, so you need to use specialized serializer which provides comparator.</p>
+<p>Here is an example which creates <code class="docutils literal"><span class="pre">Map&lt;Tuple3&lt;String,</span> <span class="pre">String,</span> <span class="pre">Integer&gt;,</span> <span class="pre">Double&gt;</span></code> in form of Object[].
+First component is town, second is street and third component is house number.
+It has more parts, source code is on <a class="reference external" href="https://github.com/jankotek/mapdb-site/blob/master/src/test/java/doc/btreemap_composite_keys.java">github</a>
+<code class="docutils literal"><span class="pre">SerializerArrayTuple</span></code> which takes serializers for each tuple component as constructor parameter:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// initialize db and map</span>
+<span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span><span class="p">.</span><span class="n">memoryDB</span><span class="p">().</span><span class="n">make</span><span class="p">();</span>
+<span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;towns&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">keySerializer</span><span class="p">(</span><span class="k">new</span> <span class="n">SerializerArrayTuple</span><span class="p">(</span>
+                <span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">valueSerializer</span><span class="p">(</span><span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Once map is populated we can get all houses in town of Cong by using prefix submap (town is first component in tuple):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">//get all houses in Cong (town is primary component in tuple)</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">cong</span> <span class="o">=</span>
+        <span class="n">map</span><span class="p">.</span><span class="n">prefixSubMap</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">});</span>
+</pre></div>
+</div>
+<p>Prefix submap is equal to range query which uses submap method:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">cong</span> <span class="o">=</span> <span class="n">map</span><span class="p">.</span><span class="n">subMap</span><span class="p">(</span>
+        <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">},</span>           <span class="c1">//shorter array is &#39;negative infinity&#39;</span>
+        <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">,</span><span class="n">null</span><span class="p">,</span><span class="n">null</span><span class="p">}</span> <span class="c1">// null is positive infinity&#39;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Interval submap can only filter components on left side. To get components in middle we have combine submap with a forloop:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="n">String</span> <span class="nl">town</span><span class="p">:</span><span class="n">towns</span><span class="p">){</span> <span class="c1">//first loop iterates over towns</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">Integer</span> <span class="nl">salary</span><span class="p">:</span> <span class="c1">//second loop iterates over all houses on main street</span>
+            <span class="n">map</span><span class="p">.</span><span class="n">prefixSubMap</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="n">town</span><span class="p">,</span> <span class="s">&quot;Main Street&quot;</span><span class="p">}).</span><span class="n">values</span><span class="p">()){</span>
+        <span class="n">total</span><span class="o">+=</span><span class="n">salary</span><span class="p">;</span> <span class="c1">//and calculate sum</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Salary sum for all Main Streets is: &quot;</span><span class="o">+</span><span class="n">total</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Submaps are modifiable, we could delete all houses in town by calling <cite>clear()</cite> on submap etc..</p>
+</div>
+<div class="section" id="multimap">
+<h2>Multimap<a class="headerlink" href="#multimap" title="Permalink to this headline">¶</a></h2>
+<p>Multimap is a Map which associated multiple values with single key.
+An example can be found in <a class="reference external" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/Multimap.html">Guava</a>
+or in <a class="reference external" href="https://www.eclipse.org/collections/javadoc/7.0.0/org/eclipse/collections/api/multimap/Multimap.html">Eclipse Collections</a>
+It can be written as <cite>Map&lt;Key,List&lt;Value&gt;&gt;</cite>, but that does not work well in MapDB, we need keys and values to be immutable,
+and List is not immutable.</p>
+<p>There is a plan to implement Multimap from Guava and EC directly in MapDB. But until than there is an option to use
+SortedSet in combination with tuples and interval subsets. Here is an example which constructs Set, inserts some data
+and gets all values (second tuple component) associated with key (first tuple component):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// initialize multimap: Map&lt;String,List&lt;Integer&gt;&gt;</span>
+<span class="n">NavigableSet</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">multimap</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeSet</span><span class="p">(</span><span class="s">&quot;towns&quot;</span><span class="p">)</span>
+        <span class="c1">//set tuple serializer</span>
+        <span class="p">.</span><span class="n">serializer</span><span class="p">(</span><span class="k">new</span> <span class="n">SerializerArrayTuple</span><span class="p">(</span><span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">INTEGER</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
+
+<span class="c1">// populate, key is first component in tuple (array), value is second</span>
+<span class="n">multimap</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;John&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">});</span>
+<span class="n">multimap</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;John&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">});</span>
+<span class="n">multimap</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Anna&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">});</span>
+
+<span class="c1">// print all values associated with John:</span>
+<span class="n">Set</span> <span class="n">johnSubset</span> <span class="o">=</span> <span class="n">multimap</span><span class="p">.</span><span class="n">subSet</span><span class="p">(</span>
+        <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;John&quot;</span><span class="p">},</span>         <span class="c1">// lower interval bound</span>
+        <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;John&quot;</span><span class="p">,</span> <span class="n">null</span><span class="p">});</span>  <span class="c1">// upper interval bound, null is positive infinity</span>
+</pre></div>
+</div>
+<p>TODO delta packing for Tuples</p>
+<p>TODO MapDB will soon implement multimap from Guava</p>
 </div>
 <div class="section" id="compared-to-htreemap">
 <h2>Compared to HTreeMap<a class="headerlink" href="#compared-to-htreemap" title="Permalink to this headline">¶</a></h2>
