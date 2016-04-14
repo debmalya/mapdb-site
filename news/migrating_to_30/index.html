@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>All posts &mdash; MapDB</title>
+    <title>Migrating to MapDB 3.0 &mdash; MapDB</title>
     
     <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -92,7 +92,7 @@
     <li><a href="../../">Home</a></li>
     <li><a href="../../doc/quick-start/">Quick start</a></li>
     <li><a href="../../doc/">Docs</a></li>
-    <li><a href="../">Blog</a></li>
+    <li><a href="../../blog/">Blog</a></li>
       <li><a href="../../support/">Support</a></li>
 
       <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
@@ -113,6 +113,12 @@
     </div>
 <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
     <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Migrating to MapDB 3.0</a></li>
+<li><a class="reference internal" href="#features-missing-in-milestone-5">Features missing in milestone 5</a></li>
+</ul>
+
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search/" method="get">
@@ -162,216 +168,37 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  
-  
-  <div class="section">
+  <div class="section" id="migrating-to-mapdb-3-0">
+<h1>Migrating to MapDB 3.0<a class="headerlink" href="#migrating-to-mapdb-3-0" title="Permalink to this headline">¶</a></h1>
+<p>MapDB 3 is now usable, so lets talk about differences from older releases and howto migrate into new release.</p>
+<p>MapDB now depends on external libraries, most notably Guava and Eclipse Collections. I will not cover that
+here, so please just use dependencies provided by Maven.
+Latter I will use more flexible version ranges and optional dependencies to make dependencies simpler.
+There will also be small self-contained flavour with all dependencies packed into single jar file and
+compressed by Proguard.</p>
+<p>There is big change in default configuration. Transactions are now disabled by default,
+<code class="docutils literal"><span class="pre">DBMaker.memoryDB().make()</span></code> creates <code class="docutils literal"><span class="pre">DB</span></code> with transactions disabled.
+There is new option <code class="docutils literal"><span class="pre">transactionEnable()</span></code> to enable transactions.
+This settings has changed because some new storage engines do not support transactions.</p>
+<p><code class="docutils literal"><span class="pre">BTreeKeySerializer</span></code> was merged into <code class="docutils literal"><span class="pre">Serializer</span></code> class. So for <code class="docutils literal"><span class="pre">BTreeMap</span></code> key serializer
+use <code class="docutils literal"><span class="pre">Serializer.STRING</span></code> or similar static field. Serializers with delta packing have <code class="docutils literal"><span class="pre">_DELTA</span></code> suffix.</p>
+<p>Data Pump for BTreeMap has changed. Now it takes data sorted in naturally order (older version required reverse sorted source).
+Also it does no longer require source iterator, but can take data in form of <code class="docutils literal"><span class="pre">Sink</span></code> (consumer with <code class="docutils literal"><span class="pre">put</span></code> and <code class="docutils literal"><span class="pre">finish</span></code> method).
+Use <code class="docutils literal"><span class="pre">DB.treeMap(&quot;map&quot;).createFrom...()</span></code> method to create populated <code class="docutils literal"><span class="pre">BTreeMap</span></code>.</p>
+</div>
+<div class="section" id="features-missing-in-milestone-5">
+<h1>Features missing in milestone 5<a class="headerlink" href="#features-missing-in-milestone-5" title="Permalink to this headline">¶</a></h1>
+<p>Instance cache is not implemented yet. It will be added in latter release.</p>
+<p>Asynchronous writes are missing and will be added latter.</p>
+<p>TXMaker and concurrent transactions are missing. Will be added latter.</p>
+<p>StoreAppend and StoreAppend is missing, will be added latter.</p>
+<p>Bind utilities are missing, it will probably be added latter.</p>
+</div>
 
-    <h2>
-      Posted in
-      <a href="../2016/">2016</a>
-    </h2>
-    
-    <div class="section">
-      <p>
-      
-      
-        14 Apr 2016
-      
-      - <a href="../../changelog/#milestone-5-released-2016-04-14">Milestone 5 released (2016-04-14)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        28 Mar 2016
-      
-      - <a href="../../changelog/#milestone-4-released-2016-03-28">3.0.0 Milestone 4 released (2016-03-28)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        10 Mar 2016
-      
-      - <a href="../../changelog/#milestone-3-released-2016-03-10">3.0.0 Milestone 3 released (2016-03-10)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        21 Feb 2016
-      
-      - <a href="../../changelog-archive/#version-1-0-9-released-2016-02-21">Version 1.0.9 released (2016-02-21)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        21 Feb 2016
-      
-      - <a href="../../changelog-archive/#beta13-released-2016-02-21">2.0-beta13 released (2016-02-21)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        12 Feb 2016
-      
-      - <a href="../../news/m2_and_roadmap/">Milestone 2 is out and 3.0 roadmap</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        12 Feb 2016
-      
-      - <a href="../../changelog/#milestone-2-released-2016-02-12">3.0.0 Milestone 2 released (2016-02-12)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        24 Jan 2016
-      
-      - <a href="../../news/thread_weaver/">Unit testing multi-threaded code with Thread Weaver</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        13 Jan 2016
-      
-      - <a href="../../news/mapdb3/">MapDB 3.0</a>
-      </p>
-      
-    </div>
-    
-  </div>
-  
-  
-  
   <div class="section">
-
-    <h2>
-      Posted in
-      <a href="../2015/">2015</a>
-    </h2>
-    
-    <div class="section">
-      <p>
-      
-      
-        26 Nov 2015
-      
-      - <a href="../../changelog-archive/#beta12-released-2015-11-26">2.0-beta12 released (2015-11-26)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        20 Nov 2015
-      
-      - <a href="../../news/better_primitive_collections_proposal/">Better primitive collections</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        18 Nov 2015
-      
-      - <a href="../../changelog-archive/#beta11-released-2015-11-18">2.0-beta11 released (2015-11-18)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        30 Oct 2015
-      
-      - <a href="../../changelog-archive/#beta10-released-2015-10-30">2.0-beta10 released (2015-10-30)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        28 Sep 2015
-      
-      - <a href="../../changelog-archive/#beta8-released-2015-09-28">2.0-beta8 released (2015-09-28)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        18 Sep 2015
-      
-      - <a href="../../changelog-archive/#beta7-released-2015-09-18">2.0-beta7 released (2015-09-18)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        18 Aug 2015
-      
-      - <a href="../../changelog-archive/#beta6-released-2015-08-18">2.0-beta6 released (2015-08-18)</a>
-      </p>
-      
-    </div>
-    
-    <div class="section">
-      <p>
-      
-      
-        12 Aug 2015
-      
-      - <a href="../../changelog-archive/#beta5-released-2015-08-12">2.0 beta5 released (2015-08-12)</a>
-      </p>
-      
-    </div>
-    
+  
+  
   </div>
-  
-  
 
           </div>
         </div>
