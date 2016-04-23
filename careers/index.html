@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>In-memory benchmarks &mdash; MapDB</title>
+    <title>Careers &mdash; MapDB</title>
     
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="MapDB" href="../" />
-    <link rel="next" title="Frequently Asked Questions" href="../faq/" />
-    <link rel="prev" title="Changelog" href="../changelog/" />
+    <link rel="next" title="MapDB Manual" href="../doc/" />
+    <link rel="prev" title="Support" href="../support/" />
   
  
     <style type="text/css">
@@ -110,10 +110,10 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../faq/" title="Frequently Asked Questions"
+          <a href="../doc/" title="MapDB Manual"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="../changelog/" title="Changelog"
+          <a href="../support/" title="Support"
              accesskey="P">previous</a> |</li>
         <li><a href="../">Home</a>&nbsp;|</li>
  
@@ -123,13 +123,8 @@
     <div class="sphinxsidebarwrapper">
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">In-memory benchmarks</a><ul>
-<li><a class="reference internal" href="#maps">Maps</a><ul>
-<li><a class="reference internal" href="#memory-usage">Memory usage</a></li>
-<li><a class="reference internal" href="#random-updates">Random updates</a></li>
-<li><a class="reference internal" href="#random-get">Random get</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Careers</a><ul>
+<li><a class="reference internal" href="#qa-developer">QA developer</a></li>
 </ul>
 </li>
 </ul>
@@ -185,58 +180,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="in-memory-benchmarks">
-<h1>In-memory benchmarks<a class="headerlink" href="#in-memory-benchmarks" title="Permalink to this headline">¶</a></h1>
-<p>This benchmark compares different Map implementations. We try to keep this test fair, no trick or extra tuning.
-Also dataset is small with no GC overhead.</p>
-<p>Benchmark source is in <a class="reference external" href="https://github.com/jankotek/mapdb-benchmarks">Github repo</a>.
-Please send Pull Request if you have improvements.
-All tests ran on Linux with 64bit JDK8.</p>
-<div class="section" id="maps">
-<h2>Maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
-<p>There are six maps in this test. All tests work on Map with 10 million entries to minimize GC overhead,
-Key is 8-byte long, value is 16-byte UUID.
-Small objects were chosen to better illustrate overhead of internal Map structures (nodes, hash table..)</p>
-<p>HTreeMap is concurrent HashMap implementation from MapDB. It is optimized for bigger keys and large number of entries.
-It has some extra features such as entry expiration with TTL or maximal size.</p>
-<p>BTreeMap is concurrent TreeMap implementation from MapDB. It is optimized for minimal space usage and for small keys.
-It has features to redoce memory and space usage.</p>
-<dl class="docutils">
-<dt>MapDB serializes all data into in-memory binary store backed by <code class="docutils literal"><span class="pre">byte[]</span></code>. This storage is not limited by GC</dt>
-<dd>and <code class="docutils literal"><span class="pre">DirectByteBuffer</span></code> version was tested on half-terabyte of memory.</dd>
-</dl>
-<p>There is also <code class="docutils literal"><span class="pre">_heap</span></code> mode where MapDB  stores all data on-heap using pointers and object instances.
-There is no serialization involved.
-This mode is usually faster for smaller sets, but is limited by Garbage Collection.</p>
-<div class="section" id="memory-usage">
-<h3>Memory usage<a class="headerlink" href="#memory-usage" title="Permalink to this headline">¶</a></h3>
-<p>This chart shows how much entries <code class="docutils literal"><span class="pre">Map&lt;Long,UUID&gt;</span></code> can fit into 5GB of heap memory.
-JVM starts with 5GB maximal heap size (<code class="docutils literal"><span class="pre">-Xmx5G</span></code>), entries are added  until JVM terminates with <code class="docutils literal"><span class="pre">OutOfMemoryException</span></code>.</p>
-<p class="centered">
-<strong><strong>Number of entries inserted into Map with 5GB heap, before JVM runs out of memory (higher is better)</strong></strong></p><img alt="../_images/maps_memory_usage.png" src="../_images/maps_memory_usage.png" />
-<p>ConcurrentHashMap and ConcurrentSkipListMap are bundled with Java. Their both consume about the same amount of memory.</p>
-<p>BTreeMap should have in theory very good space usage. However underlying store is too fragmented after frequent updates,
-this bug should be solved soon. <code class="docutils literal"><span class="pre">BTreeMap_pump</span></code> shows best case for BTreeMap, with no fragmentation.</p>
-<p><code class="docutils literal"><span class="pre">BTreeMap_heap</span></code> is on-heap version of BTreeMap. It uses specialized node representation
-(<code class="docutils literal"><span class="pre">Long[]</span></code> and <code class="docutils literal"><span class="pre">UUID[]</span></code> are internally stored in <code class="docutils literal"><span class="pre">long[]</span></code>) and that makes it space efficient.</p>
-<p>HTreeMap is not yet optimized for space usage, no surprise here.</p>
-<p>SortedTableMap is very space efficient after compaction.</p>
-</div>
-<div class="section" id="random-updates">
-<h3>Random updates<a class="headerlink" href="#random-updates" title="Permalink to this headline">¶</a></h3>
-<p class="centered">
-<strong><strong>Time to update 100M random keys on Map with 100M entries (smaller is better)</strong></strong></p><img alt="../_images/maps_update.png" src="../_images/maps_update.png" />
-<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> in this case rocks .</p>
-<p><code class="docutils literal"><span class="pre">HTreeMap</span></code> and <code class="docutils literal"><span class="pre">BTreeMap</span></code> are relatively slow. Optimizations are planned for M4.</p>
-</div>
-<div class="section" id="random-get">
-<h3>Random get<a class="headerlink" href="#random-get" title="Permalink to this headline">¶</a></h3>
-<p class="centered">
-<strong><strong>Time to get 100M random keys on Map with 100M entries (smaller is better)</strong></strong></p><img alt="../_images/maps_get.png" src="../_images/maps_get.png" />
-<p><code class="docutils literal"><span class="pre">ConcurrentHashMap</span></code> rocks again.</p>
-<p><code class="docutils literal"><span class="pre">BTreeMap_heap</span></code> takes advantage of specialization (it uses <code class="docutils literal"><span class="pre">long[]</span></code> instead of <code class="docutils literal"><span class="pre">Long[]</span></code> in BTree Nodes).</p>
-<p><code class="docutils literal"><span class="pre">HTreeMap</span></code> and <code class="docutils literal"><span class="pre">BTreeMap</span></code> are relatively slow. Optimizations are planned for M4.</p>
-</div>
+  <div class="section" id="careers">
+<h1>Careers<a class="headerlink" href="#careers" title="Permalink to this headline">¶</a></h1>
+<p>MapDB is sponsored by consulting services. We are looking for people to join us and help us to develop MapDB.
+Feel free to drop an <a class="reference external" href="mailto:jan&#37;&#52;&#48;kotek&#46;net?subject=MapDB%20Job">email</a> and lets have a chat.</p>
+<div class="section" id="qa-developer">
+<h2>QA developer<a class="headerlink" href="#qa-developer" title="Permalink to this headline">¶</a></h2>
+<p>MapDB project is looking for QA developer. She/he should:</p>
+<ul class="simple">
+<li>Turn user bug reports into executable JUnit tests.</li>
+<li>Manage Issue list on Github and create Release Notes based on this list.</li>
+<li>Write unit test to break MapDB. Tests should uncover data corruption, race conditions, wrong data handling etc..</li>
+<li>Communicate in written form in English</li>
+<li>Have excellent knowledge of core JVM, multithreading in Java and Java IO</li>
+<li>Write JUnit tests in Java or Kotlib</li>
+<li>Know Git and Github workflow</li>
+</ul>
+<p>This is remote position, MapDB team is distributed, with most team in Europe.
+All work is done on public open-source Github project.</p>
 </div>
 </div>
 
@@ -254,10 +215,10 @@ this bug should be solved soon. <code class="docutils literal"><span class="pre"
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../faq/" title="Frequently Asked Questions"
+          <a href="../doc/" title="MapDB Manual"
              >next</a></li>
         <li class="right" >
-          <a href="../changelog/" title="Changelog"
+          <a href="../support/" title="Support"
              >previous</a> |</li>
         <li><a href="../">Home</a>&nbsp;|</li>
  

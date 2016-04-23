@@ -124,6 +124,7 @@
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#milestone-6-released-2016-04-23">Milestone 6 released (2016-04-23)</a></li>
 <li><a class="reference internal" href="#milestone-5-released-2016-04-14">Milestone 5 released (2016-04-14)</a></li>
 <li><a class="reference internal" href="#milestone-4-released-2016-03-28">3.0.0 Milestone 4 released (2016-03-28)</a></li>
 <li><a class="reference internal" href="#milestone-3-released-2016-03-10">3.0.0 Milestone 3 released (2016-03-10)</a></li>
@@ -154,6 +155,7 @@
         <li><a href="/benchmarks/">Benchmarks</a></li>
         <li><a href="/changelog/">Changelog</a></li>
         <li><a href="/credits/">Credits</a></li>
+        <li><a href="/careers/">Careers</a></li>
 
         <li><a href="/doc/">Documentation</a><ul>
             <li><a href="/doc/intro/">Intro</a></li>
@@ -185,6 +187,19 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="milestone-6-released-2016-04-23">
+<h2>Milestone 6 released (2016-04-23)<a class="headerlink" href="#milestone-6-released-2016-04-23" title="Permalink to this headline">¶</a></h2>
+<p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-M5</span></code></p>
+<ul class="simple">
+<li>Fixed BTreeMap race condition <a class="reference external" href="https://github.com/jankotek/mapdb/issues/664">#664</a>.</li>
+<li>Improved POJO serialization (Elsa) dependency.</li>
+<li>MapDB now should handle and use class catalog.</li>
+<li>Added several tests to test concurrency</li>
+<li>Memory mapped file preclear no longer sync file. Faster file growth.</li>
+</ul>
+<p><strong>Storage format change:</strong>
+Maximal record ID increased. Older storage format should be still readable.</p>
+</div>
 <div class="section" id="milestone-5-released-2016-04-14">
 <h2>Milestone 5 released (2016-04-14)<a class="headerlink" href="#milestone-5-released-2016-04-14" title="Permalink to this headline">¶</a></h2>
 <p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-M5</span></code></p>
