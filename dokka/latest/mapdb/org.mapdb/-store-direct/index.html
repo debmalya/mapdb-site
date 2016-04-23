@@ -104,7 +104,7 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <a href="../-store-direct-abstract/index-pages.html">indexPages</a></td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">indexPages</span><span class="symbol">: </span><span class="identifier">LongArrayList</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">indexPages</span><span class="symbol">: </span><span class="identifier">MutableLongList</span></code></td>
 </tr>
 <tr>
 <td>
@@ -116,7 +116,8 @@ It has memory allocator, so it reuses space freed by deletes and updates.</p>
 <td>
 <a href="../-store-direct-abstract/is-thread-safe.html">isThreadSafe</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p>returns true if this is configured to be thread safe</p>
+</td>
 </tr>
 <tr>
 <td>

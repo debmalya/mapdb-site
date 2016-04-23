@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Memory mapped file and JVM crash &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../../" />
+  
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+<!-- google analytics-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42074659-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  <link rel="alternate" type="application/atom+xml"  href="../../blog/atom.xml" title="MapDB Blog">
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.postlist a {font-style: italic;}
+    ul.postlist-style-disc {list-style-type: disc;}
+    ul.postlist-style-none {list-style-type: none;}
+    ul.postlist-style-circle {list-style-type: circle;}
+  </style>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../../doc/quick-start/">Quick start</a></li>
+    <li><a href="../../doc/">Docs</a></li>
+    <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../support/">Support</a></li>
+
+      <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
+  </ul>
+  <div>
+    <a href="../../">
+      <img src="../../_static/logo.png" alt="MapDB" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+ 
+      </ul>
+    </div>
+<div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+    <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Memory mapped file and JVM crash</a><ul>
+<li><a class="reference internal" href="#sparse-files-and-free-disk-space">Sparse files and free disk space</a></li>
+<li><a class="reference internal" href="#jvm-crash-if-file-becomes-unavailable">JVM crash if file becomes unavailable</a></li>
+<li><a class="reference internal" href="#jvm-crash-after-unmap">JVM crash after unmap</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sitemap">
+    <h3>Site Map</h3>
+    <ul>
+        <li><a href="/support/">Support</a><ul>
+            <li><a href="/support/#free-discovery-call">Free discovery call</a></li>
+            <li><a href="/support/#consulting-services">Consulting services</a></li>
+        </ul></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/success/">Who is using MapDB</a></li>
+        <li><a href="/benchmarks/">Benchmarks</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="/credits/">Credits</a></li>
+
+        <li><a href="/doc/">Documentation</a><ul>
+            <li><a href="/doc/intro/">Intro</a></li>
+            <li><a href="/doc/quick-start/">Quick start</a></li>
+            <li><a href="/doc/db/">DB and DBMaker</a></li>
+            <li><a href="/doc/htreemap/">HTreeMap</a></li>
+            <li><a href="/doc/btreemap/">BTreeMap</a></li>
+            <li><a href="/doc/sortedtablemap/">Sorted Table Map</a></li>
+        </ul></li>
+        <li><a href="/dokka/latest/mapdb/org.mapdb/">Javadoc</a></li>
+    </ul>
+
+    <h3>Links</h3>
+    <ul>
+        <li><a href="https://www.github.com/jankotek/mapdb/">Github</a>
+        <li><a href="https://www.github.com/jankotek/mapdb/issues/">Issue tracker</a>
+        <li><a href="https://groups.google.com/forum/#!forum/mapdb">Mail list</a></li>
+        <li><a href="https://www.reddit.com/r/mapdb">Reddit forum</a></li>
+        <li><a href="https://gitter.im/jankotek/mapdb">Gitter chat</a></li>
+    </ul>
+</div>
+    </div>
+</div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="memory-mapped-file-and-jvm-crash">
+<h1>Memory mapped file and JVM crash<a class="headerlink" href="#memory-mapped-file-and-jvm-crash" title="Permalink to this headline">¶</a></h1>
+<p>Memory mapped (mmap) file reatly improves performance over traditional <code class="docutils literal"><span class="pre">RandomAccessFile</span></code> or <code class="docutils literal"><span class="pre">FileChannel</span></code>.
+However it has quirks and could cause JVM crash. MapDB contains some workarounds to make it more stable.</p>
+<p>First bit of theory. Memory mapped files are using native addressing on operating system. That removes address translation,
+and makes them fast. On 32bit operating system addressing limit (and maximal mmap file size) is 4GB
+So its not good idea to use mmap files on 32bit operating systems</p>
+<p>On 64bit Linux the mmap file uses delayed writes. Modified data are placed into write cache,
+to be written to disk some time in future. Latter if write fails, Linux kernel sends SIGBUS signal to JVM process,
+JVM does not have signal handler installed and crashes in result. More details are
+<a class="reference external" href="https://www.javacodegeeks.com/2014/03/detecting-write-failures-when-using-memory-mapped-files-in-java.html?utm_content=bufferb5022&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">in this blog post</a>.</p>
+<p>MapDB can not fix the JVM crashes, but it tries to minimize conditions when write fails. The mmap file is not enabled by
+default. Slower but safer <code class="docutils literal"><span class="pre">RandomAccessFile</span></code> is default choice. Mmap file can be enabled with <code class="docutils literal"><span class="pre">fileMmapEnable()</span></code> option or with
+<code class="docutils literal"><span class="pre">fileMmapEnableIfSupported()</span></code> option which enables mmap file only when operating system supports it (64bit Unix).</p>
+<p>Finally here are some workarounds which make mmap bit slower, but safer:</p>
+<div class="section" id="sparse-files-and-free-disk-space">
+<h2>Sparse files and free disk space<a class="headerlink" href="#sparse-files-and-free-disk-space" title="Permalink to this headline">¶</a></h2>
+<p>Most modern filesystems use <a class="reference external" href="https://en.wikipedia.org/wiki/Sparse_file">sparse files</a>. In short: if you allocate 1GB  file,
+it is filled with zeroes and consumes zero space. Sparse file allocates disk space  lazily allocated once data are written.
+Sparse file presents problem for mmap files in MapDB. JVM crashes if lazy allocation fails,
+and it always happens if there is no free disk space.</p>
+<p>I made some debugging to see how this manifests. The source code for all examples is
+<a class="reference external" href="https://github.com/jankotek/mapdb-site/tree/master/src/test/java/blog/mmap_and_jvm_crash">on github</a>.</p>
+<p>First lets create file <code class="docutils literal"><span class="pre">disk-image</span></code> filled with zeroes, format it as a filesystem, and mount it as a loopback device:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>dd if=/dev/zero of=disk-image count=40960
+/sbin/mkfs -t ext4 -q disk-image
+mkdir fs
+mount -o loop=/dev/loop0 disk-image fs
+</pre></div>
+</div>
+<p>And here is a demonstration of JVM crash. It expands mmap file until filesystem runs out of free space.
+We need <code class="docutils literal"><span class="pre">IOException</span></code> to be thrown at some point, but JVM crashes instead:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">byte</span><span class="p">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">byte</span><span class="p">[</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="n">FileChannel</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">FileChannel</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">toPath</span><span class="p">(),</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">WRITE</span><span class="p">,</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">READ</span><span class="p">);</span>
+
+<span class="c1">//allocate in infinite cycle</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">;</span> <span class="n">offset</span><span class="o">+=</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">){</span>
+    <span class="n">ByteBuffer</span> <span class="n">mappedBuffer</span> <span class="o">=</span> <span class="n">channel</span><span class="p">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="n">FileChannel</span><span class="p">.</span><span class="n">MapMode</span><span class="p">.</span><span class="n">READ_WRITE</span><span class="p">,</span>
+            <span class="n">offset</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">+</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+    <span class="c1">//this causes JVM crash if there is no free disk space and delayed write fails</span>
+    <span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">FileChannel</span></code> allocation is a bit slower, but throws an exception instead:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">FileChannel</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">FileChannel</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">toPath</span><span class="p">(),</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">WRITE</span><span class="p">,</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">READ</span><span class="p">);</span>
+
+<span class="n">ByteBuffer</span> <span class="n">mappedBuffer</span> <span class="o">=</span> <span class="n">channel</span><span class="p">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="n">FileChannel</span><span class="p">.</span><span class="n">MapMode</span><span class="p">.</span><span class="n">READ_WRITE</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+<span class="c1">//write into buffer in infinitive cycle</span>
+<span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+    <span class="n">mappedBuffer</span><span class="p">.</span><span class="n">rewind</span><span class="p">();</span>
+    <span class="c1">//this causes JVM crash if delayed write fails</span>
+    <span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To use mmap file we need to disable sparse file and do allocate all  disk space.
+However that is not supported by JVM.
+The only option is to force allocation by overwriting new file space with zeroes</p>
+<p>I tried to overwrite data with <code class="docutils literal"><span class="pre">FileChannel</span></code>. However the JVM still crashes, I think <code class="docutils literal"><span class="pre">FileChannel</span></code> has
+some write caching on its own and all data are not written to disk
+Adding a few extra bytes to file end (after mmap area) helps and JVM no longer crashes:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">;</span> <span class="n">offset</span><span class="o">+=</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">){</span>
+
+    <span class="c1">//preclear space before it is mapped, so there is no sparse file</span>
+    <span class="n">ByteBuffer</span> <span class="n">preclearBuffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">preclearBuffer</span><span class="p">.</span><span class="n">remaining</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">channel</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">preclearBuffer</span><span class="p">,</span> <span class="n">offset</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//and allocate extra a bit of extra space,</span>
+    <span class="n">preclearBuffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">preclearBuffer</span><span class="p">.</span><span class="n">remaining</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">channel</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">preclearBuffer</span><span class="p">,</span> <span class="n">offset</span><span class="o">+</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">ByteBuffer</span> <span class="n">mappedBuffer</span> <span class="o">=</span> <span class="n">channel</span><span class="p">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="n">FileChannel</span><span class="p">.</span><span class="n">MapMode</span><span class="p">.</span><span class="n">READ_WRITE</span><span class="p">,</span>
+            <span class="n">offset</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">+</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+    <span class="c1">//this causes JVM crash if there is no free disk space and delayed write fails</span>
+    <span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">RandomAccessFile</span></code> has no write cache and is better choice. Code bellow does not cause crash
+and does not need extra bytes at EOF:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="p">;</span> <span class="n">offset</span><span class="o">+=</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">){</span>
+
+    <span class="c1">//preclear space before it is mapped, so there is no sparse file</span>
+    <span class="n">raf</span><span class="p">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">);</span>
+    <span class="n">raf</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+    <span class="n">ByteBuffer</span> <span class="n">mappedBuffer</span> <span class="o">=</span> <span class="n">channel</span><span class="p">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="n">FileChannel</span><span class="p">.</span><span class="n">MapMode</span><span class="p">.</span><span class="n">READ_WRITE</span><span class="p">,</span>
+            <span class="n">offset</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">+</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+    <span class="c1">//this causes JVM crash if there is no free disk space and delayed write fails</span>
+    <span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Clearing newly allocated space with zeroes solved JVM crash when free disk space runs out.
+Downside is that writes are slower when file expands,
+but it does not affect write speed once store reaches its maximal size.
+Example above is integrated into MapDB and named <strong>preclear</strong> feature.</p>
+<p>Preclear is enabled by default (if mmap file is enabled) and can be disabled with <code class="docutils literal"><span class="pre">fileMmapPreclearDisable()</span></code> option.</p>
+</div>
+<div class="section" id="jvm-crash-if-file-becomes-unavailable">
+<h2>JVM crash if file becomes unavailable<a class="headerlink" href="#jvm-crash-if-file-becomes-unavailable" title="Permalink to this headline">¶</a></h2>
+<p>I tried to simulate fatal hardware failure on system with frequent writes. I did:</p>
+<ol class="arabic simple">
+<li>force unmount with <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">umount</span> <span class="pre">fs</span> <span class="pre">-l</span></code></li>
+<li>physically unplug USB flash drive</li>
+<li>physically unplug SATA drive from running system</li>
+</ol>
+<p>JVM does not crash in this scenario. I will do more investigation, but so far I am happy with the way MapDB handles hardware failures.</p>
+</div>
+<div class="section" id="jvm-crash-after-unmap">
+<h2>JVM crash after unmap<a class="headerlink" href="#jvm-crash-after-unmap" title="Permalink to this headline">¶</a></h2>
+<p>Access to buffer which is no longer mapped (was closed or unmapped) causes JVM to crash.
+That buffer has invalid address and access will cause segmentation fault.
+For that there is no official way in Java to close
+memory mapped file or <code class="docutils literal"><span class="pre">DirectByteBuffer</span></code>. There is a workaround which uses unpublished API to unmap buffer.</p>
+<p>Find more details in this <a class="reference external" href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=4724038">Sun bug report</a>.</p>
+<p>Lets demonstrate the JVM crash after unmap on memory mapped file:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">byte</span><span class="p">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">byte</span><span class="p">[</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="n">FileChannel</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">FileChannel</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">toPath</span><span class="p">(),</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">WRITE</span><span class="p">,</span>
+        <span class="n">StandardOpenOption</span><span class="p">.</span><span class="n">READ</span><span class="p">);</span>
+
+<span class="n">MappedByteBuffer</span> <span class="n">mappedBuffer</span> <span class="o">=</span> <span class="n">channel</span><span class="p">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="n">FileChannel</span><span class="p">.</span><span class="n">MapMode</span><span class="p">.</span><span class="n">READ_WRITE</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+<span class="c1">//write into buffer</span>
+<span class="n">mappedBuffer</span><span class="p">.</span><span class="n">rewind</span><span class="p">();</span>
+<span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+<span class="c1">//close MappedByteBuffer</span>
+<span class="n">unmap</span><span class="p">(</span><span class="n">mappedBuffer</span><span class="p">);</span>
+
+<span class="c1">//now write into closed buffer, JVM will crash</span>
+<span class="n">mappedBuffer</span><span class="p">.</span><span class="n">rewind</span><span class="p">();</span>
+<span class="n">mappedBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">DirectByteBuffer</span></code> used in <code class="docutils literal"><span class="pre">DBMaker.memoryDirect()</span></code> store also crashes:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">byte</span><span class="p">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">byte</span><span class="p">[</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="n">ByteBuffer</span> <span class="n">directBuffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="p">.</span><span class="n">allocateDirect</span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+<span class="c1">//write into buffer</span>
+<span class="n">directBuffer</span><span class="p">.</span><span class="n">rewind</span><span class="p">();</span>
+<span class="n">directBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+
+<span class="c1">//close ByteBuffer</span>
+<span class="n">unmap</span><span class="p">(</span><span class="n">directBuffer</span><span class="p">);</span>
+
+<span class="c1">//now write into closed buffer, JVM will crash</span>
+<span class="n">directBuffer</span><span class="p">.</span><span class="n">rewind</span><span class="p">();</span>
+<span class="n">directBuffer</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>MapDB supports unmap hack, it is disabled by default and can be enabled with <code class="docutils literal"><span class="pre">cleanerHackEnable()</span></code>.
+However enabling Cleaner Hack opens race condition, where concurrent access to store, while its being closed will cause JVM crash.</p>
+<p>Future versions of MapDB will add another option, where this race condition is removed
+at price of extra concurrent locking and reduced performance.</p>
+</div>
+</div>
+
+  <div class="section">
+  
+    
+
+
+<div class="section">
+  <span style="float: left;">
+  
+  Previous: 
+  <a href="../../changelog/#milestone-5-released-2016-04-14">
+    
+    Milestone 5 released (2016-04-14)
+  </a>
+  
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right;">
+  
+</div>
+
+  
+  
+    <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'mapdb';
+        var disqus_identifier = '/news/mmap_file_and_jvm_crash/';
+        var disqus_title = 'Memory mapped file and JVM crash';
+        var disqus_url = 'http://www.mapdb.org/news/mmap_file_and_jvm_crash';
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, jan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

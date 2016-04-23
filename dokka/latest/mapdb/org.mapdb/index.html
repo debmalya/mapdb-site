@@ -28,7 +28,7 @@
 <td>
 <a href="-b-tree-map/index.html">BTreeMap</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BTreeMap</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Serializable.html"><span class="identifier">Serializable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentNavigableMap.html"><span class="identifier">ConcurrentNavigableMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">ConcurrentNavigableMapExtra</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code><p>A scalable concurrent {@link ConcurrentNavigableMap} implementation.
+<code><span class="keyword">class </span><span class="identifier">BTreeMap</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Serializable.html"><span class="identifier">Serializable</span></a><span class="symbol">, </span><a href="-concurrency-aware/index.html"><span class="identifier">ConcurrencyAware</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentNavigableMap.html"><span class="identifier">ConcurrentNavigableMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">ConcurrentNavigableMapExtra</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span></code><p>A scalable concurrent {@link ConcurrentNavigableMap} implementation.
 The map is sorted according to the {@linkplain Comparable natural
 ordering} of its keys, or by a {@link Comparator} provided at map
 creation time.</p>
@@ -50,9 +50,16 @@ creation time.</p>
 </tr>
 <tr>
 <td>
+<a href="-concurrency-aware/index.html">ConcurrencyAware</a></td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">ConcurrencyAware</span></code><p>Concurrency aware, can verify that its configuration is thread safe</p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-d-b/index.html">DB</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">DB</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a></code><p>A database with easy access to named maps and other collections.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">DB</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a><span class="symbol">, </span><a href="-concurrency-aware/index.html"><span class="identifier">ConcurrencyAware</span></a></code><p>A database with easy access to named maps and other collections.</p>
 </td>
 </tr>
 <tr>
@@ -86,7 +93,7 @@ creation time.</p>
 <td>
 <a href="-h-tree-map/index.html">HTreeMap</a></td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">HTreeMap</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html"><span class="identifier">ConcurrentMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-map-extra/index.html"><span class="identifier">MapExtra</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a></code><p>Concurrent HashMap which uses IndexTree for hash table</p>
+<code><span class="keyword">class </span><span class="identifier">HTreeMap</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/ConcurrentMap.html"><span class="identifier">ConcurrentMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-concurrency-aware/index.html"><span class="identifier">ConcurrencyAware</span></a><span class="symbol">, </span><a href="-map-extra/index.html"><span class="identifier">MapExtra</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a></code><p>Concurrent HashMap which uses IndexTree for hash table</p>
 </td>
 </tr>
 <tr>
@@ -156,7 +163,7 @@ creation time.</p>
 <td>
 <a href="-store/index.html">Store</a></td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">Store</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store-immutable/index.html"><span class="identifier">StoreImmutable</span></a><span class="symbol">, </span><a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a></code><p>Stores records, mutable version</p>
+<code><span class="keyword">interface </span><span class="identifier">Store</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-store-immutable/index.html"><span class="identifier">StoreImmutable</span></a><span class="symbol">, </span><a href="-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="-concurrency-aware/index.html"><span class="identifier">ConcurrencyAware</span></a></code><p>Stores records, mutable version</p>
 </td>
 </tr>
 <tr>

@@ -7,7 +7,7 @@
 <a href="../../index.html">mapdb</a>&nbsp;/&nbsp;<a href="../index.html">org.mapdb</a>&nbsp;/&nbsp;<a href=".">Store</a><br/>
 <br/>
 <h1>Store</h1>
-<code><span class="keyword">interface </span><span class="identifier">Store</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-store-immutable/index.html"><span class="identifier">StoreImmutable</span></a><span class="symbol">, </span><a href="../-verifiable/index.html"><span class="identifier">Verifiable</span></a></code><br/>
+<code><span class="keyword">interface </span><span class="identifier">Store</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-store-immutable/index.html"><span class="identifier">StoreImmutable</span></a><span class="symbol">, </span><a href="../-verifiable/index.html"><span class="identifier">Verifiable</span></a><span class="symbol">, </span><a href="../-concurrency-aware/index.html"><span class="identifier">ConcurrencyAware</span></a></code><br/>
 <p>Stores records, mutable version</p>
 <br/>
 <br/>
@@ -26,11 +26,17 @@
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isReadOnly</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
 <tr>
 <td>
-<a href="is-thread-safe.html">isThreadSafe</a></td>
+<a href="../-concurrency-aware/is-thread-safe.html">isThreadSafe</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isThreadSafe</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p>returns true if this is configured to be thread safe</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -96,6 +102,13 @@
 <h3>Inherited Functions</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<a href="../-concurrency-aware/check-thread-safe.html">checkThreadSafe</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">checkThreadSafe</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>checks all subcomponents, if this component is really thread safe, and throws an exception if not thread safe</p>
+</td>
+</tr>
 <tr>
 <td>
 <a href="../-store-immutable/get.html">get</a></td>
