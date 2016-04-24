@@ -34,6 +34,12 @@
 </tr>
 <tr>
 <td>
+<a href="copy-to.html">copyTo</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">copyTo</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$copyTo(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/inputOffset">inputOffset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$copyTo(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/target">target</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$copyTo(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/targetOffset">targetOffset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$copyTo(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="get-byte.html">getByte</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">getByte</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$getByte(kotlin.Long)/offset">offset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Byte</span></code></td>
@@ -159,12 +165,6 @@
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">sliceSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
 </tr>
-<tr>
-<td>
-<a href="transfer-into.html">transferInto</a></td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">transferInto</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$transferInto(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/inputOffset">inputOffset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$transferInto(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/target">target</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$transferInto(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/targetOffset">targetOffset</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.ByteBufferVol$transferInto(kotlin.Long, org.mapdb.volume.Volume, kotlin.Long, kotlin.Long)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
-</tr>
 </tbody>
 </table>
 <h3>Inherited Functions</h3>
@@ -191,9 +191,17 @@
 </tr>
 <tr>
 <td>
-<a href="../-volume/copy-entire-volume-to.html">copyEntireVolumeTo</a></td>
+<a href="../-volume/copy-from.html">copyFrom</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">copyEntireVolumeTo</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$copyEntireVolumeTo(org.mapdb.volume.Volume)/to">to</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Copy content of this volume to another. Target volume might grow, but is never shrank. Target is also not synced </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">copyFrom</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$copyFrom(java.io.InputStream)/input">input</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><span class="identifier">InputStream</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Copy content from InputStream into this Volume. </p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="../-volume/copy-to.html">copyTo</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">copyTo</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$copyTo(org.mapdb.volume.Volume)/to">to</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Copy content of this volume to another. Target volume might grow, but is never shrank. Target is also not synced </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">copyTo</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$copyTo(java.io.OutputStream)/output">output</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><span class="identifier">OutputStream</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Copy content of this volume to OutputStream. </p>
 </td>
 </tr>
 <tr>
@@ -268,13 +276,6 @@
 <a href="../-volume/truncate.html">truncate</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">truncate</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$truncate(kotlin.Long)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
-</tr>
-<tr>
-<td>
-<a href="../-volume/volume-transfer.html">volumeTransfer</a></td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">volumeTransfer</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.volume.Volume$volumeTransfer(kotlin.Long, org.mapdb.volume.Volume, org.mapdb.volume.Volume)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.Volume$volumeTransfer(kotlin.Long, org.mapdb.volume.Volume, org.mapdb.volume.Volume)/from">from</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.volume.Volume$volumeTransfer(kotlin.Long, org.mapdb.volume.Volume, org.mapdb.volume.Volume)/to">to</span><span class="symbol">:</span>&nbsp;<a href="../-volume/index.html"><span class="identifier">Volume</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>transfer data from one volume to second. Second volume will be expanded if needed</p>
-</td>
 </tr>
 </tbody>
 </table>

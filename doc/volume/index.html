@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Volume &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../../" />
+    <link rel="up" title="MapDB Manual" href="../" />
+    <link rel="next" title="Storage format" href="../format/" />
+    <link rel="prev" title="Collection Layout" href="../layout/" />
+  
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+<!-- google analytics-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42074659-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  <link rel="alternate" type="application/atom+xml"  href="../../blog/atom.xml" title="MapDB Blog">
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.postlist a {font-style: italic;}
+    ul.postlist-style-disc {list-style-type: disc;}
+    ul.postlist-style-none {list-style-type: none;}
+    ul.postlist-style-circle {list-style-type: circle;}
+  </style>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../quick-start/">Quick start</a></li>
+    <li><a href="../">Docs</a></li>
+    <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../support/">Support</a></li>
+
+      <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
+  </ul>
+  <div>
+    <a href="../../">
+      <img src="../../_static/logo.png" alt="MapDB" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../format/" title="Storage format"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../layout/" title="Collection Layout"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+<div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+    <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Volume</a><ul>
+<li><a class="reference internal" href="#construct-db-from-volume">Construct DB from Volume</a></li>
+<li><a class="reference internal" href="#load-volume-into-memory">Load Volume into memory</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sitemap">
+    <h3>Site Map</h3>
+    <ul>
+        <li><a href="/support/">Support</a><ul>
+            <li><a href="/support/#free-discovery-call">Free discovery call</a></li>
+            <li><a href="/support/#consulting-services">Consulting services</a></li>
+        </ul></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/success/">Who is using MapDB</a></li>
+        <li><a href="/benchmarks/">Benchmarks</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="/credits/">Credits</a></li>
+        <li><a href="/careers/">Careers</a></li>
+
+        <li><a href="/doc/">Documentation</a><ul>
+            <li><a href="/doc/intro/">Intro</a></li>
+            <li><a href="/doc/quick-start/">Quick start</a></li>
+            <li><a href="/doc/db/">DB and DBMaker</a></li>
+            <li><a href="/doc/htreemap/">HTreeMap</a></li>
+            <li><a href="/doc/btreemap/">BTreeMap</a></li>
+            <li><a href="/doc/sortedtablemap/">Sorted Table Map</a></li>
+        </ul></li>
+        <li><a href="/dokka/latest/mapdb/org.mapdb/">Javadoc</a></li>
+    </ul>
+
+    <h3>Links</h3>
+    <ul>
+        <li><a href="https://www.github.com/jankotek/mapdb/">Github</a>
+        <li><a href="https://www.github.com/jankotek/mapdb/issues/">Issue tracker</a>
+        <li><a href="https://groups.google.com/forum/#!forum/mapdb">Mail list</a></li>
+        <li><a href="https://www.reddit.com/r/mapdb">Reddit forum</a></li>
+        <li><a href="https://gitter.im/jankotek/mapdb">Gitter chat</a></li>
+    </ul>
+</div>
+    </div>
+</div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="volume">
+<h1>Volume<a class="headerlink" href="#volume" title="Permalink to this headline">¶</a></h1>
+<p>MapDB has its own storage abstraction similar to <code class="docutils literal"><span class="pre">ByteBuffer</span></code>.
+It is called <code class="docutils literal"><span class="pre">Volume</span></code> and resides in package
+<a class="reference external" href="https://github.com/jankotek/mapdb/tree/master/src/main/java/org/mapdb/volume">org.mapdb.volume</a>.
+It is growable, works over 2GB and has number of tweaks to work better with MapDB.</p>
+<p>There are several implementations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Volume over multiple <code class="docutils literal"><span class="pre">byte[]</span></code>. Use <code class="docutils literal"><span class="pre">DBMaker.memoryDB(file)</span></code></li>
+<li><code class="docutils literal"><span class="pre">DirectByteBuffer</span></code> for direct memory.  Use <code class="docutils literal"><span class="pre">DBMaker.memoryDirectDB()</span></code></li>
+<li><code class="docutils literal"><span class="pre">RandomAccessFile</span></code> is safer way to access files. It is enabled by default, use <code class="docutils literal"><span class="pre">DBMaker.fileDB(file)</span></code></li>
+<li><code class="docutils literal"><span class="pre">FileChannel</span></code> a bit faster then RAF.  Use <code class="docutils literal"><span class="pre">DBMaker.fileDB(file).fileChannelEnable()</span></code></li>
+<li><code class="docutils literal"><span class="pre">MappedByteBuffer</span></code> for memory mapped files. Use <code class="docutils literal"><span class="pre">DBMaker.fileDB(file).fileMMapEnable()</span></code></li>
+<li>Unsafe over memory region (heap or direct memory). This is not available in <code class="docutils literal"><span class="pre">DBMaker</span></code> yet.</li>
+<li>Unsafe over file. This is not available in <code class="docutils literal"><span class="pre">DBMaker</span></code> yet.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="construct-db-from-volume">
+<h2>Construct DB from Volume<a class="headerlink" href="#construct-db-from-volume" title="Permalink to this headline">¶</a></h2>
+<p>You can supply your own Volume and create DB on top of it.
+Example bellow opens memory mapped file and creates DB over it.
+Note <code class="docutils literal"><span class="pre">contentAlreadyExists</span></code> boolean. It tells <code class="docutils literal"><span class="pre">DBMaker</span></code>
+if Volume already contains database and should be just opened,
+or is empty and it should be overwritten.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="n">File</span><span class="p">.</span><span class="n">createTempFile</span><span class="p">(</span><span class="s">&quot;some&quot;</span><span class="p">,</span><span class="s">&quot;file&quot;</span><span class="p">);</span>
+<span class="n">Volume</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">MappedFileVol</span><span class="p">.</span><span class="n">FACTORY</span><span class="p">.</span><span class="n">makeVolume</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">getPath</span><span class="p">(),</span><span class="nb">false</span><span class="p">);</span>
+
+<span class="n">boolean</span> <span class="n">contentAlreadyExists</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span><span class="p">.</span><span class="n">volumeDB</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">contentAlreadyExists</span><span class="p">).</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-volume-into-memory">
+<h2>Load Volume into memory<a class="headerlink" href="#load-volume-into-memory" title="Permalink to this headline">¶</a></h2>
+<p>Volume content can be copied from  one to another. This example opens inmemory Volume backed by <code class="docutils literal"><span class="pre">byte[]</span></code>
+and fills its content from file:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">//open file volume</span>
+<span class="n">String</span> <span class="n">file</span> <span class="o">=</span> <span class="s">&quot;pom.xml&quot;</span><span class="p">;</span>
+<span class="n">Volume</span> <span class="n">fileVolume</span> <span class="o">=</span> <span class="n">MappedFileVol</span><span class="p">.</span><span class="n">FACTORY</span><span class="p">.</span><span class="n">makeVolume</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="nb">false</span><span class="p">);</span>
+
+<span class="c1">//create in memory volume</span>
+<span class="n">Volume</span> <span class="n">memoryVolume</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayVol</span><span class="p">();</span>
+
+<span class="c1">//and copy content from file to memory</span>
+<span class="n">fileVolume</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">memoryVolume</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It is also possible to load Volume content from <code class="docutils literal"><span class="pre">InputStream</span></code> or save Volume content into <code class="docutils literal"><span class="pre">OutputStream</span></code></p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">InputStream</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;pom.xml&quot;</span><span class="p">);</span>
+
+<span class="n">Volume</span> <span class="n">volume</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayVol</span><span class="p">();</span>
+<span class="n">volume</span><span class="p">.</span><span class="n">copyFrom</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+
+<span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="p">();</span>
+<span class="n">volume</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Memory mapped files can also cache file content into memory. It uses
+<a class="reference external" href="https://docs.oracle.com/javase/8/docs/api/java/nio/MappedByteBuffer.html#load--">MappedByteBuffer.load()</a>
+method under hood:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">//open memory mapped file</span>
+<span class="n">String</span> <span class="n">file</span> <span class="o">=</span> <span class="s">&quot;pom.xml&quot;</span><span class="p">;</span>
+<span class="n">MappedFileVol</span> <span class="n">fileVolume</span> <span class="o">=</span> <span class="p">(</span><span class="n">MappedFileVol</span><span class="p">)</span> <span class="n">MappedFileVol</span><span class="p">.</span><span class="n">FACTORY</span><span class="p">.</span><span class="n">makeVolume</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="nb">false</span><span class="p">);</span>
+
+<span class="c1">//and ensure its content is cached in memory</span>
+<span class="n">fileVolume</span><span class="p">.</span><span class="n">fileLoad</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+  <div class="section">
+  
+  
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../format/" title="Storage format"
+             >next</a></li>
+        <li class="right" >
+          <a href="../layout/" title="Collection Layout"
+             >previous</a> |</li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" >MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, jan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
