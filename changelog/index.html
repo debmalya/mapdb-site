@@ -124,6 +124,7 @@
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#beta2-released">3.0 beta2 released</a></li>
 <li><a class="reference internal" href="#beta1-released">3.0 beta1 released</a></li>
 <li><a class="reference internal" href="#milestone-6-released-2016-04-23">Milestone 6 released (2016-04-23)</a></li>
 <li><a class="reference internal" href="#milestone-5-released-2016-04-14">Milestone 5 released (2016-04-14)</a></li>
@@ -188,6 +189,14 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta2-released">
+<h2>3.0 beta2 released<a class="headerlink" href="#beta2-released" title="Permalink to this headline">¶</a></h2>
+<p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-beta2</span></code>, release date 2016-05-01</p>
+<p>This release is fixing <strong>data corruption issue</strong>. Compaction on <code class="docutils literal"><span class="pre">StoreDirect</span></code> will corrupt storage
+if there is record smaller then 6 bytes (affects <code class="docutils literal"><span class="pre">HTreeMap</span></code> and <code class="docutils literal"><span class="pre">BTreeMap</span></code>).</p>
+<p>Second bugfix is on <code class="docutils literal"><span class="pre">BTreeMap</span></code>, it would not call modification listeners.</p>
+<p>No changes in storage format or API.</p>
+</div>
 <div class="section" id="beta1-released">
 <h2>3.0 beta1 released<a class="headerlink" href="#beta1-released" title="Permalink to this headline">¶</a></h2>
 <p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-beta1</span></code>, release date 2016-04-28</p>
