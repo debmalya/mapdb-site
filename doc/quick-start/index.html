@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Quick introduction &mdash; MapDB</title>
+    <title>Quick Introduction &mdash; MapDB</title>
     
     <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -125,11 +125,11 @@
     <div class="sphinxsidebarwrapper">
   <h3><a href="../../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Quick introduction</a><ul>
+<li><a class="reference internal" href="#">Quick Introduction</a><ul>
 <li><a class="reference internal" href="#get-it">Get it</a></li>
 <li><a class="reference internal" href="#hello-world">Hello World</a></li>
 <li><a class="reference internal" href="#example-projects">Example projects</a></li>
-<li><a class="reference internal" href="#quick-tips">Quick tips</a></li>
+<li><a class="reference internal" href="#quick-tips">Quick Tips</a></li>
 </ul>
 </li>
 </ul>
@@ -155,7 +155,7 @@
         <li><a href="/benchmarks/">Benchmarks</a></li>
         <li><a href="/changelog/">Changelog</a></li>
         <li><a href="/credits/">Credits</a></li>
-        <li><a href="/careers/">Careers</a></li>
+        <!--<li><a href="/careers/">Careers</a></li>-->
 
         <li><a href="/doc/">Documentation</a><ul>
             <li><a href="/doc/intro/">Intro</a></li>
@@ -186,8 +186,8 @@
           <div class="body" role="main">
             
   <div class="section" id="quick-introduction">
-<h1>Quick introduction<a class="headerlink" href="#quick-introduction" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is flexible with many configuration options. But for most cases it is configured with just a few lines of code.</p>
+<h1>Quick Introduction<a class="headerlink" href="#quick-introduction" title="Permalink to this headline">¶</a></h1>
+<p>MapDB is flexible, with many configuration options. But in most cases, it is configured with just a few lines of code.</p>
 <p><em>TODO more resources: cheat sheet, examples, KATA...</em></p>
 <div class="section" id="get-it">
 <h2>Get it<a class="headerlink" href="#get-it" title="Permalink to this headline">¶</a></h2>
@@ -200,8 +200,8 @@
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">VERSION</span></code> is the last version number from <a class="reference external" href="http://mvnrepository.com/artifact/org.mapdb/mapdb">Maven Central</a>.
-You can also find current version on this image:</p>
-<img src="https://maven-badges.herokuapp.com/maven-central/org.mapdb/mapdb/badge.svg"/><p>Daily builds are in snapshot repository. Version number for last snapshot is <a class="reference external" href="https://oss.sonatype.org/content/repositories/snapshots/org/mapdb/mapdb/">here</a>.</p>
+You can also find the current version on this image:</p>
+<img src="https://maven-badges.herokuapp.com/maven-central/org.mapdb/mapdb/badge.svg"/><p>Daily builds are in snapshot repository. The version number for the latest snapshot is <a class="reference external" href="https://oss.sonatype.org/content/repositories/snapshots/org/mapdb/mapdb/">here</a>.</p>
 <div class="code xml highlight-python"><div class="highlight"><pre><span></span>&lt;repositories&gt;
     &lt;repository&gt;
         &lt;id&gt;sonatype-snapshots&lt;/id&gt;
@@ -223,23 +223,23 @@ You can also find current version on this image:</p>
 </div>
 <div class="section" id="hello-world">
 <h2>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
-<p>Hereafter is a simple example. It opens in-memory HashMap, it uses off-heap store and is not limited by Garbage Collection:</p>
+<p>Hereafter is a simple example. It opens in-memory HashMap, it uses off-heap store and it is not limited by Garbage Collection:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">//import org.mapdb.*</span>
 <span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span><span class="p">.</span><span class="n">memoryDB</span><span class="p">().</span><span class="n">make</span><span class="p">();</span>
 <span class="n">ConcurrentMap</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">hashMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">).</span><span class="n">make</span><span class="p">();</span>
 <span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;something&quot;</span><span class="p">,</span> <span class="s">&quot;here&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Another option is to use file storage Content of HashMap is preserved between JVM restarts.
-In this case <code class="docutils literal"><span class="pre">DB</span></code> object has to be closed, to close and release underlying file:</p>
+<p>HashMap (and other collections) can be also stored in file. In this case the content can be preserved between JVM restarts.
+It is necessary to call <code class="docutils literal"><span class="pre">DB.close()</span></code> to protect file from data corruption. Other option is to enable transactions with write ahead log.</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span><span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="s">&quot;file.db&quot;</span><span class="p">).</span><span class="n">make</span><span class="p">();</span>
 <span class="n">ConcurrentMap</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">hashMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">).</span><span class="n">make</span><span class="p">();</span>
 <span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;something&quot;</span><span class="p">,</span> <span class="s">&quot;here&quot;</span><span class="p">);</span>
 <span class="n">db</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><em>TODO Hello World examples do not cover commits.</em></p>
-<p>By default MapDB uses generic serialization which can serialize any data type.
+<p><em>TODO Hello World examples do not cover the commits.</em></p>
+<p>By default, MapDB uses generic serialization, which can serialize any data type.
 It is faster and more memory efficient to use specialized serializers.
 Also we can enable faster memory-mapped files on 64bit operating systems:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
@@ -260,11 +260,11 @@ Also we can enable faster memory-mapped files on 64bit operating systems:</p>
 <p><em>TODO example projects</em></p>
 </div>
 <div class="section" id="quick-tips">
-<h2>Quick tips<a class="headerlink" href="#quick-tips" title="Permalink to this headline">¶</a></h2>
+<h2>Quick Tips<a class="headerlink" href="#quick-tips" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Memory mapped files are much faster and should be enabled on 64bit systems for better performance.</li>
-<li>MapDB has Pump for fast bulk import of collections. It is much faster then to <code class="docutils literal"><span class="pre">Map.put()</span></code></li>
-<li>Transactions have performance overhead, but without them store gets corrupted if not closed correctly.</li>
+<li>MapDB has Pump for fast bulk import of collections. It is much faster than to <code class="docutils literal"><span class="pre">Map.put()</span></code></li>
+<li>Transactions have a performance overhead, but without them the store gets corrupted if not closed properly.</li>
 <li>Data stored in MapDB (keys and values) should be immutable. MapDB serializes objects on background.</li>
 <li>MapDB needs compaction sometimes. Run <code class="docutils literal"><span class="pre">DB.compact()</span></code> or see background compaction options.</li>
 </ul>

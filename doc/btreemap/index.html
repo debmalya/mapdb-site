@@ -159,7 +159,7 @@
         <li><a href="/benchmarks/">Benchmarks</a></li>
         <li><a href="/changelog/">Changelog</a></li>
         <li><a href="/credits/">Credits</a></li>
-        <li><a href="/careers/">Careers</a></li>
+        <!--<li><a href="/careers/">Careers</a></li>-->
 
         <li><a href="/doc/">Documentation</a><ul>
             <li><a href="/doc/intro/">Intro</a></li>
@@ -197,7 +197,7 @@ It offers great performance for small keys and has good vertical scalability.</p
 <p>TODO describe B-Linked-Tree</p>
 <div class="section" id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
-<p>BTreeMap has optional parameters which can be specified by using maker.:</p>
+<p>BTreeMap has optional parameters which can be specified with the use of a maker.:</p>
 <p>The most important among them are <strong>serializers</strong>. General serialization has
 some guessing and overhead, so better performance is always achieved if
 more specific serializers are  used. To specify the key and value serializer, use the code
@@ -209,17 +209,17 @@ fields on <code class="docutils literal"><span class="pre">Serializer</span></co
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>Another useful parameter is <strong>size counter</strong>. By default, a BTreeMap does not keep
-track of its size and calling <code class="docutils literal"><span class="pre">map.size()</span></code> requires linear scan to count
+<p>Another useful parameter is the <strong>size counter</strong>. By default, a BTreeMap does not keep
+track of its size and calling <code class="docutils literal"><span class="pre">map.size()</span></code> requires a linear scan to count
 all entries. If you enable size counter, in that case
-<code class="docutils literal"><span class="pre">map.size()</span></code> is instant, but there is some overhead on inserts.</p>
+<code class="docutils literal"><span class="pre">map.size()</span></code> is instant, but there is some overhead on the inserts.</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span>
         <span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">LONG</span><span class="p">,</span> <span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span><span class="p">)</span>
         <span class="p">.</span><span class="n">counterEnable</span><span class="p">()</span>
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>BTrees store all their keys and values as part of a btree node. The node size affects performance a lot.
+<p>BTrees store all their keys and values as part of a btree node. Node size affects the performance a lot.
 A large node means that many keys have to be deserialized on lookup.
 A smaller node loads faster, but makes large BTrees deeper and requires more operations.
 The default maximal node size is 32 entries and it can be changed in this way:</p>
@@ -229,20 +229,21 @@ The default maximal node size is 32 entries and it can be changed in this way:</
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>Values are also stored as part of BTree leaf nodes. Large values means huge overhead and
-on single <code class="docutils literal"><span class="pre">map.get(&quot;key&quot;)</span></code> 32 values are deserialized, but only a single value returned. In this
-case, it is better to store the values outside the leaf node, in a separate record. In this case leaf node
+<p>Values are also stored as part of BTree leaf nodes. Large value means huge overhead and
+on a single <code class="docutils literal"><span class="pre">map.get(&quot;key&quot;)</span></code> 32 values are deserialized, but only a single value returned. In this
+case, it is better to store the values outside the leaf node, in a separate record. In this case, the leaf node
 only has a 6 byte recid pointing to the value.</p>
-<p>Large values can also possible be compressed to save space. This example stores places
-node outside BTree leaf nodes and applies compression on each value:</p>
+<dl class="docutils">
+<dt>Large values can also be compressed to save space. This example stores values</dt>
+<dd>outside BTree Leaf Node and applies compression on each value:</dd>
+</dl>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">)</span>
-        <span class="c1">//TODO external values are not supported yet</span>
-        <span class="c1">//.valuesOutsideNodesEnable()</span>
+        <span class="p">.</span><span class="n">valuesOutsideNodesEnable</span><span class="p">()</span>
         <span class="p">.</span><span class="n">valueSerializer</span><span class="p">(</span><span class="k">new</span> <span class="n">SerializerCompressionWrapper</span><span class="p">(</span><span class="n">Serializer</span><span class="p">.</span><span class="n">STRING</span><span class="p">))</span>
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>BTreeMap needs to sort its key somehow. By default it relies on <code class="docutils literal"><span class="pre">Comparable</span></code> interface implemented by most Java classes.
+<p>BTreeMap needs to sort its key somehow. By default it relies on the <code class="docutils literal"><span class="pre">Comparable</span></code> interface implemented by most Java classes.
 In case this interface is not implemented, a key serializer must be provided. One can for example compare Object arrays:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">)</span>
         <span class="c1">// use array serializer for unknown objects</span>
@@ -253,7 +254,7 @@ In case this interface is not implemented, a key serializer must be provided. On
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>Also primitive arrays can be used as keys. One can replace <code class="docutils literal"><span class="pre">String</span></code> by <code class="docutils literal"><span class="pre">byte[]</span></code>,which directly leads to better
+<p>Also primitive arrays can be used as keys. One can replace <code class="docutils literal"><span class="pre">String</span></code> by <code class="docutils literal"><span class="pre">byte[]</span></code>, which directly leads to better
 performance:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">[],</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;map&quot;</span><span class="p">)</span>
         <span class="p">.</span><span class="n">keySerializer</span><span class="p">(</span><span class="n">Serializer</span><span class="p">.</span><span class="n">BYTE_ARRAY</span><span class="p">)</span>
@@ -264,13 +265,13 @@ performance:</p>
 </div>
 <div class="section" id="key-serializers">
 <h2>Key serializers<a class="headerlink" href="#key-serializers" title="Permalink to this headline">¶</a></h2>
-<p>BTreeMap owns its performance to the way it handles keys. Lets illustrate this on an example with <code class="docutils literal"><span class="pre">Long</span></code> keys.</p>
-<p>A long key occupies 8 bytes after serialization. To minimize space usage one could pack this value to make it smaller.
+<p>BTreeMap owns its performance to the way it handles keys. Let&#8217;s illustrate this on an example with <code class="docutils literal"><span class="pre">Long</span></code> keys.</p>
+<p>A long key occupies 8 bytes after serialization. To minimize the space usage one could pack this value to make it smaller.
 So the number 10 will occupy a single byte, 300 will take 2 bytes, 10000 three bytes etc. To make keys even more
 packable, we need to store them in even smaller values. The keys are sorted, so lets use delta compression.
 This will store the first value in full form and then only the differences between consecutive numbers.</p>
-<p>Another improvement is to make the deserialization faster. In normal <code class="docutils literal"><span class="pre">TreeMap</span></code> keys are stored in wrapped form, such as
-<code class="docutils literal"><span class="pre">Long[]</span></code>. That has a huge overhead, as each key requires new pointer, class header... BTreeMap will store keys in primitive
+<p>Another improvement is to make the deserialization faster. In normal <code class="docutils literal"><span class="pre">TreeMap</span></code> the keys are stored in awrapped form, such as
+<code class="docutils literal"><span class="pre">Long[]</span></code>. That has a huge overhead, as each key requires a new pointer, class header... BTreeMap will store keys in primitive
 array <code class="docutils literal"><span class="pre">long[]</span></code>. And finally if keys are small enough it can even fit into <code class="docutils literal"><span class="pre">int[]</span></code>.
 And because an array has better memory locality, there is a huge performance increase on binary searches.</p>
 <p>It is simple to do such optimisation for numbers. But BTreeMap also applies that on other keys, such as <code class="docutils literal"><span class="pre">String</span></code>
@@ -279,7 +280,7 @@ And because an array has better memory locality, there is a huge performance inc
 <code class="docutils literal"><span class="pre">.keySerializer(Serializer.LONG)</span></code>.</p>
 <p>There are several options and implementations to pack keys. Have a look at static fields with <code class="docutils literal"><span class="pre">_PACK</span></code> suffix in
 <a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-serializer/index.html">Serializer</a> class for more details.</p>
-<p>TODO this is major feature, document details and add benchmarks</p>
+<p>TODO this is a major feature, document details and add benchmarks</p>
 </div>
 <div class="section" id="data-pump">
 <h2>Data Pump<a class="headerlink" href="#data-pump" title="Permalink to this headline">¶</a></h2>
@@ -291,19 +292,19 @@ And because an array has better memory locality, there is a huge performance inc
 entry removal, once they become empty. If you fill a BTreeMap and then remove all entries, about 40% of space will not
 be released. Any value updates (keys are kept) are not affected by this fragmentation.</p>
 <p>This fragmentation is different from storage fragmentation, so <code class="docutils literal"><span class="pre">DB.compact()</span></code> will not help.
-A solution is to move all content into a new <code class="docutils literal"><span class="pre">BTreeMap</span></code>. As it is very fast with Data Pump streaming,
-new Map will have zero fragmentation and better node locality (in theory disk cache friendly).</p>
+A solution is to move all the content into a new <code class="docutils literal"><span class="pre">BTreeMap</span></code>. As it is very fast with Data Pump streaming,
+the new Map will have zero fragmentation and better node locality (in theory disk cache friendly).</p>
 <p>TODO provide utils to move BTreeMap content
 TODO provide statistics to calculate BTreeMap fragmentation</p>
 <p>In the future, we will provide BTreeMap wrapper, which will do this compaction automatically. It will use three collections:
-the first <code class="docutils literal"><span class="pre">BTreeMap</span></code> will be read-only and will also contain the data. The econd small map will contain updates. Periodically a third map
-will be produced as a merge of first two, and will be swapped with the primary.
-<code class="docutils literal"><span class="pre">SSTable</span></code>&#8216;s in Cassandra and other databases works in a similar way.</p>
+the first <code class="docutils literal"><span class="pre">BTreeMap</span></code> will be read-only and will also contain the data. The second small map will contain updates.
+Periodically a third map will be produced as a merge of the first two, and will be swapped with the primary.
+<code class="docutils literal"><span class="pre">SSTable</span></code>&#8216;s in Cassandra and other databases work in a similar way.</p>
 <p>TODO provide wrapper to compact/merge BTreeMap content automatically.</p>
 </div>
 <div class="section" id="prefix-submaps">
 <h2>Prefix submaps<a class="headerlink" href="#prefix-submaps" title="Permalink to this headline">¶</a></h2>
-<p>For array based keys (tuples, Strings, or arrays) MapDB provide prefix submap. It uses
+<p>For array based keys (tuples, Strings, or arrays) MapDB provides prefix submap. It uses
 intervals, so prefix submap is lazy, it does not load all keys. Here as example which uses
 prefix on <code class="docutils literal"><span class="pre">byte[]</span></code> keys:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span>
@@ -322,13 +323,13 @@ prefix on <code class="docutils literal"><span class="pre">byte[]</span></code> 
 </div>
 <div class="section" id="composite-keys-and-tuples">
 <h2>Composite keys and tuples<a class="headerlink" href="#composite-keys-and-tuples" title="Permalink to this headline">¶</a></h2>
-<p>MapDB allows composite keys in form of <code class="docutils literal"><span class="pre">Object[]</span></code>.
-Interval submaps can be used to fetch tuple subcomponents, or to create simple form of multimap.
+<p>MapDB allows composite keys in the form of <code class="docutils literal"><span class="pre">Object[]</span></code>.
+Interval submaps can be used to fetch tuple subcomponents, or to create a simple form of multimap.
 Object array is not comparable, so you need to use specialized serializer which provides comparator.</p>
-<p>Here is an example which creates <code class="docutils literal"><span class="pre">Map&lt;Tuple3&lt;String,</span> <span class="pre">String,</span> <span class="pre">Integer&gt;,</span> <span class="pre">Double&gt;</span></code> in form of Object[].
+<p>Here is an example which creates <code class="docutils literal"><span class="pre">Map&lt;Tuple3&lt;String,</span> <span class="pre">String,</span> <span class="pre">Integer&gt;,</span> <span class="pre">Double&gt;</span></code> in the form of Object[].
 First component is town, second is street and third component is house number.
 It has more parts, source code is on <a class="reference external" href="https://github.com/jankotek/mapdb-site/blob/master/src/test/java/doc/btreemap_composite_keys.java">github</a>
-<code class="docutils literal"><span class="pre">SerializerArrayTuple</span></code> which takes serializers for each tuple component as constructor parameter:</p>
+To serialize and compare tuples use``SerializerArrayTuple`` which takes serializer for each tuple component as s constructor parameter:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// initialize db and map</span>
 <span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span><span class="p">.</span><span class="n">memoryDB</span><span class="p">().</span><span class="n">make</span><span class="p">();</span>
 <span class="n">BTreeMap</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">treeMap</span><span class="p">(</span><span class="s">&quot;towns&quot;</span><span class="p">)</span>
@@ -338,20 +339,20 @@ It has more parts, source code is on <a class="reference external" href="https:/
         <span class="p">.</span><span class="n">createOrOpen</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>Once map is populated we can get all houses in town of Cong by using prefix submap (town is first component in tuple):</p>
+<p>Once map is populated we can get all houses in the town of Cong by using prefix submap (town is first component in tuple):</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">//get all houses in Cong (town is primary component in tuple)</span>
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">Object</span><span class="p">[],</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">cong</span> <span class="o">=</span>
         <span class="n">map</span><span class="p">.</span><span class="n">prefixSubMap</span><span class="p">(</span><span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">});</span>
 </pre></div>
 </div>
-<p>Prefix submap is equal to range query which uses submap method:</p>
+<p>The prefix submap is equal to the range query which uses submap method:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">cong</span> <span class="o">=</span> <span class="n">map</span><span class="p">.</span><span class="n">subMap</span><span class="p">(</span>
         <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">},</span>           <span class="c1">//shorter array is &#39;negative infinity&#39;</span>
         <span class="k">new</span> <span class="n">Object</span><span class="p">[]{</span><span class="s">&quot;Cong&quot;</span><span class="p">,</span><span class="n">null</span><span class="p">,</span><span class="n">null</span><span class="p">}</span> <span class="c1">// null is positive infinity&#39;</span>
 <span class="p">);</span>
 </pre></div>
 </div>
-<p>Interval submap can only filter components on left side. To get components in middle we have combine submap with a forloop:</p>
+<p>Interval submap can only filter components on the left side. To get components in the middle we have to combine the submap with a forloop:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">for</span><span class="p">(</span><span class="n">String</span> <span class="nl">town</span><span class="p">:</span><span class="n">towns</span><span class="p">){</span> <span class="c1">//first loop iterates over towns</span>
     <span class="k">for</span><span class="p">(</span><span class="n">Integer</span> <span class="nl">salary</span><span class="p">:</span> <span class="c1">//second loop iterates over all houses on main street</span>
@@ -362,16 +363,16 @@ It has more parts, source code is on <a class="reference external" href="https:/
 <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Salary sum for all Main Streets is: &quot;</span><span class="o">+</span><span class="n">total</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Submaps are modifiable, we could delete all houses in town by calling <cite>clear()</cite> on submap etc..</p>
+<p>Submaps are modifiable, so we could delete all the houses within a town by calling <cite>clear()</cite> on submap etc..</p>
 </div>
 <div class="section" id="multimap">
 <h2>Multimap<a class="headerlink" href="#multimap" title="Permalink to this headline">¶</a></h2>
-<p>Multimap is a Map which associated multiple values with single key.
+<p>Multimap is a Map which associates multiple values with a single key.
 An example can be found in <a class="reference external" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/Multimap.html">Guava</a>
 or in <a class="reference external" href="https://www.eclipse.org/collections/javadoc/7.0.0/org/eclipse/collections/api/multimap/Multimap.html">Eclipse Collections</a>
 It can be written as <cite>Map&lt;Key,List&lt;Value&gt;&gt;</cite>, but that does not work well in MapDB, we need keys and values to be immutable,
 and List is not immutable.</p>
-<p>There is a plan to implement Multimap from Guava and EC directly in MapDB. But until than there is an option to use
+<p>There is a plan to implement Multimap from Guava and EC directly in MapDB. But until then there is an option to use
 SortedSet in combination with tuples and interval subsets. Here is an example which constructs Set, inserts some data
 and gets all values (second tuple component) associated with key (first tuple component):</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// initialize multimap: Map&lt;String,List&lt;Integer&gt;&gt;</span>
