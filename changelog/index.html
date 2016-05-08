@@ -124,6 +124,7 @@
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#beta3-released">3.0 beta3 released</a></li>
 <li><a class="reference internal" href="#beta2-released">3.0 beta2 released</a></li>
 <li><a class="reference internal" href="#beta1-released">3.0 beta1 released</a></li>
 <li><a class="reference internal" href="#milestone-6-released-2016-04-23">Milestone 6 released (2016-04-23)</a></li>
@@ -186,6 +187,22 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beta3-released">
+<h2>3.0 beta3 released<a class="headerlink" href="#beta3-released" title="Permalink to this headline">¶</a></h2>
+<p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-beta3</span></code>, release date 2016-05-08</p>
+<p>Fixed performance in HTreeMap, user serializers and file locking.</p>
+<p>No changes in storage format or API.</p>
+<p>Changes:</p>
+<ul class="simple">
+<li>DB: throw IllegalAccessError on access after DB was closed</li>
+<li>DB: make serializers optional in name catalog</li>
+<li><code class="docutils literal"><span class="pre">DB.fileLockDisable()</span></code> would not work. Fixed</li>
+<li>Added option <code class="docutils literal"><span class="pre">DB.fileLockWait()</span></code> to block until file lock is released by second JVM #693. There is optional timeout.</li>
+<li>HTreeMap and IndexTreeList default sizes were to small,
+list would throw assertion error after 64K records, HTreeMap was slow due to huge number of collisions.
+Default size changed from 64K to 1E9</li>
+</ul>
+</div>
 <div class="section" id="beta2-released">
 <h2>3.0 beta2 released<a class="headerlink" href="#beta2-released" title="Permalink to this headline">¶</a></h2>
 <p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-beta2</span></code>, release date 2016-05-01</p>

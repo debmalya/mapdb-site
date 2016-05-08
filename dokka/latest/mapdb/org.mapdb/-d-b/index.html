@@ -46,6 +46,12 @@
 </tr>
 <tr>
 <td>
+<a href="-cat-val/index.html">CatVal</a></td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">CatVal</span></code></td>
+</tr>
+<tr>
+<td>
 <a href="-hash-map-maker/index.html">HashMapMaker</a></td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">HashMapMaker</span><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">, </span><span class="identifier">V</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-maker/index.html"><span class="identifier">Maker</span></a><span class="symbol">&lt;</span><a href="../-h-tree-map/index.html"><span class="identifier">HTreeMap</span></a><span class="symbol">&lt;</span><span class="identifier">K</span><span class="symbol">,</span>&nbsp;<span class="identifier">V</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
@@ -107,7 +113,7 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">DB</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/store2">store2</span><span class="symbol">:</span>&nbsp;<a href="../-store/index.html"><span class="identifier">Store</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/storeOpened">storeOpened</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/classLoader">classLoader</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/ClassLoader.html"><span class="identifier">ClassLoader</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Thread.currentThread().contextClassLoader<span class="symbol">)</span></code><p>A database with easy access to named maps and other collections.</p>
+<code><span class="identifier">DB</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/store">store</span><span class="symbol">:</span>&nbsp;<a href="../-store/index.html"><span class="identifier">Store</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/storeOpened">storeOpened</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.DB$<init>(org.mapdb.Store, kotlin.Boolean, kotlin.Boolean, java.lang.ClassLoader)/classLoader">classLoader</span><span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/ClassLoader.html"><span class="identifier">ClassLoader</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Thread.currentThread().contextClassLoader<span class="symbol">)</span></code><p>A database with easy access to named maps and other collections.</p>
 </td>
 </tr>
 </tbody>
@@ -161,12 +167,6 @@ It uses Elsa Serializer.</p>
 <td>
 <code><span class="keyword">var </span><span class="identifier">namesInstanciated</span><span class="symbol">: </span><span class="identifier">&lt;ERROR CLASS&gt;</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">,</span>&nbsp;<span class="identifier">Any</span><span class="symbol">?</span><span class="symbol">&gt;</span></code><p>Already loaded named collections. Values are weakly referenced. We need singletons for locking</p>
 </td>
-</tr>
-<tr>
-<td>
-<a href="store.html">store</a></td>
-<td>
-<code><span class="keyword">val </span><span class="identifier">store</span><span class="symbol">: </span><a href="../-store/index.html"><span class="identifier">Store</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -284,6 +284,12 @@ and will save space for collections which do not use specialized serializer.</p>
 <a href="get-name-for-object.html">getNameForObject</a></td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">getNameForObject</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.DB$getNameForObject(kotlin.Any)/e">e</span><span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="get-store.html">getStore</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getStore</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-store/index.html"><span class="identifier">Store</span></a></code></td>
 </tr>
 <tr>
 <td>
