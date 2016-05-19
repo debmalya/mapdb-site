@@ -242,13 +242,29 @@
 <td>
 <a href="clear.html">clear</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">clear</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">clear</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">clear</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.HTreeMap$clear(kotlin.Int)/notifyListeners">notifyListeners</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span>&nbsp;<span class="symbol">=</span>&nbsp;1<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
 </tr>
 <tr>
 <td>
 <a href="clear2.html">clear2</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">clear2</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.HTreeMap$clear2(kotlin.Boolean)/notifyListeners">notifyListeners</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+<code><span class="keyword">fun </span><s><span class="identifier">clear2</span></s><span class="symbol">(</span><span class="identifier" id="org.mapdb.HTreeMap$clear2(kotlin.Boolean)/notifyListeners">notifyListeners</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="clear-with-expire.html">clearWithExpire</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">clearWithExpire</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Removes all entries from this Map, and notifies listeners as if content has expired.
+This will cause expired content to overflow to secondary collections etc</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="clear-without-notification.html">clearWithoutNotification</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">clearWithoutNotification</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Removes all entries from this Map, but does not notify modification listeners</p>
+</td>
 </tr>
 <tr>
 <td>

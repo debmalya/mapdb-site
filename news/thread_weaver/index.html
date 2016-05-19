@@ -188,52 +188,52 @@ In theory that should catch all race conditions, because all possible combinatio
 and <a class="reference external" href="https://www.youtube.com/watch?v=FvH4RBn2gJ8">video presentation</a>.</p>
 <p>Here is an example of how Thread Weaver is used with JUnit test. The source code of this example is
 <a class="reference external" href="https://github.com/jankotek/thread-weaver/blob/master/src/test/java/examples/UniqueListTest.java">here</a>:</p>
-<div class="code java highlight-python"><div class="highlight"><pre><span></span>public class UniqueListTest{
+<div class="code java highlight-default"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">UniqueListTest</span><span class="p">{</span>
 
-  private static final String HELLO = &quot;Hello&quot;;
+  <span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">String</span> <span class="n">HELLO</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span><span class="p">;</span>
 
-  private volatile UniqueList&lt;String&gt; uniqueList;
+  <span class="n">private</span> <span class="n">volatile</span> <span class="n">UniqueList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">uniqueList</span><span class="p">;</span>
 
-  @Test(expected = RuntimeException.class)
-  public void testPutIfAbsent() {
-    System.out.printf(&quot;In testPutIfAbsent\n&quot;);
-    // Create an AnnotatedTestRunner that will run the threaded tests defined in this
-    // class. We want to test the behaviour of the private method &quot;putIfAbsentInternal&quot; so
-    // we need to specify it by name using runner.setMethodOption()
-    AnnotatedTestRunner runner = new AnnotatedTestRunner();
-    HashSet&lt;String&gt; methods = new HashSet&lt;String&gt;();
-    runner.setMethodOption(MethodOption.ALL_METHODS, methods);
-    runner.setDebug(true);
-    runner.runTests(this.getClass(), UniqueList.class);
-  }
+  <span class="nd">@Test</span><span class="p">(</span><span class="n">expected</span> <span class="o">=</span> <span class="n">RuntimeException</span><span class="o">.</span><span class="n">class</span><span class="p">)</span>
+  <span class="n">public</span> <span class="n">void</span> <span class="n">testPutIfAbsent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">printf</span><span class="p">(</span><span class="s2">&quot;In testPutIfAbsent</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">an</span> <span class="n">AnnotatedTestRunner</span> <span class="n">that</span> <span class="n">will</span> <span class="n">run</span> <span class="n">the</span> <span class="n">threaded</span> <span class="n">tests</span> <span class="n">defined</span> <span class="ow">in</span> <span class="n">this</span>
+    <span class="o">//</span> <span class="n">class</span><span class="o">.</span> <span class="n">We</span> <span class="n">want</span> <span class="n">to</span> <span class="n">test</span> <span class="n">the</span> <span class="n">behaviour</span> <span class="n">of</span> <span class="n">the</span> <span class="n">private</span> <span class="n">method</span> <span class="s2">&quot;putIfAbsentInternal&quot;</span> <span class="n">so</span>
+    <span class="o">//</span> <span class="n">we</span> <span class="n">need</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">it</span> <span class="n">by</span> <span class="n">name</span> <span class="n">using</span> <span class="n">runner</span><span class="o">.</span><span class="n">setMethodOption</span><span class="p">()</span>
+    <span class="n">AnnotatedTestRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="n">new</span> <span class="n">AnnotatedTestRunner</span><span class="p">();</span>
+    <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">setMethodOption</span><span class="p">(</span><span class="n">MethodOption</span><span class="o">.</span><span class="n">ALL_METHODS</span><span class="p">,</span> <span class="n">methods</span><span class="p">);</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">setDebug</span><span class="p">(</span><span class="n">true</span><span class="p">);</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">runTests</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">getClass</span><span class="p">(),</span> <span class="n">UniqueList</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  @ThreadedBefore
-  public void before() {
-    // Set up a new UniqueList instance for the test
-    uniqueList = new UniqueList&lt;String&gt;();
-    System.out.printf(&quot;Created new list\n&quot;);
-  }
+  <span class="nd">@ThreadedBefore</span>
+  <span class="n">public</span> <span class="n">void</span> <span class="n">before</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Set</span> <span class="n">up</span> <span class="n">a</span> <span class="n">new</span> <span class="n">UniqueList</span> <span class="n">instance</span> <span class="k">for</span> <span class="n">the</span> <span class="n">test</span>
+    <span class="n">uniqueList</span> <span class="o">=</span> <span class="n">new</span> <span class="n">UniqueList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Created new list</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  @ThreadedMain
-  public void main() {
-    // Add a new element to the list in the main test thread
-    uniqueList.putIfAbsent(HELLO);
-  }
+  <span class="nd">@ThreadedMain</span>
+  <span class="n">public</span> <span class="n">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Add</span> <span class="n">a</span> <span class="n">new</span> <span class="n">element</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">main</span> <span class="n">test</span> <span class="n">thread</span>
+    <span class="n">uniqueList</span><span class="o">.</span><span class="n">putIfAbsent</span><span class="p">(</span><span class="n">HELLO</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  @ThreadedSecondary
-  public void secondary() {
-    // Add a new element to the list in the secondary test thread
-    uniqueList.putIfAbsent(HELLO);
-  }
+  <span class="nd">@ThreadedSecondary</span>
+  <span class="n">public</span> <span class="n">void</span> <span class="n">secondary</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Add</span> <span class="n">a</span> <span class="n">new</span> <span class="n">element</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">secondary</span> <span class="n">test</span> <span class="n">thread</span>
+    <span class="n">uniqueList</span><span class="o">.</span><span class="n">putIfAbsent</span><span class="p">(</span><span class="n">HELLO</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  @ThreadedAfter
-  public void after() {
-    // If UniqueList is behaving correctly, it should only contain
-    // a single copy of HELLO
-    assertEquals(1, uniqueList.size());
-    assertTrue(uniqueList.contains(HELLO));
-  }
-}
+  <span class="nd">@ThreadedAfter</span>
+  <span class="n">public</span> <span class="n">void</span> <span class="n">after</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">If</span> <span class="n">UniqueList</span> <span class="ow">is</span> <span class="n">behaving</span> <span class="n">correctly</span><span class="p">,</span> <span class="n">it</span> <span class="n">should</span> <span class="n">only</span> <span class="n">contain</span>
+    <span class="o">//</span> <span class="n">a</span> <span class="n">single</span> <span class="n">copy</span> <span class="n">of</span> <span class="n">HELLO</span>
+    <span class="n">assertEquals</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">uniqueList</span><span class="o">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="n">assertTrue</span><span class="p">(</span><span class="n">uniqueList</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">HELLO</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>This example adds an element into thread-unsafe list. Insertion should be performed only once,
@@ -250,12 +250,12 @@ in Maven Central is three years old.</p>
 <p>We are quite keen on using Thread Weaver. So we <a class="reference external" href="https://github.com/jankotek/thread-weaver">forked it</a>,
 and made a new <a class="reference external" href="http://mvnrepository.com/artifact/org.mapdb/thread-weaver/3.0.mapdb">Maven release</a>.
 You can use our version with the following Maven dependency:</p>
-<div class="code xml highlight-python"><div class="highlight"><pre><span></span>&lt;dependency&gt;
-        &lt;groupId&gt;org.mapdb&lt;/groupId&gt;
-        &lt;artifactId&gt;thread-weaver&lt;/artifactId&gt;
-        &lt;version&gt;3.0.mapdb&lt;/version&gt;
-        &lt;scope&gt;test&lt;/scope&gt;
-&lt;/dependency&gt;
+<div class="code xml highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">mapdb</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">thread</span><span class="o">-</span><span class="n">weaver</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">3.0</span><span class="o">.</span><span class="n">mapdb</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>We made some minor tweaks. First we automated the build process and turned it into a regular Maven project.
@@ -283,9 +283,9 @@ We increased timeout, and the test ran for several seconds, and failed as expect
 <p>The default timeout in Thread Weaver is 1000 ms. That is not enough to execute more complex methods, so it is necessary
 to increase timeout. However increased timeout caused some breakpoints to fail. It is probably a bug, since
 that method was never even executed:</p>
-<div class="code highlight-python"><div class="highlight"><pre><span></span>Caused by: com.google.testing.threadtester.TestTimeoutException: Did not reach Breakpoint(1) @ at beginning of copyAddKeyDir
-        at com.google.testing.threadtester.AbstractBreakpoint.await(AbstractBreakpoint.java:186)
-        at com.google.testing.threadtester.ObjectInstrumentationImpl.interleave(ObjectInstrumentationImpl.java:285)
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">Caused</span> <span class="n">by</span><span class="p">:</span> <span class="n">com</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">threadtester</span><span class="o">.</span><span class="n">TestTimeoutException</span><span class="p">:</span> <span class="n">Did</span> <span class="ow">not</span> <span class="n">reach</span> <span class="n">Breakpoint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">at</span> <span class="n">beginning</span> <span class="n">of</span> <span class="n">copyAddKeyDir</span>
+        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">threadtester</span><span class="o">.</span><span class="n">AbstractBreakpoint</span><span class="o">.</span><span class="k">await</span><span class="p">(</span><span class="n">AbstractBreakpoint</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">186</span><span class="p">)</span>
+        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">threadtester</span><span class="o">.</span><span class="n">ObjectInstrumentationImpl</span><span class="o">.</span><span class="n">interleave</span><span class="p">(</span><span class="n">ObjectInstrumentationImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">285</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To avoid this problem we changed the breakpoint instrumentation. Instead of instrumenting all the methods
@@ -402,7 +402,7 @@ It needs lot of baby sitting, does not work for complex code and does not produc
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, jan.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
     </div>
   </body>
 </html>

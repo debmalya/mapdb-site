@@ -195,10 +195,10 @@ and it always happens if there is no free disk space.</p>
 <p>I made some debugging to see how this manifests. The source code for all examples is
 <a class="reference external" href="https://github.com/jankotek/mapdb-site/tree/master/src/test/java/blog/mmap_and_jvm_crash">on github</a>.</p>
 <p>First lets create file <code class="docutils literal"><span class="pre">disk-image</span></code> filled with zeroes, format it as a filesystem, and mount it as a loopback device:</p>
-<div class="code highlight-python"><div class="highlight"><pre><span></span>dd if=/dev/zero of=disk-image count=40960
-/sbin/mkfs -t ext4 -q disk-image
-mkdir fs
-mount -o loop=/dev/loop0 disk-image fs
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">dd</span> <span class="k">if</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">zero</span> <span class="n">of</span><span class="o">=</span><span class="n">disk</span><span class="o">-</span><span class="n">image</span> <span class="n">count</span><span class="o">=</span><span class="mi">40960</span>
+<span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">mkfs</span> <span class="o">-</span><span class="n">t</span> <span class="n">ext4</span> <span class="o">-</span><span class="n">q</span> <span class="n">disk</span><span class="o">-</span><span class="n">image</span>
+<span class="n">mkdir</span> <span class="n">fs</span>
+<span class="n">mount</span> <span class="o">-</span><span class="n">o</span> <span class="n">loop</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">loop0</span> <span class="n">disk</span><span class="o">-</span><span class="n">image</span> <span class="n">fs</span>
 </pre></div>
 </div>
 <p>And here is a demonstration of JVM crash. It expands mmap file until filesystem runs out of free space.
@@ -421,7 +421,7 @@ at price of extra concurrent locking and reduced performance.</p>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, jan.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
     </div>
   </body>
 </html>

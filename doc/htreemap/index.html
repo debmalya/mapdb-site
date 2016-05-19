@@ -526,6 +526,14 @@ If value is found inside <code class="docutils literal"><span class="pre">onDisk
 <span class="n">inMemory</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>        <span class="c1">//&gt; 1</span>
 </pre></div>
 </div>
+<p>It is also possible to clear entire primary map and move all data to disk:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">inMemory</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">);</span>
+<span class="n">inMemory</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">);</span>
+
+<span class="c1">//expire entire content of inMemory Map</span>
+<span class="n">inMemory</span><span class="p">.</span><span class="n">clearWithExpire</span><span class="p">();</span>
+</pre></div>
+</div>
 <p><cite>TODO expiration counts are approximate. Map size can go slightly over limits for short period of time.</cite></p>
 <p><cite>TODO modification listeners</cite></p>
 </div>
@@ -557,7 +565,7 @@ If value is found inside <code class="docutils literal"><span class="pre">onDisk
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, jan.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
     </div>
   </body>
 </html>
