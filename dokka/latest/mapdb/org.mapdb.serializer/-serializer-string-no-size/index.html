@@ -18,7 +18,8 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">SerializerStringNoSize</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+<code><span class="identifier">SerializerStringNoSize</span><span class="symbol">(</span><span class="symbol">)</span></code><p>Created by jan on 2/28/16. </p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -79,7 +80,9 @@
 <td>
 <a href="../../org.mapdb/-serializer/-c-h-a-r.html">CHAR</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CHAR</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Char</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CHAR</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Char</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null Character. <p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -142,7 +145,7 @@
 <td>
 <a href="../../org.mapdb/-serializer/-i-n-t-e-g-e-r.html">INTEGER</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">INTEGER</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></code><p>Serializes Integer into 4 bytes, used mainly for testing. Does not handle null values.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">INTEGER</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></code><p>Serializes Integer into 4 bytes, used mainly for testing. Does not handle null values. </p>
 </td>
 </tr>
 <tr>
@@ -177,7 +180,7 @@
 <td>
 <a href="../../org.mapdb/-serializer/-l-o-n-g.html">LONG</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">LONG</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Long</span><span class="symbol">&gt;</span></code><p>Serializes Long into 8 bytes, used mainly for testing. Does not handle null values.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">LONG</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Long</span><span class="symbol">&gt;</span></code><p>Serializes Long into 8 bytes, used mainly for testing. Does not handle null values. </p>
 </td>
 </tr>
 <tr>
@@ -230,7 +233,9 @@
 <td>
 <a href="../../org.mapdb/-serializer/-s-t-r-i-n-g.html">STRING</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>Serializes strings using UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values </p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null String whereby serialized Strings are serialized to a UTF-8 encoded format. The Serializer also stores the String's size, allowing it to be used as a collection serializer. <p> This Serializer hashes Strings using a specially tailored <code><a href="#">String#hashCode()</a></code> method as opposed to the <code><a href="../../org.mapdb/-serializer/-s-t-r-i-n-g_-o-r-i-g-h-a-s-h.html">Serializer#STRING_ORIGHASH</a></code> Serializer. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
 </td>
 </tr>
 <tr>
@@ -270,9 +275,9 @@
 <td>
 <a href="../../org.mapdb/-serializer/-s-t-r-i-n-g_-o-r-i-g-h-a-s-h.html">STRING_ORIGHASH</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING_ORIGHASH</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p><p> Serializes strings using UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values </p>
-<p> Unlike <code><a href="../../org.mapdb/-serializer/-s-t-r-i-n-g.html">Serializer#STRING</a></code> this method hashes String with <code><a href="#">String#hashCode()</a></code> </p>
- </p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING_ORIGHASH</span><span class="symbol">: </span><a href="../-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null String whereby serialized Strings are serialized to a UTF-8 encoded format. The Serializer also stores the String's size, allowing it to be used as a collection serializer. <p> This Serializer hashes Strings using the original <code><a href="#">String#hashCode()</a></code> method as opposed to the <code><a href="../../org.mapdb/-serializer/-s-t-r-i-n-g.html">Serializer#STRING</a></code> Serializer. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
 </td>
 </tr>
 <tr>
@@ -320,13 +325,15 @@
 <td>
 <a href="../../org.mapdb/-serializer/deserialize-from-long.html">deserializeFromLong</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/available">available</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><p>Deserializes and returns the content of the given long. </p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="../../org.mapdb/-serializer/fixed-size.html">fixedSize</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fixedSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><p>Data could be serialized into record with variable size or fixed size. Some optimizations can be applied to serializers with fixed size </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fixedSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><p>Returns the fixed size of the serialized form in bytes or -1 if the size is not fixed (e.g. for Strings). <p> Some optimizations can be applied to serializers with a fixed size. </p>
+</p>
 </td>
 </tr>
 </tbody>

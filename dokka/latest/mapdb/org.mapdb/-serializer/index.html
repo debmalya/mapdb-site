@@ -8,9 +8,13 @@
 <br/>
 <h1>Serializer</h1>
 <code><span class="keyword">interface </span><span class="identifier">Serializer</span><span class="symbol">&lt;</span><span class="identifier">A</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html"><span class="identifier">Comparator</span></a><span class="symbol">&lt;</span><span class="identifier">A</span><span class="symbol">&gt;</span></code><br/>
-<p>Provides serialization and deserialization </p>
-<strong>Author</strong><br/>
-Jan Kotek<br/>
+<p>This interface specifies how Java Objects are serialized and de-serialized and also how objects are compared, hashed and tested for equality for use with MapDB. <p> Implementing classes do not have to be thread safe. </p>
+</p>
+<h3>Parameters</h3>
+<a name="&lt;A&gt;"></a>
+<code><A></code> - the type of object that the Serializer handles. <br/>
+<p><strong>Author</strong><br/>
+Jan Kotek</p>
 <br/>
 <br/>
 <h3>Properties</h3>
@@ -70,7 +74,9 @@ Jan Kotek<br/>
 <td>
 <a href="-c-h-a-r.html">CHAR</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CHAR</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Char</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CHAR</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Char</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null Character. <p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
+</td>
 </tr>
 <tr>
 <td>
@@ -133,7 +139,7 @@ Jan Kotek<br/>
 <td>
 <a href="-i-n-t-e-g-e-r.html">INTEGER</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">INTEGER</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></code><p>Serializes Integer into 4 bytes, used mainly for testing. Does not handle null values.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">INTEGER</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></code><p>Serializes Integer into 4 bytes, used mainly for testing. Does not handle null values. </p>
 </td>
 </tr>
 <tr>
@@ -168,7 +174,7 @@ Jan Kotek<br/>
 <td>
 <a href="-l-o-n-g.html">LONG</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">LONG</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Long</span><span class="symbol">&gt;</span></code><p>Serializes Long into 8 bytes, used mainly for testing. Does not handle null values.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">LONG</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Long</span><span class="symbol">&gt;</span></code><p>Serializes Long into 8 bytes, used mainly for testing. Does not handle null values. </p>
 </td>
 </tr>
 <tr>
@@ -221,7 +227,9 @@ Jan Kotek<br/>
 <td>
 <a href="-s-t-r-i-n-g.html">STRING</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>Serializes strings using UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values </p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null String whereby serialized Strings are serialized to a UTF-8 encoded format. The Serializer also stores the String's size, allowing it to be used as a collection serializer. <p> This Serializer hashes Strings using a specially tailored <code><a href="#">String#hashCode()</a></code> method as opposed to the <code><a href="-s-t-r-i-n-g_-o-r-i-g-h-a-s-h.html">Serializer#STRING_ORIGHASH</a></code> Serializer. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
 </td>
 </tr>
 <tr>
@@ -261,9 +269,9 @@ Jan Kotek<br/>
 <td>
 <a href="-s-t-r-i-n-g_-o-r-i-g-h-a-s-h.html">STRING_ORIGHASH</a></td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING_ORIGHASH</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p><p> Serializes strings using UTF8 encoding. Stores string size so can be used as collection serializer. Does not handle null values </p>
-<p> Unlike <code><a href="-s-t-r-i-n-g.html">Serializer#STRING</a></code> this method hashes String with <code><a href="#">String#hashCode()</a></code> </p>
- </p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING_ORIGHASH</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><p>A predefined Serializer that handles non-null String whereby serialized Strings are serialized to a UTF-8 encoded format. The Serializer also stores the String's size, allowing it to be used as a collection serializer. <p> This Serializer hashes Strings using the original <code><a href="#">String#hashCode()</a></code> method as opposed to the <code><a href="-s-t-r-i-n-g.html">Serializer#STRING</a></code> Serializer. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
 </td>
 </tr>
 <tr>
@@ -282,61 +290,66 @@ Jan Kotek<br/>
 <td>
 <a href="compare.html">compare</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">compare</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$compare(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/o1">o1</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$compare(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/o2">o2</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">compare</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$compare(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/first">first</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$compare(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/second">second</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
 </tr>
 <tr>
 <td>
 <a href="deserialize.html">deserialize</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">deserialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserialize(org.mapdb.DataInput2, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<a href="../-data-input2/index.html"><span class="identifier">DataInput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserialize(org.mapdb.DataInput2, kotlin.Int)/available">available</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><p>Deserialize the content of an object from a DataInput. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">deserialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserialize(org.mapdb.DataInput2, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<a href="../-data-input2/index.html"><span class="identifier">DataInput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserialize(org.mapdb.DataInput2, kotlin.Int)/available">available</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><p>Deserializes and returns the content of the given DataInput2. </p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="deserialize-from-long.html">deserializeFromLong</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/available">available</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><p>Deserializes and returns the content of the given long. </p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="equals.html">equals</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">equals</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$equals(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/a1">a1</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$equals(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/a2">a2</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">equals</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$equals(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/first">first</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$equals(org.mapdb.Serializer.A, org.mapdb.Serializer.A)/second">second</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p>Returns if the first and second arguments are equal to each other. Consequently, if both arguments are <code>null</code>, <code>true</code> is returned and if exactly one argument is <code>null</code>, <code>false</code> is returned. </p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="fixed-size.html">fixedSize</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fixedSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><p>Data could be serialized into record with variable size or fixed size. Some optimizations can be applied to serializers with fixed size </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fixedSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><p>Returns the fixed size of the serialized form in bytes or -1 if the size is not fixed (e.g. for Strings). <p> Some optimizations can be applied to serializers with a fixed size. </p>
+</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="hash-code.html">hashCode</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hashCode</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$hashCode(org.mapdb.Serializer.A, kotlin.Int)/a">a</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$hashCode(org.mapdb.Serializer.A, kotlin.Int)/seed">seed</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hashCode</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$hashCode(org.mapdb.Serializer.A, kotlin.Int)/o">o</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$hashCode(org.mapdb.Serializer.A, kotlin.Int)/seed">seed</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><p>Returns a hash code of a given non-null argument. The output of the method is affected by the given seed, allowing protection against crafted hash attacks and to provide a better distribution of hashes. </p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="is-trusted.html">isTrusted</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isTrusted</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p><p> MapDB has relax record size boundary checking. It expect deserializer to read exactly as many bytes as were writen during serialization. If deserializer reads more bytes it might start reading others record data in store. </p>
-<p> Some serializers (Kryo) have problems with this. To prevent this we can not read data directly from store, but must copy them into separate <code>byte[]</code>. So zero copy optimalizations is disabled by default, and must be explicitly enabled here. </p>
-<p> This flag indicates if this serializer was 'verified' to read as many bytes as it writes. It should be also much better tested etc. </p>
- </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isTrusted</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p>Returns if this Serializer is trusted to always read the same number of bytes as it writes for any given object being serialized/de-serialized. <p> MapDB has a relaxed record size boundary checking. It expects deserializers to read exactly as many bytes as were written during serialization. If a deserializer reads more bytes than it wrote, it might start reading others record data in store. </p>
+<p> Some serializers (Kryo) have problems with this. To prevent this, we can not read data directly from a store, but we must copy them into separate <code>byte[]</code> buffers. Thus, zero-copy optimizations are disabled by default, but can be explicitly enabled here by letting this method return <code>true</code>. </p>
+<p> This flag indicates if this serializer was 'verified' to read as many bytes as it writes. It should also be much better tested etc. </p>
+</p>
 </td>
 </tr>
 <tr>
 <td>
 <a href="needs-available-size-hint.html">needsAvailableSizeHint</a></td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">needsAvailableSizeHint</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">needsAvailableSizeHint</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code><p>TODO: Document this method </p>
+</td>
 </tr>
 <tr>
 <td>
 <a href="serialize.html">serialize</a></td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">serialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$serialize(org.mapdb.DataOutput2, org.mapdb.Serializer.A)/out">out</span><span class="symbol">:</span>&nbsp;<a href="../-data-output2/index.html"><span class="identifier">DataOutput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$serialize(org.mapdb.DataOutput2, org.mapdb.Serializer.A)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Serialize the content of an object into a ObjectOutput </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">serialize</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$serialize(org.mapdb.DataOutput2, org.mapdb.Serializer.A)/out">out</span><span class="symbol">:</span>&nbsp;<a href="../-data-output2/index.html"><span class="identifier">DataOutput2</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$serialize(org.mapdb.DataOutput2, org.mapdb.Serializer.A)/value">value</span><span class="symbol">:</span>&nbsp;<span class="identifier">A</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code><p>Serialize the content of the given object into the given DataOutput2. </p>
 </td>
 </tr>
 </tbody>

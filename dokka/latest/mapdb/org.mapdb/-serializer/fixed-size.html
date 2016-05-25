@@ -9,9 +9,10 @@
 <h1>fixedSize</h1>
 <a name="org.mapdb.Serializer$fixedSize()"></a>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fixedSize</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Int</span></code><br/>
-<p>Data could be serialized into record with variable size or fixed size. Some optimizations can be applied to serializers with fixed size </p>
-<strong>Return</strong><br/>
-fixed size or -1 for variable size<br/>
+<p>Returns the fixed size of the serialized form in bytes or -1 if the size is not fixed (e.g. for Strings). <p> Some optimizations can be applied to serializers with a fixed size. </p>
+</p>
+<p><strong>Return</strong><br/>
+the fixed size of the serialized form in bytes or -1 if the size is not fixed</p>
 <br/>
 <br/>
 </BODY>

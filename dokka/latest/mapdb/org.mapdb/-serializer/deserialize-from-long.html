@@ -8,7 +8,19 @@
 <br/>
 <h1>deserializeFromLong</h1>
 <a name="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)"></a>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/size">size</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><br/>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">deserializeFromLong</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/input">input</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.Serializer$deserializeFromLong(kotlin.Long, kotlin.Int)/available">available</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">A</span></code><br/>
+<p>Deserializes and returns the content of the given long. </p>
+<h3>Parameters</h3>
+<a name="input"></a>
+<code>input</code> - long to de-serialize data from <br/>
+<br/>
+<a name="available"></a>
+<code>available</code> - how many bytes that are available in the long for reading, or 0 (null). <br/>
+<h3>Exceptions</h3>
+<a name="IOException"></a>
+<code>IOException</code> - in case of an I/O error<br/>
+<p><strong>Return</strong><br/>
+the de-serialized content of the given long </p>
 <br/>
 <br/>
 </BODY>
