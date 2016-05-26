@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Performance and durability &mdash; MapDB</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="MapDB" href="../../" />
+    <link rel="up" title="MapDB Manual" href="../" />
+    <link rel="next" title="Collection Layout" href="../layout/" />
+    <link rel="prev" title="Sorted Table Map" href="../sortedtablemap/" />
+  
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+<!-- google analytics-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42074659-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  <link rel="alternate" type="application/atom+xml"  href="../../blog/atom.xml" title="MapDB Blog">
+  
+  
+  <style type="text/css">
+    ul.ablog-archive {list-style: none; overflow: auto; margin-left: 0px}
+    ul.ablog-archive li {float: left; margin-right: 5px; font-size: 80%}
+    ul.postlist a {font-style: italic;}
+    ul.postlist-style-disc {list-style-type: disc;}
+    ul.postlist-style-none {list-style-type: none;}
+    ul.postlist-style-circle {list-style-type: circle;}
+  </style>
+
+  </head>
+  <body role="document">
+<div class="pageheader">
+  <ul>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../quick-start/">Quick start</a></li>
+    <li><a href="../">Docs</a></li>
+    <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../support/">Support</a></li>
+
+      <li><a href="https://github.com/jankotek/mapdb">Github</a></li>
+  </ul>
+  <div>
+    <a href="../../">
+      <img src="../../_static/logo.png" alt="MapDB" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../layout/" title="Collection Layout"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../sortedtablemap/" title="Sorted Table Map"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+<div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+    <div class="sphinxsidebarwrapper">
+  <h3><a href="../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Performance and durability</a><ul>
+<li><a class="reference internal" href="#transactions-and-crash-protection">Transactions and crash protection</a></li>
+<li><a class="reference internal" href="#memory-mapped-files-mmap">Memory mapped files (mmap)</a></li>
+<li><a class="reference internal" href="#file-channel">File channel</a></li>
+<li><a class="reference internal" href="#in-memory-mode">In-memory mode</a></li>
+<li><a class="reference internal" href="#allocation-options">Allocation options</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sitemap">
+    <h3>Site Map</h3>
+    <ul>
+        <li><a href="/support/">Support</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/success/">Who is using MapDB</a></li>
+        <li><a href="/benchmarks/">Benchmarks</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="/credits/">Credits</a></li>
+        <!--<li><a href="/careers/">Careers</a></li>-->
+
+        <li><a href="/doc/">Documentation</a><ul>
+            <li><a href="/doc/intro/">Intro</a></li>
+            <li><a href="/doc/quick-start/">Quick start</a></li>
+            <li><a href="/doc/db/">DB and DBMaker</a></li>
+            <li><a href="/doc/htreemap/">HTreeMap</a></li>
+            <li><a href="/doc/btreemap/">BTreeMap</a></li>
+            <li><a href="/doc/sortedtablemap/">Sorted Table Map</a></li>
+        </ul></li>
+        <li><a href="/dokka/latest/mapdb/org.mapdb/">Dokka</a></li>
+        <li><a href="/javadoc/latest/mapdb">Javadoc</a></li>
+    </ul>
+
+    <h3>Links</h3>
+    <ul>
+        <li><a href="https://www.github.com/jankotek/mapdb/">Github</a>
+        <li><a href="https://www.github.com/jankotek/mapdb/issues/">Issue tracker</a>
+        <li><a href="https://groups.google.com/forum/#!forum/mapdb">Mail list</a></li>
+        <li><a href="https://www.reddit.com/r/mapdb">Reddit forum</a></li>
+        <li><a href="https://gitter.im/jankotek/mapdb">Gitter chat</a></li>
+    </ul>
+</div>
+    </div>
+</div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="performance-and-durability">
+<h1>Performance and durability<a class="headerlink" href="#performance-and-durability" title="Permalink to this headline">¶</a></h1>
+<p>Good performance is result of compromise between consistency,
+speed and durability. MapDB gives several options to make this compromise.
+There are different storage implementations, commit and disk sync strategies,
+caches, compressions...</p>
+<p>This chapter outlines performance and durability related options.
+Some options will make storage writes durable at expense of speed.
+Some other settings might cause memory leaks, data corruption or even JVM crash!
+Make sure you understand implications and read <a class="reference external" href="http://www.mapdb.org/javadoc/latest/mapdb/org/mapdb/DBMaker.Maker.html">Javadoc on DBMaker</a>.</p>
+<div class="section" id="transactions-and-crash-protection">
+<h2>Transactions and crash protection<a class="headerlink" href="#transactions-and-crash-protection" title="Permalink to this headline">¶</a></h2>
+<p>If store is not closed properly and are pending changes flushed to disk, store might become corrupted. That often happens if JVM process crashes or is violently terminated.</p>
+<p>To protect file from corruption, MapDB offers Write Ahead Log (WAL). It is reliable and simple way to make file changes atomic and durable. WAL is used by many databases including Posgresql or MySQL. However WAL is slower, data has to be copied and synced multiple times between files.</p>
+<p>WAL is disabled by default. It can be enabled with <code class="docutils literal"><span class="pre">DBMaker.transactionEnable()</span></code>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+        <span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">transactionEnable</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>With WAL disabled (by default) you do not have a crash protection.  In this case you <strong>must</strong> correctly close the store, or you will loose all your data. MapDB detects unclean shutdown and will refuse to open such corrupted storage. There is a way to open corrupted store in readonly mode and perform data rescue.</p>
+<p>There is a shutdown hook to close the database automatically before JVM exits,
+however this does not protect your data if JVM crashes or is killed. Use <code class="docutils literal"><span class="pre">DBMaker.closeOnJvmShutdown()</span></code> option to enable it.</p>
+<p>With transactions disabled you do not have rollback capability,
+<code class="docutils literal"><span class="pre">db.rollback()</span></code> will throw an exception. <code class="docutils literal"><span class="pre">db.commit()</span></code> will have
+nothing to commit (all data are already stored), so it does the next best
+thing: Commit tries to flush all the write caches and synchronizes the storage
+files. So if you call <code class="docutils literal"><span class="pre">db.commit()</span></code> and do not make any more writes,
+your store should be safe (no data loss) in case of JVM crash.</p>
+<p><em>TODO JVM write cache flush, versus operating system flush.</em></p>
+</div>
+<div class="section" id="memory-mapped-files-mmap">
+<h2>Memory mapped files (mmap)<a class="headerlink" href="#memory-mapped-files-mmap" title="Permalink to this headline">¶</a></h2>
+<p>MapDB was designed from ground to take advantage of mmap files. However on 32bit JVM
+mmap files are limited to 4GB by its addressing limit. When JVM runs out of addressing space there  are nasty effects such as JVM crash.
+By default we use a slower and safer disk access mode called Random-Access-File (RAF).</p>
+<p>Mmap files are much faster compared to RAF. The exact speed bonus depends on
+the operating system and disk case management, but is typically between 10%
+and 300%.</p>
+<p>Memory mapped files are activated with <code class="docutils literal"><span class="pre">DBMaker.mmapFileEnable()</span></code>
+setting.</p>
+<p>One can also activate mmap files only if a 64bit platform is detected:
+<code class="docutils literal"><span class="pre">DBMaker.mmapFileEnableIfSupported()</span></code>.</p>
+<p>Mmap files are highly dependent on the operating system. For example, on
+Windows you cannot delete a mmap file while it is locked by JVM. If
+Windows JVM dies without closing the mmap file, you have to restart Windows
+to release the file lock.</p>
+<p>There is also <a class="reference external" href="http://bugs.java.com/view_bug.do?bug_id=4724038">bug in JVM</a>.
+Mmaped file handles are not released until <code class="docutils literal"><span class="pre">DirectByteBuffer</span></code> is GCed.
+That means that mmap file remains open even after <code class="docutils literal"><span class="pre">db.close()</span></code> is called.
+On Windows it prevents file to be reopened or deleted.
+On Linux it consumes file descriptors, and could lead to errors once all descriptors are used.</p>
+<p>There is a workaround for this bug using undocumented API.
+But it was linked to JVM crashes in rare cases and is disabled by default.
+Use <code class="docutils literal"><span class="pre">DBMaker.cleanerHackEnable()</span></code> to enable it.</p>
+<p>Here is example with all mmap related options:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">fileMmapEnable</span><span class="p">()</span>            <span class="c1">// Always enable mmap</span>
+    <span class="p">.</span><span class="n">fileMmapEnableIfSupported</span><span class="p">()</span> <span class="c1">// Only enable mmap on supported platforms</span>
+    <span class="p">.</span><span class="n">fileMmapPreclearDisable</span><span class="p">()</span>   <span class="c1">// Make mmap file faster</span>
+
+        <span class="c1">// Unmap (release resources) file when its closed.</span>
+        <span class="c1">// That can cause JVM crash if file is accessed after it was unmapped</span>
+        <span class="c1">// (there is possible race condition).</span>
+    <span class="p">.</span><span class="n">cleanerHackEnable</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+
+<span class="c1">//optionally preload file content into disk cache</span>
+<span class="n">db</span><span class="p">.</span><span class="n">getStore</span><span class="p">().</span><span class="n">fileLoad</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="file-channel">
+<h2>File channel<a class="headerlink" href="#file-channel" title="Permalink to this headline">¶</a></h2>
+<p>By default MapDB uses <code class="docutils literal"><span class="pre">RandomAccessFile</span></code> to access disk storage. Outside fast mmap files there
+is third option based on <code class="docutils literal"><span class="pre">FileChannel</span></code>. It should be faster than <code class="docutils literal"><span class="pre">RandomAccessFile</span></code>,
+but has bit more overhead. It also works better under concurrent access (RAF has global lock).</p>
+<p>FileChannel was causing problems in combination with <code class="docutils literal"><span class="pre">Thread.interrupt</span></code>. If threads
+gets interrupted while doing IO, underlying channel is closed for all other threads.</p>
+<p>To use FileChannel use <code class="docutils literal"><span class="pre">DBMaker.fileChannelEnable()</span></code> option:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">fileChannelEnable</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="in-memory-mode">
+<h2>In-memory mode<a class="headerlink" href="#in-memory-mode" title="Permalink to this headline">¶</a></h2>
+<p>MapDB has three in-memory stores:</p>
+<p>On-heap which stores objects in <code class="docutils literal"><span class="pre">Map&lt;recid,Object&gt;</span></code> and does not use serialization.
+This mode is very fast for small datasets, but is affected by GC, so performance drops from cliff
+after a few gigabytes. It is activated with:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">heapDB</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Store based on <code class="docutils literal"><span class="pre">byte[]</span></code>. In this mode data are serialized and stored into 1MB large byte[].
+Technically this is still on-heap, but is not affected by GC overhead, since data are not visible to GC.
+This mode is recommended by default, since it does not require any additional JVM settings.
+Increasing maximal heap memory with <code class="docutils literal"><span class="pre">-Xmx10G</span></code> JVM parameter is enough.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">memoryDB</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Store based on <code class="docutils literal"><span class="pre">DirectByteBuffer</span></code>. In this case data are stored completely off-heap.
+in 1MB DirectByteBuffers created with <code class="docutils literal"><span class="pre">ByteBuffer.allocateDirect(size)</span></code>.
+You should increase maximal direct memory with JVM parameter.
+This mode allows you to decrease maximal heap size to very small size (<code class="docutils literal"><span class="pre">-Xmx128M</span></code>).
+Small heap size has usually better and more predictable performance.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// run with: java -XX:MaxDirectMemorySize=10G</span>
+<span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">memoryDirectDB</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="allocation-options">
+<h2>Allocation options<a class="headerlink" href="#allocation-options" title="Permalink to this headline">¶</a></h2>
+<p>By default MapDB tries minimize space usage and allocates space in 1MB increments.
+This additional allocations might be slower than single large allocation.
+There are two options to control storage initial size and size increment.
+This example will allocate 10GB initially and then increment size in 512MB chunks:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
+    <span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">fileMmapEnable</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">allocateStartSize</span><span class="p">(</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1">// 10GB</span>
+    <span class="p">.</span><span class="n">allocateIncrement</span><span class="p">(</span><span class="mi">512</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>       <span class="c1">// 512MB</span>
+    <span class="p">.</span><span class="n">make</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Allocation Increment has side effect on performance with mmap files.
+MapDB maps file in series of DirectByteBuffer. Size of each buffer is equal to Size Increment
+(1MB by default), so larger Size Increment means less buffers for the same disk store size.
+Operations such as sync, flush and close have to traverse all buffers.
+So larger Size Increment could speedup commit and close operations.</p>
+</div>
+</div>
+
+  <div class="section">
+  
+  
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../layout/" title="Collection Layout"
+             >next</a></li>
+        <li class="right" >
+          <a href="../sortedtablemap/" title="Sorted Table Map"
+             >previous</a> |</li>
+        <li><a href="../../">Home</a>&nbsp;|</li>
+
+          <li class="nav-item nav-item-1"><a href="../" >MapDB Manual</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, jan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>
