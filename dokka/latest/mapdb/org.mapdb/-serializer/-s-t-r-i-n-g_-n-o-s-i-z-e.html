@@ -9,7 +9,11 @@
 <h1>STRING_NOSIZE</h1>
 <a name="org.mapdb.Serializer$STRING_NOSIZE"></a>
 <code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">STRING_NOSIZE</span><span class="symbol">: </span><a href="index.html"><span class="identifier">Serializer</span></a><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code><br/>
-<p>Serializes strings using UTF8 encoding. Used mainly for testing. Does not handle null values. </p>
+<p>A predefined Serializer that handles non-null String whereby Strings are serialized to a UTF-8 encoded format. The Serializer does <emph>not</emph> store the String's size, thereby preventing it from being used as a collection serializer. <p> This Serializer hashes Strings using the original <code><a href="#">String#hashCode()</a></code> method as opposed to the <code><a href="-s-t-r-i-n-g.html">Serializer#STRING</a></code> Serializer. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
+<p><strong>See Also</strong><br/>
+<a href="-s-t-r-i-n-g_-o-r-i-g-h-a-s-h.html">Serializer#STRING_ORIGHASH</a></p>
 <br/>
 <br/>
 </BODY>

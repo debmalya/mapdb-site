@@ -214,7 +214,7 @@ nothing to commit (all data are already stored), so it does the next best
 thing: Commit tries to flush all the write caches and synchronizes the storage
 files. So if you call <code class="docutils literal"><span class="pre">db.commit()</span></code> and do not make any more writes,
 your store should be safe (no data loss) in case of JVM crash.</p>
-<p><em>TODO JVM write cache flush, versus operating system flush.</em></p>
+<p><em>TODO JVM write cache flush, versus system flush.</em></p>
 </div>
 <div class="section" id="memory-mapped-files-mmap">
 <h2>Memory mapped files (mmap)<a class="headerlink" href="#memory-mapped-files-mmap" title="Permalink to this headline">¶</a></h2>
@@ -353,7 +353,7 @@ So larger Size Increment could speedup commit and close operations.</p>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, jan.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.3.
     </div>
   </body>
 </html>

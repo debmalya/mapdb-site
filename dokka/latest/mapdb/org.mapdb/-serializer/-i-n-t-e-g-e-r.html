@@ -9,7 +9,9 @@
 <h1>INTEGER</h1>
 <a name="org.mapdb.Serializer$INTEGER"></a>
 <code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">INTEGER</span><span class="symbol">: </span><a href="../../org.mapdb.serializer/-group-serializer/index.html"><span class="identifier">GroupSerializer</span></a><span class="symbol">&lt;</span><span class="identifier">Int</span><span class="symbol">&gt;</span></code><br/>
-<p>Serializes Integer into 4 bytes, used mainly for testing. Does not handle null values. </p>
+<p>A predefined Serializer that handles non-null Integer whereby Integers are serialized to a 4 byte format. <p> This Serializer hashes Integers using the original <code><a href="#">Integer#hashCode()</a></code> method. </p>
+<p> If a <code>null</code> value is passed to the Serializer, a NullPointerException will be thrown. </p>
+</p>
 <br/>
 <br/>
 </BODY>

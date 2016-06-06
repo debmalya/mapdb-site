@@ -29,7 +29,7 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">WriteAheadLog</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long)/fileName">fileName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long)/featureBitMap">featureBitMap</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">)</span></code><br/>
+<code><span class="identifier">WriteAheadLog</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long, kotlin.Boolean)/fileName">fileName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long, kotlin.Boolean)/featureBitMap">featureBitMap</span><span class="symbol">:</span>&nbsp;<span class="identifier">Long</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Long, kotlin.Boolean)/fileDeleteAfterOpen">fileDeleteAfterOpen</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span></code><br/>
 <code><span class="identifier">WriteAheadLog</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.WriteAheadLog$<init>(kotlin.String)/fileName">fileName</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
@@ -72,6 +72,12 @@
 <a href="file-load.html">fileLoad</a></td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">fileLoad</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="get-all-files.html">getAllFiles</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getAllFiles</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">MutableIterable</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>

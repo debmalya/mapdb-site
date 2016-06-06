@@ -18,7 +18,7 @@
 <td>
 <a href="-init-.html">&lt;init&gt;</a></td>
 <td>
-<code><span class="identifier">StoreDirectAbstract</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/deleteFilesAfterClose">deleteFilesAfterClose</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksum">checksum</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeader">checksumHeader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeaderBypass">checksumHeaderBypass</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
+<code><span class="identifier">StoreDirectAbstract</span><span class="symbol">(</span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/file">file</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/volumeFactory">volumeFactory</span><span class="symbol">:</span>&nbsp;<a href="../../org.mapdb.volume/-volume-factory/index.html"><span class="identifier">VolumeFactory</span></a><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/isThreadSafe">isThreadSafe</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/concShift">concShift</span><span class="symbol">:</span>&nbsp;<span class="identifier">Int</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/fileDeleteAfterClose">fileDeleteAfterClose</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksum">checksum</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeader">checksumHeader</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">, </span><span class="identifier" id="org.mapdb.StoreDirectAbstract$<init>(kotlin.String, org.mapdb.volume.VolumeFactory, kotlin.Boolean, kotlin.Int, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean, kotlin.Boolean)/checksumHeaderBypass">checksumHeaderBypass</span><span class="symbol">:</span>&nbsp;<span class="identifier">Boolean</span><span class="symbol">)</span></code><p>Common utils for StoreDirect, StoreWAL and StoreCached</p>
 </td>
 </tr>
 </tbody>
@@ -48,7 +48,7 @@
 <td>
 <a href="closed.html">closed</a></td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">closed</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">closed</span><span class="symbol">: </span><a href="http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/atomic/AtomicBoolean.html"><span class="identifier">AtomicBoolean</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -65,15 +65,15 @@
 </tr>
 <tr>
 <td>
-<a href="delete-files-after-close.html">deleteFilesAfterClose</a></td>
-<td>
-<code><span class="keyword">val </span><span class="identifier">deleteFilesAfterClose</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
-</tr>
-<tr>
-<td>
 <a href="file.html">file</a></td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">file</span><span class="symbol">: </span><span class="identifier">String</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="file-delete-after-close.html">fileDeleteAfterClose</a></td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">fileDeleteAfterClose</span><span class="symbol">: </span><span class="identifier">Boolean</span></code></td>
 </tr>
 <tr>
 <td>

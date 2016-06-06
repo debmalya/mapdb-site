@@ -100,7 +100,7 @@ MapDB does not have fail-fast iterator or any other means of protection</p>
 <td>
 <a href="delete-files-after-close.html">deleteFilesAfterClose</a></td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">deleteFilesAfterClose</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Maker</span></code></td>
+<code><span class="keyword">fun </span><s><span class="identifier">deleteFilesAfterClose</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Maker</span></code></td>
 </tr>
 <tr>
 <td>
@@ -119,6 +119,18 @@ but has global lock.
 FileChannel does not have global lock, and is faster compared to RAF. However memory-mapped files are
 probably best choice.</p>
 </td>
+</tr>
+<tr>
+<td>
+<a href="file-delete-after-close.html">fileDeleteAfterClose</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fileDeleteAfterClose</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Maker</span></code></td>
+</tr>
+<tr>
+<td>
+<a href="file-delete-after-open.html">fileDeleteAfterOpen</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fileDeleteAfterOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Maker</span></code></td>
 </tr>
 <tr>
 <td>
