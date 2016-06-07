@@ -124,7 +124,9 @@
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#release-candidate-1-released">3.0 Release Candidate 1 released</a></li>
 <li><a class="reference internal" href="#beta5-released">3.0 beta5 released</a></li>
+<li><a class="reference internal" href="#id2">3.0 beta5 released</a></li>
 <li><a class="reference internal" href="#beta4-released">3.0 beta4 released</a></li>
 <li><a class="reference internal" href="#beta3-released">3.0 beta3 released</a></li>
 <li><a class="reference internal" href="#beta2-released">3.0 beta2 released</a></li>
@@ -190,9 +192,50 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-candidate-1-released">
+<h2>3.0 Release Candidate 1 released<a class="headerlink" href="#release-candidate-1-released" title="Permalink to this headline">¶</a></h2>
+<p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-RC1</span></code>, release date 2016-06-06</p>
+<p>Number of small improvements. At this point MapDB has no obvious bugs.
+If no bugs are found this version will become stable release.</p>
+<p>No changes in format or API.</p>
+<p>Changes:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>added <code class="docutils literal"><span class="pre">Store.fileLoad()</span></code> method. Content of memory mapped file can</dt>
+<dd><p class="first last">loaded into memory by <code class="docutils literal"><span class="pre">db.getStore().fileLoad()</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>added <code class="docutils literal"><span class="pre">DBMaker.allocationIncrement()</span></code> to minimize number of memory mapped chunks.</dt>
+<dd><p class="first last">This is workaround for <em>too many file handles</em>, see <a class="reference external" href="https://github.com/jankotek/mapdb/issues/723">#723</a></p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Added documentation</p>
+</li>
+<li><p class="first">Rework close methods to be thread safe, do not throw exception on second close.</p>
+</li>
+<li><p class="first">Make <code class="docutils literal"><span class="pre">Store.commit()</span></code> and <code class="docutils literal"><span class="pre">Store.rollback()</span></code> thread safe.</p>
+</li>
+<li><p class="first">BTreeMap: external values were not deleted after removal</p>
+</li>
+<li><p class="first">Store: add <code class="docutils literal"><span class="pre">getAllFiles()</span></code> method.</p>
+</li>
+<li><p class="first">Update Elsa serialization library</p>
+</li>
+</ul>
+</div>
 <div class="section" id="beta5-released">
 <h2>3.0 beta5 released<a class="headerlink" href="#beta5-released" title="Permalink to this headline">¶</a></h2>
+<p>Maven version number: ``</p>
+</div>
+<div class="section" id="id2">
+<h2>3.0 beta5 released<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Maven version number: <code class="docutils literal"><span class="pre">3.0.0-beta5</span></code>, release date 2016-05-24</p>
+<p>This release is fixing data corruption caused by <code class="docutils literal"><span class="pre">StoreWAL</span></code> with transactions enabled. Update is strongly recommended.</p>
+<p>No changes in format or API.
+3.0.0-beta5``, release date 2016-05-24</p>
 <p>This release is fixing data corruption caused by <code class="docutils literal"><span class="pre">StoreWAL</span></code> with transactions enabled. Update is strongly recommended.</p>
 <p>No changes in format or API.</p>
 </div>

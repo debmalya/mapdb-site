@@ -174,24 +174,24 @@
             
   <div class="section" id="db-and-dbmaker">
 <h1>DB and DBMaker<a class="headerlink" href="#db-and-dbmaker" title="Permalink to this headline">¶</a></h1>
-<p>MapDB is like a lego, and there are two classes which assemble pieces together:
-To hold things together there are two classes: <code class="docutils literal"><span class="pre">DBMaker</span></code> and <code class="docutils literal"><span class="pre">DB</span></code>.</p>
-<p><a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-d-b-maker/index.html">DBMaker</a> handles database
-configuration, creation and opening. MapDB has several modes and
+<p>MapDB is pluggable like Lego. There are two classes that act like the glue between the different pieces,
+namely the <code class="docutils literal"><span class="pre">DBMaker</span></code> and the <code class="docutils literal"><span class="pre">DB</span></code> classes.</p>
+<p>The <a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-d-b-maker/index.html">DBMaker</a>
+class handles database configuration, creation and opening. MapDB has several modes and
 configuration options. Most of those can be set using this class.</p>
-<p><a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-d-b/index.html">DB</a>
-represents opened database (or single transaction session).
-It creates and opens collections . It also handles
-db lifecycle with methods such as <code class="docutils literal"><span class="pre">commit()</span></code>, <code class="docutils literal"><span class="pre">rollback()</span></code> and
+<p>A <a class="reference external" href="http://www.mapdb.org/dokka/latest/mapdb/org.mapdb/-d-b/index.html">DB</a> instance
+represents an opened database (or a single transaction session).
+It can be used to create and open collection storages. It can also handle the
+database&#8217;s lifecycle with methods such as <code class="docutils literal"><span class="pre">commit()</span></code>, <code class="docutils literal"><span class="pre">rollback()</span></code> and
 <code class="docutils literal"><span class="pre">close()</span></code>.</p>
-<p>To open (or create) a store use one of <code class="docutils literal"><span class="pre">DBMaker.xxxDB()</span></code> static
-methods. MapDB has more formats and modes, each <code class="docutils literal"><span class="pre">xxxDB()</span></code> uses
-different mode: <code class="docutils literal"><span class="pre">memoryDB()</span></code> opens in-memory database backed by
-<code class="docutils literal"><span class="pre">byte[]</span></code>, <code class="docutils literal"><span class="pre">appendFileDB()</span></code> opens db which uses append-only log
+<p>To open (or create) a store, use one of the <code class="docutils literal"><span class="pre">DBMaker.xxxDB()</span></code> static
+methods. MapDB has more formats and modes, whereby each <code class="docutils literal"><span class="pre">xxxDB()</span></code> uses
+different modes: <code class="docutils literal"><span class="pre">memoryDB()</span></code> opens an in-memory database backed by
+a <code class="docutils literal"><span class="pre">byte[]</span></code> array, <code class="docutils literal"><span class="pre">appendFileDB()</span></code> opens a database which uses append-only log
 files and so on.</p>
-<p><code class="docutils literal"><span class="pre">xxxDB()</span></code> method is followed by configuration options and <code class="docutils literal"><span class="pre">make()</span></code>
-method which applies all options, opens storage and returns <code class="docutils literal"><span class="pre">DB</span></code> object.
-This example opens the file storage with encryption enabled:</p>
+<p>A <code class="docutils literal"><span class="pre">xxxDB()</span></code> method is followed by one or several configuration options and finally a <code class="docutils literal"><span class="pre">make()</span></code>
+method which applies all options, opens the selected storage and returns a <code class="docutils literal"><span class="pre">DB</span></code> object.
+This example opens a file storage with encryption enabled:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">DB</span> <span class="n">db</span> <span class="o">=</span> <span class="n">DBMaker</span>
         <span class="p">.</span><span class="n">fileDB</span><span class="p">(</span><span class="s">&quot;/some/file&quot;</span><span class="p">)</span>
         <span class="c1">//TODO encryption API</span>
