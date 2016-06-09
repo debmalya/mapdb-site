@@ -343,6 +343,13 @@ Jan Kotek</p>
 <code><span class="keyword">class </span><span class="identifier">SingleByteArrayVol</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Volume</span></code><p>Volume backed by on-heap byte[] with maximal fixed size 2GB. For thread-safety it can not be grown </p>
 </td>
 </tr>
+<tr>
+<td>
+<a href="../-unsafe-volume/index.html">UnsafeVolume</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">UnsafeVolume</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Volume</span></code><p>In-memory Volume which uses `sun.misc.Unsafe` to access memory directly. It does not perform boundary checks and is faster then `byte[]` or `DirectByteBuffer`. </p>
+</td>
+</tr>
 </tbody>
 </table>
 </BODY>

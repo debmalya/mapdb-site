@@ -96,6 +96,13 @@
 </tr>
 <tr>
 <td>
+<a href="-unsafe-volume/index.html">UnsafeVolume</a></td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">UnsafeVolume</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-volume/index.html"><span class="identifier">Volume</span></a></code><p>In-memory Volume which uses `sun.misc.Unsafe` to access memory directly. It does not perform boundary checks and is faster then `byte[]` or `DirectByteBuffer`. </p>
+</td>
+</tr>
+<tr>
+<td>
 <a href="-volume/index.html">Volume</a></td>
 <td>
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">Volume</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="http://docs.oracle.com/javase/6/docs/api/java/io/Closeable.html"><span class="identifier">Closeable</span></a></code><p><p> MapDB abstraction over raw storage (file, disk partition, memory etc...). </p>
